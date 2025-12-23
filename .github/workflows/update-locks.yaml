@@ -32,7 +32,9 @@ jobs:
       - name: install dependencies with bun
         run: bun install
       - name: Build Tauri app to update Cargo.lock
-        uses: tauri-apps/tauri-action@v0.6
+        run: |
+          cd src-tauri
+          cargo build --release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit updated lock files
