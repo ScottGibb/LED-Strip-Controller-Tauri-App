@@ -1,0 +1,9 @@
+{
+  "extra-files": [
+    {
+      "type": "toml",
+      "path": "src-tauri/Cargo.toml",
+      "jsonpath": "$.json.path.to.field"
+    }
+  ]
+}
