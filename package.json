@@ -1,5 +1,5 @@
 {
-  "name": "led-strip-controller-tauri-app",
+  "name": "led-strip-controller-tauri",
   "private": true,
   "type": "module",
   "scripts": {

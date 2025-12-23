@@ -1,5 +1,5 @@
 [package]
-name = "led-strip-controller-tauri-app"
+name = "led-strip-controller-tauri"
 version = "0.1.0"
 description = "A Tauri App"
 authors = ["you"]
