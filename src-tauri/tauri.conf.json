@@ -11,7 +11,7 @@
   "app": {
     "windows": [
       {
-        "title": "led-strip-controller-tauri-app",
+        "title": "led-strip-controller-tauri",
         "width": 800,
         "height": 600
       }
