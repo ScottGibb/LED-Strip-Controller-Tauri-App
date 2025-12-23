@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v0.1.1...v0.1.2) (2025-12-23)
+
+
+### Bug Fixes
+
+* **ci:** transitioning to bun ([eff6498](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/eff649886893ef62f7b78a862f003a9e8e1e61b3))
+
 ## [0.1.1](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v0.1.0...v0.1.1) (2025-12-23)
 
 
