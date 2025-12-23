@@ -1,9 +1,15 @@
 {
+  "type": "rust",
+  "packages": {
+    "src-tauri": {
+      "changelog-path": "CHANGELOG.md",
+      "release-type": "rust"
+    }
+  },
   "extra-files": [
     {
       "type": "toml",
-      "path": "src-tauri/Cargo.toml",
-      "jsonpath": "$.json.path.to.field"
+      "path": "src-tauri/Cargo.toml"
     }
   ]
 }
