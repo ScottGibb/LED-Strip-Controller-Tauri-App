@@ -1,5 +1,0 @@
-{
-  "packages": {
-    "led-strip-controller-tauri": "./src-tauri"
-  }
-}
