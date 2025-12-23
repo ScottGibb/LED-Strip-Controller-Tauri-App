@@ -1,8 +1,8 @@
 {
   "packages": {
     ".": {
-      "release-type": "simple",
-      "version-file": "src-tauri/Cargo.toml"
+      "release-type": "rust",
+      "package-name": "led-strip-controller-tauri"
     }
   }
 }
