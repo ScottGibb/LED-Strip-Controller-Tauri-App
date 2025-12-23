@@ -1,15 +1,8 @@
 {
-  "type": "rust",
+  "release-type": "simple",
   "packages": {
-    "src-tauri": {
-      "changelog-path": "CHANGELOG.md",
-      "release-type": "rust"
+    ".": {
+      "version-file": "src-tauri/Cargo.toml"
     }
-  },
-  "extra-files": [
-    {
-      "type": "toml",
-      "path": "src-tauri/Cargo.toml"
-    }
-  ]
+  }
 }
