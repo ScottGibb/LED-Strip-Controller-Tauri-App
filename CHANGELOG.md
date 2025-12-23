@@ -1,0 +1,10 @@
+# Changelog
+
+## 0.1.0 (2025-12-23)
+
+
+### Bug Fixes
+
+* **ci:** add cargo directory ([8a8f23e](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/8a8f23eb95de8bbec9b9bda0f187ad415a3bfec2))
+* **ci:** cargo path ([014bddb](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/014bddb3c65f629538436482e874d73e74083f79))
+* initial commit ([9be9e72](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/9be9e7248c5ce394e361906b47b0897cdccced0b))
