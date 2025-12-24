@@ -12,6 +12,10 @@ function App () {
     setGreetMsg(await invoke('greet', { name }))
   }
 
+
+
+  
+
   return (
     <main className='container'>
       <h1>Welcome to Tauri + React</h1>
