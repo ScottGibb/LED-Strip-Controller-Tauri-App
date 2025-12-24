@@ -36,15 +36,12 @@ export default [
     }
   },
   {
-    files: ['**/*.+(ts|tsx)'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        ecmaVersion: 2021,
-        sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true
-        }
+        ecmaVersion: 'latest',
+        sourceType: 'module'
       },
       globals: browserGlobals
     },
@@ -56,18 +53,13 @@ export default [
     },
     rules: {
       ...tseslint.configs.recommended.rules,
-      'react/jsx-uses-react': 'error',
-      'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/ban-ts-comment': 'off',
-      'react/display-name': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
-      'react/prop-types': 'off'
+      'react/prop-types': 'off',
+      'react/display-name': 'off'
     },
     settings: {
-      react: {
-        version: 'detect'
-      }
+      react: { version: 'detect' }
     }
   },
   {
