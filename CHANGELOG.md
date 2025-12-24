@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.0.0...v1.0.1) (2025-12-24)
+
+
+### Bug Fixes
+
+* corrupted lock file ([80aae71](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/80aae718a44015d67e627c6dedce76844c2ac870))
+
 ## 1.0.0 (2025-12-24)
 
 
