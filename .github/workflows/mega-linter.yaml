@@ -174,5 +174,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+      - name: Install GTK and pkg-config dependencies
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libglib2.0-dev pkg-config
       - name: Run Clippy on src
         run: cargo clippy --manifest-path ./src-tauri/Cargo.toml -- -D warnings
