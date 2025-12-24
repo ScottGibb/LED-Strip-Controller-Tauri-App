@@ -42,3 +42,9 @@ TSX_ESLINT_CONFIG_FILE: eslint.config.js
 TSX_ESLINT_COMMAND_REMOVE_ARGUMENTS: "--no-eslintrc"
 JSON_JSONLINT_FILTER_REGEX_EXCLUDE: tsconfig.json
 TYPESCRIPT_STANDARD_FILTER_REGEX_EXCLUDE: vite\.config\.ts
+
+TSX_ESLINT_PRE_COMMANDS:
+  - command: pwd
+    cwd: workspace
+  - command: npm install
+    cwd: workspace
