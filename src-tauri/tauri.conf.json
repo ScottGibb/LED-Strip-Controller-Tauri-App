@@ -1,5 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
+  "version": "../package.json",
   "productName": "led-strip-controller-tauri",
   "identifier": "com.led-strip-controller-tauri.app",
   "build": {
