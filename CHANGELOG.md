@@ -2,7 +2,6 @@
 
 ## [1.0.3](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.0.2...v1.0.3) (2025-12-24)
 
-
 ### Bug Fixes
 
 * **ci:** remove comment ([2a2861b](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/2a2861bf93511da292b4f7723b39c0c02521dc70))
@@ -10,13 +9,11 @@
 
 ## [1.0.2](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.0.1...v1.0.2) (2025-12-24)
 
-
 ### Bug Fixes
 
 * tauri config ([3ae4d06](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/3ae4d06f45ef0e1e47d9b06d1064c92a7aee53cc))
 
 ## [1.0.1](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.0.0...v1.0.1) (2025-12-24)
-
 
 ### Bug Fixes
 
@@ -24,14 +21,12 @@
 
 ## 1.0.0 (2025-12-24)
 
-
 ### Features
 
 * add correct version ([2d77e68](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/2d77e685886778f5b74e4cac4f10b6b1a9e38c7f))
 * **ci:** add lock synchroniser script ([f82b069](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/f82b0691570f2c870f5f6872449d4e362dfbf66e))
 * **ci:** add release please ([598c474](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/598c4745b190bdb432c352f80b7eec8466f43fe6))
 * proper bump a release ([110968b](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/110968ba4000f0584111db7a4721f2eadb95d63a))
-
 
 ### Bug Fixes
 
