@@ -14,7 +14,7 @@ jobs:
           ref: ${{ github.ref }}
       - uses: astral-sh/setup-uv@v2
       - name: Run update-versions script
-        run: uv run update-versions.py
+        run: uv run ./.github/scripts/update-versions.py
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
