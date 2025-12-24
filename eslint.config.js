@@ -1,12 +1,12 @@
-import js from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import reactPlugin from 'eslint-plugin-react';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import sonarlint from 'eslint-plugin-sonarjs';
-import jestPlugin from 'eslint-plugin-jest';
-import jestDomPlugin from 'eslint-plugin-jest-dom';
-import testingLibraryPlugin from 'eslint-plugin-testing-library';
-import prettier from 'eslint-config-prettier';
+import js from '@eslint/js'
+import tseslint from 'typescript-eslint'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooksPlugin from 'eslint-plugin-react-hooks'
+import sonarlint from 'eslint-plugin-sonarjs'
+import jestPlugin from 'eslint-plugin-jest'
+import jestDomPlugin from 'eslint-plugin-jest-dom'
+import testingLibraryPlugin from 'eslint-plugin-testing-library'
+import prettier from 'eslint-config-prettier'
 
 const browserGlobals = {
   console: 'readonly',
@@ -19,21 +19,21 @@ const browserGlobals = {
   clearInterval: 'readonly',
   queueMicrotask: 'readonly',
   __REACT_DEVTOOLS_GLOBAL_HOOK__: 'readonly',
-  reportError: 'readonly',
-};
+  reportError: 'readonly'
+}
 
 export default [
   {
-    ignores: ['node_modules/', 'dist/', 'src-tauri/target/', '.cargo/'],
+    ignores: ['node_modules/', 'dist/', 'src-tauri/target/', '.cargo/']
   },
   js.configs.recommended,
   {
     languageOptions: {
-      globals: browserGlobals,
+      globals: browserGlobals
     },
     rules: {
-      'no-console': 'error',
-    },
+      'no-console': 'error'
+    }
   },
   {
     files: ['**/*.+(ts|tsx)'],
@@ -43,16 +43,16 @@ export default [
         ecmaVersion: 2021,
         sourceType: 'module',
         ecmaFeatures: {
-          jsx: true,
-        },
+          jsx: true
+        }
       },
-      globals: browserGlobals,
+      globals: browserGlobals
     },
     plugins: {
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       sonarjs: sonarlint,
-      '@typescript-eslint': tseslint.plugin,
+      '@typescript-eslint': tseslint.plugin
     },
     rules: {
       ...tseslint.configs.recommended.rules,
@@ -62,13 +62,13 @@ export default [
       '@typescript-eslint/ban-ts-comment': 'off',
       'react/display-name': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
-      'react/prop-types': 'off',
+      'react/prop-types': 'off'
     },
     settings: {
       react: {
-        version: 'detect',
-      },
-    },
+        version: 'detect'
+      }
+    }
   },
   {
     files: ['**/__tests__/**'],
@@ -80,19 +80,19 @@ export default [
         test: 'readonly',
         expect: 'readonly',
         beforeEach: 'readonly',
-        afterEach: 'readonly',
-      },
+        afterEach: 'readonly'
+      }
     },
     plugins: {
       jest: jestPlugin,
       'jest-dom': jestDomPlugin,
-      'testing-library': testingLibraryPlugin,
+      'testing-library': testingLibraryPlugin
     },
     rules: {
       'sonarjs/no-duplicate-string': 'warn',
       '@typescript-eslint/no-var-requires': 'warn',
-      'sonarjs/no-identical-functions': 'warn',
-    },
+      'sonarjs/no-identical-functions': 'warn'
+    }
   },
-  prettier,
-];
+  prettier
+]
