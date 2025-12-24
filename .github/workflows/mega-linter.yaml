@@ -167,3 +167,12 @@ jobs:
         uses: actions/checkout@v6
       - name: Rustfmt check on src
         run: cargo fmt --manifest-path ./src-tauri/Cargo.toml -- --check
+  
+  cargo_clippy:
+    name: Cargo Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Run Clippy on src
+        run: cargo clippy --manifest-path ./src-tauri/Cargo.toml -- -D warnings
