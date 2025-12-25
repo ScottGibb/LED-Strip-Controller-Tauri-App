@@ -1,13 +1,3 @@
 enum hello {}
 
-
-
-export default hello;
-
-
-
-
-
-
-
-
+export default hello
