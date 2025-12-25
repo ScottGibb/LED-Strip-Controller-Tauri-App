@@ -1,13 +1,7 @@
-enum hello {}
-
-
-
-export default hello;
+enum test {}
 
 
 
 
 
-
-
-
+export default test;
