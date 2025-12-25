@@ -6,7 +6,6 @@ enum test {
 
 
 
-export default test;
 enum hello {}
 
 
