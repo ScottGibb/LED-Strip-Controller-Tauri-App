@@ -3,12 +3,11 @@ enum test {}
 
 
 
-
 enum hello {}
 
 
 
-export default hello;
+export { hello, test };
 
 
 
