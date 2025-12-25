@@ -1,18 +1,5 @@
 enum test {}
 
-
-
-
 enum hello {}
 
-
-
-export { hello, test };
-
-
-
-
-
-
-
-
+export { hello, test }
