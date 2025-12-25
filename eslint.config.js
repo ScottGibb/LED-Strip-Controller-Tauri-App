@@ -6,6 +6,7 @@ import sonarlint from 'eslint-plugin-sonarjs'
 import jestPlugin from 'eslint-plugin-jest'
 import jestDomPlugin from 'eslint-plugin-jest-dom'
 import testingLibraryPlugin from 'eslint-plugin-testing-library'
+import prettierPlugin from 'eslint-plugin-prettier'
 import prettier from 'eslint-config-prettier'
 
 const browserGlobals = {
@@ -49,14 +50,16 @@ export default [
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       sonarjs: sonarlint,
-      '@typescript-eslint': tseslint.plugin
+      '@typescript-eslint': tseslint.plugin,
+      prettier: prettierPlugin
     },
     rules: {
       ...tseslint.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
       'react/prop-types': 'off',
-      'react/display-name': 'off'
+      'react/display-name': 'off',
+      'prettier/prettier': 'error'
     },
     settings: {
       react: { version: 'detect' }
@@ -78,12 +81,14 @@ export default [
     plugins: {
       jest: jestPlugin,
       'jest-dom': jestDomPlugin,
-      'testing-library': testingLibraryPlugin
+      'testing-library': testingLibraryPlugin,
+      prettier: prettierPlugin
     },
     rules: {
       'sonarjs/no-duplicate-string': 'warn',
       '@typescript-eslint/no-var-requires': 'warn',
-      'sonarjs/no-identical-functions': 'warn'
+      'sonarjs/no-identical-functions': 'warn',
+      'prettier/prettier': 'error'
     }
   },
   prettier
