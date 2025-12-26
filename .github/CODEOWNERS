@@ -8,6 +8,7 @@
 
 package.json
 package-lock.json
+bun.lock
 
 src-tauri/Cargo.toml
 src-tauri/Cargo.lock
