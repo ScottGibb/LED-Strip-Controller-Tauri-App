@@ -33,7 +33,7 @@ export default [
       globals: browserGlobals
     },
     rules: {
-      'no-console': 'error'
+      'no-console': 'off'
     }
   },
   {
