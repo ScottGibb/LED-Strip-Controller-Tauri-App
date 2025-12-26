@@ -5,3 +5,9 @@
 # Override the default owners and remove ownership for the .github/workflows directory
 
 .github/workflows/
+
+package.json
+package-lock.json
+
+src-tauri/Cargo.toml
+src-tauri/Cargo.lock
