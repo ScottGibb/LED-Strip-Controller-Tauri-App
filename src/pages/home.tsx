@@ -7,12 +7,14 @@ export function HomePage() {
   useEffect(() => {}, []);
   return (
     <div>
-      <button className="btn btn-primary">Choose Connection Type</button>
+      <h1 className="text-2xl font-bold mb-4">Choose your connection type</h1>
       <div>
         <NavLink className="btn btn-secondary" to="/configuration/serial">
           Serial / USB
         </NavLink>
-        <button className="btn btn-secondary"> TCP / WiFi</button>
+        <NavLink className="btn btn-secondary" to="/configuration/tcp">
+          TCP / IP
+        </NavLink>
       </div>
     </div>
   );

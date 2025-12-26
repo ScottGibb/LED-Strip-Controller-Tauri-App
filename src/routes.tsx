@@ -4,6 +4,7 @@ import { SettingsPage } from "./pages/settings";
 import { HomePage } from "./pages/home";
 import { SerialConfigurationPage } from "./pages/configuration/serial";
 import AboutPage from "./pages/about";
+import { TcpConfigurationPage } from "./pages/configuration/tcp";
 
 type RouteType = {
   title: string;
@@ -38,6 +39,12 @@ const allRoutes: RouteType[] = [
     path: "/configuration/serial",
     isPrivate: true,
     element: <SerialConfigurationPage />,
+  },
+  {
+    title: "TCP Configuration",
+    path: "/configuration/tcp",
+    isPrivate: true,
+    element: <TcpConfigurationPage />,
   },
 ];
 
