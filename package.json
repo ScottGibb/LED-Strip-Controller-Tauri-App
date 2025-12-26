@@ -10,12 +10,15 @@
     "postinstall": "bun2nix -o bun.nix"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
+    "daisyui": "^5.5.14",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "^7.11.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

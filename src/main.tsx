@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Layout } from "./layouts";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes";
+import "./styles/tailwind.css";
 
 const rootElement = document.getElementById("root");
 if (rootElement == null) {
