@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-import { routes } from "../routes";
+import { routes, RouteTypeEnum } from "../routes";
 
 const NavBar = () => {
   return (
     <div>
       <nav className="bottom-nav fixed bottom-0 w-full bg-white border-t border-gray-200 flex justify-around">
         {routes.map(
-          ({ title, path, icon, isPrivate }) =>
-            !isPrivate && (
+          ({ title, path, icon, type }) =>
+            type !== RouteTypeEnum.Configuration && (
               <Link
                 to={path}
                 key={title}
