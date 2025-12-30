@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
-import { routes } from "../routes";
+import { routes, RouteTypeEnum } from "../routes";
 
-const NavBar = () => {
+const ControlNavBar = () => {
   return (
     <div>
-      <nav className="bottom-nav fixed bottom-0 w-full bg-white border-t border-gray-200 flex justify-around">
-        {routes
-          .filter(({ type }) => type !== "CONTROL" && type !== "INITIALISATION")
-          .map(({ title, path, icon }) => (
+      <nav className="top-nav bg-white border-b border-gray-200 flex justify-around">
+        {routes.map(({ title, path, icon, type }) =>
+          type == RouteTypeEnum.Control ? (
             <Link
               to={path}
               key={title}
@@ -16,10 +15,11 @@ const NavBar = () => {
               <span className="icon text-xl">{icon}</span>
               <span className="text text-xs">{title}</span>
             </Link>
-          ))}
+          ) : null,
+        )}
       </nav>
     </div>
   );
 };
 
-export default NavBar;
+export default ControlNavBar;

@@ -1,11 +1,13 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import type { JSX, ReactNode } from "react";
 
-import { SettingsPage } from "./pages/settings";
+import { SettingsPage } from "./pages/control/settings";
 import { HomePage } from "./pages/home";
 import { SerialConfigurationPage } from "./pages/configuration/serial";
 import AboutPage from "./pages/about";
 import { TcpConfigurationPage } from "./pages/configuration/tcp";
+import { MasterControlPage } from "./pages/control/master_control";
+import { StripControlPage } from "./pages/control/strip_control";
 
 type RouteType = {
   title: string;
@@ -16,7 +18,7 @@ type RouteType = {
 };
 
 export enum RouteTypeEnum {
-  Configuration = "CONFIGURATION",
+  Initialisation = "INITIALISATION",
   Control = "CONTROL",
   General = "GENERAL",
 }
@@ -30,8 +32,8 @@ export const routes: RouteType[] = [
   },
   {
     title: "Settings",
-    path: "/settings",
-    type: RouteTypeEnum.Configuration,
+    path: "/control/settings",
+    type: RouteTypeEnum.Control,
     element: <SettingsPage />,
   },
   {
@@ -43,14 +45,26 @@ export const routes: RouteType[] = [
   {
     title: "Serial Configuration",
     path: "/configuration/serial",
-    type: RouteTypeEnum.Configuration,
+    type: RouteTypeEnum.Initialisation,
     element: <SerialConfigurationPage />,
   },
   {
     title: "TCP Configuration",
     path: "/configuration/tcp",
-    type: RouteTypeEnum.Configuration,
+    type: RouteTypeEnum.Initialisation,
     element: <TcpConfigurationPage />,
+  },
+  {
+    title: "Master Control",
+    path: "/control/master_control",
+    type: RouteTypeEnum.Control,
+    element: <MasterControlPage />,
+  },
+  {
+    title: "Strip Control",
+    path: "/control/strip_control",
+    type: RouteTypeEnum.Control,
+    element: <StripControlPage />,
   },
 ];
 
