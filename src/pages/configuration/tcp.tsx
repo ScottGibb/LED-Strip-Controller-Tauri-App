@@ -7,8 +7,8 @@ import { NavLink } from "react-router-dom";
 export function TcpConfigurationPage() {
   useEffect(() => {}, []);
   return (
-    <div>
-      <div className="flex flex-col gap-2">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col gap-4 w-full max-w-md">
         <input
           type="string"
           placeholder="IP Address"
@@ -24,19 +24,25 @@ export function TcpConfigurationPage() {
           placeholder="Port"
           className="input input-bordered w-full"
         />
-      </div>
-      <div>
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            notifySuspense("Connecting...");
-          }}
-        >
-          Connect
-        </button>
-        <NavLink className="btn btn-secondary" to="/">
-          Back
-        </NavLink>
+        <div className="flex gap-2">
+          <button
+            className="btn btn-primary flex-1"
+            onClick={() => {
+              notifySuspense("Connecting...");
+            }}
+          >
+            Connect
+          </button>
+          <NavLink className="btn btn-secondary flex-1" to="/">
+            Back
+          </NavLink>
+          <NavLink
+            className="btn btn-secondary flex-1"
+            to="/control/master_control"
+          >
+            Master Control
+          </NavLink>
+        </div>
       </div>
     </div>
   );

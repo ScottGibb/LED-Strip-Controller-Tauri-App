@@ -6,9 +6,9 @@ import { NavLink } from "react-router-dom";
 export function HomePage() {
   useEffect(() => {}, []);
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-2xl font-bold mb-4">Choose your connection type</h1>
-      <div>
+      <div className="flex gap-4">
         <NavLink className="btn btn-secondary" to="/configuration/serial">
           Serial / USB
         </NavLink>
