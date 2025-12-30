@@ -15,11 +15,6 @@ export function TcpConfigurationPage() {
           className="input input-bordered w-full"
         />
         <input
-          type="string"
-          placeholder="IP Address"
-          className="input input-bordered w-full"
-        />
-        <input
           type="number"
           placeholder="Port"
           className="input input-bordered w-full"
