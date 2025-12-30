@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: ${{ github.ref }}
-      - uses: astral-sh/setup-uv@v2
+      - uses: astral-sh/setup-uv@v7
       - name: Run update-versions script
         run: uv run ./.github/scripts/update-versions.py
       - name: Commit and push changes
