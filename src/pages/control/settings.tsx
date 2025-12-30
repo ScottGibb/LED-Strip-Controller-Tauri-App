@@ -38,8 +38,8 @@ function SystemSpecification() {
       <h1>System Specification</h1>
       <p>Hardware Version:</p>
       <p>Firmware Version:</p>
-      <p>Port /IP Address:</p>
       <p>Number of Channels:</p>
+      <p>Memory:</p>
       <div>
         <p>Power Sensor:</p>
         <div>
@@ -54,7 +54,6 @@ function SystemSpecification() {
           <p>Temperature:</p>
         </div>
       </div>
-      <p>Memory:</p>
     </div>
   );
 }
