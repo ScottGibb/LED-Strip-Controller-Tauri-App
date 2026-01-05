@@ -1,26 +1,35 @@
-/** Settings for the game.  This page is loaded once before a game starts to determine rules and player count. */
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { notifyInfo } from "../../services/notifications";
 import { NavLink } from "react-router-dom";
+import { invoke } from "@tauri-apps/api/core";
 
 export function SerialConfigurationPage() {
+  const [devices, setDevices] = useState<string[]>([]);
+
   useEffect(() => {}, []);
+
+  const scanDevices = () => {
+    invoke("scan_serial_devices", []).then((scannedDevices) => {
+      console.log("Found devices:", scannedDevices);
+      setDevices(scannedDevices as string[]);
+      notifyInfo(`Found devices: ${(scannedDevices as string[]).join(", ")}`);
+    });
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col gap-4">
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            notifyInfo("Scanning for devices...");
-          }}
-        >
+        <button className="btn btn-primary" onClick={scanDevices}>
           Scan for Devices
         </button>
         <div className="flex flex-col gap-2">
           <select className="select select-bordered w-full">
-            <option value="someOption">Some option</option>
-            <option value="otherOption">Other option</option>
+            <option value="">Select a device</option>
+            {devices.map((device) => (
+              <option key={device} value={device}>
+                {device}
+              </option>
+            ))}
           </select>
           <input
             type="number"
