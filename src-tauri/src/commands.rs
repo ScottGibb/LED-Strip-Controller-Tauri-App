@@ -1,12 +1,22 @@
-use crate::communicator::serial_communicator::SerialCommunicator;
+use crate::communicator::{serial_communicator::SerialCommunicator, Communicator};
 
 #[tauri::command]
-pub fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+pub async fn scan_serial_devices() -> Vec<String> {
+    let ports = SerialCommunicator::scan_for_devices();
+    log::info!("Found serial ports: {:?}", ports);
+    ports
 }
 
 #[tauri::command]
-pub fn scan_serial_devices() -> Vec<String> {
-    println!("{:?}", SerialCommunicator::scan_for_devices());
-    SerialCommunicator::scan_for_devices()
+pub async fn connect_serial_device(port_name: &str, baud_rate: u32) -> Result<(), String> {
+    let mut comm = SerialCommunicator::new(port_name, baud_rate);
+    comm.connect()
+        .await
+        .map_err(|e| format!("Failed to connect: {:?}", e))?;
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn disconnect_serial_device() -> Result<(), String> {
+    Ok(()) // Placeholder for disconnect logic
 }
