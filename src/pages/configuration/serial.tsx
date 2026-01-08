@@ -45,6 +45,7 @@ export function SerialConfigurationPage() {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold mb-4">Serial Configuration</h1>
         <button className="btn btn-primary" onClick={scanDevices}>
           Scan for Devices
         </button>
@@ -69,13 +70,19 @@ export function SerialConfigurationPage() {
             onChange={(e) => setSelectedBaudRate(Number(e.target.value))}
           />
         </div>
-        <div className="flex gap-2 flex-col">
-          <button className="btn btn-primary" onClick={connectToDevice}>
+        <div className="flex gap-2 flex-row w-full">
+          <button className="btn btn-primary flex-1" onClick={connectToDevice}>
             Connect
           </button>
-          <button className="btn btn-primary" onClick={disconnectFromDevice}>
+          <button
+            className="btn btn-primary flex-1"
+            onClick={disconnectFromDevice}
+          >
             Disconnect
           </button>
+        </div>
+        <div className="flex gap-2 flex-col w-full">
+          <button className="btn btn-secondary">Continue</button>
           <NavLink className="btn btn-secondary" to="/">
             Back
           </NavLink>
