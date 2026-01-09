@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { notifyInfo } from "../../services/notifications";
+import {
+  notifyError,
+  notifyInfo,
+  notifySuccess,
+} from "../../services/notifications";
 import { NavLink } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
 // import { info } from "@tauri-apps/plugin-log";
@@ -13,33 +17,30 @@ export function SerialConfigurationPage() {
 
   const scanDevices = () => {
     invoke("scan_serial_devices", []).then((scannedDevices) => {
-      // info("Scanning for serial devices...");
       setDevices(scannedDevices as string[]);
       notifyInfo(`Found devices: ${(scannedDevices as string[]).join(", ")}`);
     });
   };
   const connectToDevice = () => {
-    notifyInfo("Connecting to device...");
     invoke("connect_serial_device", {
       portName: selectedPort,
       baudRate: selectedBaudRate,
     })
       .then(() => {
-        notifyInfo("Connected to device!");
+        notifySuccess("Connected to device!");
       })
       .catch((err) => {
-        notifyInfo(`Failed to connect to device: ${err}`);
+        notifyError(`Failed to connect to device: ${err}`);
       });
   };
 
   const disconnectFromDevice = () => {
-    notifyInfo("Disconnecting from device...");
-    invoke("disconnect_serial_device", {})
+    invoke("disconnect", {})
       .then(() => {
-        notifyInfo("Disconnected from device!");
+        notifySuccess("Disconnected from device!");
       })
       .catch((err) => {
-        notifyInfo(`Failed to disconnect from device: ${err}`);
+        notifyError(`Failed to disconnect from device: ${err}`);
       });
   };
   return (
