@@ -45,11 +45,19 @@ pub mod communicator {
     pub async fn disconnect(state: tauri::State<'_, AppState>) -> Result<(), CommunicatorError> {
         let communicator = &mut *state.communicator.lock().await;
         match communicator {
-            Some(CommunicatorType::Serial(comm)) => comm.disconnect().await,
-            Some(CommunicatorType::Tcp(comm)) => comm.disconnect().await,
+            Some(communicator) => match communicator {
+                CommunicatorType::Serial(comm) => {
+                    comm.disconnect().await?;
+                }
+                CommunicatorType::Tcp(comm) => {
+                    comm.disconnect().await?;
+                }
+            },
             None => {
                 return Err(CommunicatorError::Uninitialized);
             }
         }
+        *communicator = None;
+        Ok(())
     }
 }
