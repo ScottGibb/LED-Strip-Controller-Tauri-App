@@ -1,5 +1,5 @@
 pub mod serial {
-    use tauri::{App, State};
+    use tauri::State;
 
     use crate::{
         communicator::{
@@ -35,12 +35,62 @@ pub mod serial {
     }
 }
 
+pub mod tcp {
+    use std::net::IpAddr;
+
+    use log::info;
+    use tauri::State;
+
+    use crate::{
+        communicator::{
+            error::CommunicatorError, tcp_communicator::TcpCommunicator, Communicator,
+            CommunicatorType,
+        },
+        AppState,
+    };
+
+    #[tauri::command]
+    pub async fn connect_tcp_device(
+        address: String,
+        port_number: u16,
+        state: State<'_, AppState>,
+    ) -> Result<(), CommunicatorError> {
+        let mut communicator = state.communicator.lock().await;
+        if communicator.is_some() {
+            return Err(CommunicatorError::AlreadyConnected);
+        }
+        let address: IpAddr = address
+            .parse()
+            .map_err(|_| CommunicatorError::MalformedAddress)?;
+        let mut comm = TcpCommunicator {
+            address,
+            port_number,
+            stream: None,
+        };
+        info!("Connecting to TCP device at {}:{}", address, port_number);
+        comm.connect().await?;
+        *communicator = Some(CommunicatorType::Tcp(comm));
+        Ok(())
+    }
+}
 pub mod communicator {
     use crate::{
         communicator::{error::CommunicatorError, Communicator, CommunicatorType},
         AppState,
     };
 
+    #[tauri::command]
+    pub async fn is_connected(state: tauri::State<'_, AppState>) -> Result<bool, String> {
+        let mut communicator = &mut *state.communicator.lock().await;
+        let result = match communicator {
+            Some(communicator) => match communicator {
+                CommunicatorType::Serial(comm) => comm.is_connected().await,
+                CommunicatorType::Tcp(comm) => comm.is_connected().await,
+            },
+            None => false,
+        };
+        Ok(result)
+    }
     #[tauri::command]
     pub async fn disconnect(state: tauri::State<'_, AppState>) -> Result<(), CommunicatorError> {
         let communicator = &mut *state.communicator.lock().await;
