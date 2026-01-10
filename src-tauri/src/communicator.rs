@@ -1,7 +1,4 @@
-use std::io;
 use std::u8;
-
-use serde::Serialize;
 
 use crate::communicator::error::CommunicatorError;
 use crate::communicator::{
@@ -14,6 +11,7 @@ pub mod tcp_communicator;
 
 pub trait Communicator {
     async fn connect(&mut self) -> Result<(), CommunicatorError>;
+    async fn is_connected(&mut self) -> bool;
     async fn disconnect(&mut self) -> Result<(), CommunicatorError>;
     async fn write(&mut self, data: &[u8]) -> Result<(), CommunicatorError>;
 }

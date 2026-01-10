@@ -4,14 +4,14 @@ import {
   notifyInfo,
   notifySuccess,
 } from "../../services/notifications";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
-// import { info } from "@tauri-apps/plugin-log";
-
+import { disconnectFromDevice, isConnected } from "./functions";
 export function SerialConfigurationPage() {
   const [devices, setDevices] = useState<string[]>([]);
   const [selectedPort, setSelectedPort] = useState<string>("");
   const [selectedBaudRate, setSelectedBaudRate] = useState<number>(9600);
+  const navigate = useNavigate();
 
   useEffect(() => {}, []);
 
@@ -34,15 +34,16 @@ export function SerialConfigurationPage() {
       });
   };
 
-  const disconnectFromDevice = () => {
-    invoke("disconnect", {})
-      .then(() => {
-        notifySuccess("Disconnected from device!");
-      })
-      .catch((err) => {
-        notifyError(`Failed to disconnect from device: ${err}`);
-      });
+  const goToControlPage = async () => {
+    var connected = await isConnected();
+    if (!connected) {
+      notifyError("Not connected to a device!");
+    } else {
+      notifySuccess("Connected to a device!");
+      navigate("/control/master_control");
+    }
   };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col gap-4">
@@ -83,7 +84,14 @@ export function SerialConfigurationPage() {
           </button>
         </div>
         <div className="flex gap-2 flex-col w-full">
-          <button className="btn btn-secondary">Continue</button>
+          <button
+            className="btn btn-secondary"
+            onClick={async () => {
+              goToControlPage();
+            }}
+          >
+            Continue
+          </button>
           <NavLink className="btn btn-secondary" to="/">
             Back
           </NavLink>

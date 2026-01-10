@@ -6,6 +6,7 @@ use serde::Serialize;
 pub enum CommunicatorError {
     Uninitialized,
     AlreadyConnected,
+    MalformedAddress,
     SerialError(serialport::Error),
     IoError(io::Error),
 }
@@ -18,6 +19,7 @@ impl Serialize for CommunicatorError {
         match self {
             CommunicatorError::Uninitialized => serializer.serialize_str("Uninitialized"),
             CommunicatorError::AlreadyConnected => serializer.serialize_str("AlreadyConnected"),
+            CommunicatorError::MalformedAddress => serializer.serialize_str("MalformedAddress"),
             CommunicatorError::SerialError(e) => serializer.serialize_str(&e.to_string()),
             CommunicatorError::IoError(e) => serializer.serialize_str(&e.to_string()),
         }

@@ -41,4 +41,8 @@ impl Communicator for SerialCommunicator {
         self.port = Some(port);
         Ok(())
     }
+
+    async fn is_connected(&mut self) -> bool {
+        self.port.is_some()
+    }
 }

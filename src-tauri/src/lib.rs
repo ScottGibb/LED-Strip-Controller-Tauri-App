@@ -1,8 +1,11 @@
 use tauri::async_runtime::Mutex;
 
 use crate::{
-    commands::communicator::disconnect,
-    commands::serial::{connect_serial_device, scan_serial_devices},
+    commands::{
+        communicator::{disconnect, is_connected},
+        serial::{connect_serial_device, scan_serial_devices},
+        tcp::connect_tcp_device,
+    },
     communicator::CommunicatorType,
 };
 
@@ -31,7 +34,9 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             scan_serial_devices,
             connect_serial_device,
-            disconnect
+            connect_tcp_device,
+            disconnect,
+            is_connected
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
