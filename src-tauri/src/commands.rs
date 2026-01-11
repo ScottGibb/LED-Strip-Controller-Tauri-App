@@ -81,7 +81,7 @@ pub mod communicator {
 
     #[tauri::command]
     pub async fn is_connected(state: tauri::State<'_, AppState>) -> Result<bool, String> {
-        let mut communicator = &mut *state.communicator.lock().await;
+        let communicator = &mut *state.communicator.lock().await;
         let result = match communicator {
             Some(communicator) => match communicator {
                 CommunicatorType::Serial(comm) => comm.is_connected().await,
