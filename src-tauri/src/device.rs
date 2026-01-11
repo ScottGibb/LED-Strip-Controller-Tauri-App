@@ -1,4 +1,4 @@
-use crate::{commands::communicator, communicator::Communicator};
+use crate::communicator::{self, Communicator};
 
 pub struct Device {
     pub name: String,
@@ -6,6 +6,11 @@ pub struct Device {
     pub memory: Option<Memory>,
     pub power_sensor: Option<PowerSensor>,
     pub temperature_sensor: Option<TemperatureSensor>,
+}
+
+pub enum DeviceError {
+    CommunicationError,
+    InvalidConfiguration,
 }
 
 impl Device {
@@ -17,6 +22,21 @@ impl Device {
             power_sensor: None,
             temperature_sensor: None,
         }
+    }
+    pub fn set_channel(
+        &mut self,
+        channel_index: usize,
+        channel: Channel,
+    ) -> Result<(), DeviceError> {
+        if channel_index >= self.channels.len() {
+            return Err(DeviceError::InvalidConfiguration);
+        }
+        self.channels[channel_index] = channel;
+        // Use Communicator to send updated channel data to the device
+        Ok(())
+    }
+    pub fn update_channels(&mut self, channels: Vec<Channel>) {
+        self.channels = channels;
     }
 }
 
