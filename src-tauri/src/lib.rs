@@ -7,21 +7,24 @@ use crate::{
         tcp::connect_tcp_device,
     },
     communicator::CommunicatorType,
+    device::Device,
 };
 
 mod commands;
 mod communicator;
-
+mod device;
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 pub struct AppState {
     pub communicator: Mutex<Option<CommunicatorType>>,
+    pub device: Mutex<Option<Device>>,
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let app_state = AppState {
         communicator: Mutex::new(None),
+        device: Mutex::new(None),
     };
     tauri::Builder::default()
         .manage(app_state)
