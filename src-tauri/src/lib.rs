@@ -1,18 +1,19 @@
 use tauri::async_runtime::Mutex;
 
 use crate::{
-    commands::{
+    communicator::CommunicatorType,
+    device::Device,
+    tauri_commands::{
         communicator::{disconnect, is_connected},
         serial::{connect_serial_device, scan_serial_devices},
         tcp::connect_tcp_device,
     },
-    communicator::CommunicatorType,
-    device::Device,
 };
 
-mod commands;
+mod communications;
 mod communicator;
 mod device;
+mod tauri_commands;
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 pub struct AppState {

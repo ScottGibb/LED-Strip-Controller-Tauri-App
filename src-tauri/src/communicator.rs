@@ -20,3 +20,5 @@ pub enum CommunicatorType {
     Serial(SerialCommunicator),
     Tcp(TcpCommunicator),
 }
+
+impl CommunicatorType {}
