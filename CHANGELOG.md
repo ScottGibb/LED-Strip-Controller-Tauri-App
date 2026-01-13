@@ -2,7 +2,6 @@
 
 ## [1.1.0](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.0.3...v1.1.0) (2026-01-13)
 
-
 ### Features
 
 * add eslint ([7ad145a](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/7ad145a5027d950c7f49315894964f1e935ad5bb))
@@ -14,7 +13,6 @@
 * **ci:** add continuous build ([92b62f8](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/92b62f81f89dd2c432e77702e94ece2e409bd8b6))
 * **ci:** add deliberate formatting issues ([760943e](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/760943e7f905a79e3015fb5f252eae04ba5af240))
 * improved Python version script ([aa579fc](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/aa579fc37cfd87f80ef860ee900b6aebf4c186f9))
-
 
 ### Bug Fixes
 
