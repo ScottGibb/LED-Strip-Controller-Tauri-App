@@ -39,14 +39,6 @@ Enter the development shell with all dependencies:
 nix develop
 ```
 
-Or use [direnv](https://direnv.net/) for automatic environment loading:
-```bash
-# Allow direnv for this project
-direnv allow
-
-# The environment will be loaded automatically when you cd into the directory
-```
-
 ### Building with Nix
 
 Build the application:
