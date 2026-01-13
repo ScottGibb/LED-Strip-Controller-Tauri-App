@@ -1,4 +1,5 @@
 use std::{
+    io::Write,
     net::{IpAddr, TcpStream},
     time::Duration,
 };
@@ -28,7 +29,12 @@ impl Communicator for TcpCommunicator {
     }
 
     async fn write(&mut self, data: &[u8]) -> Result<(), CommunicatorError> {
-        todo!()
+        if let Some(stream) = &mut self.stream {
+            stream.write_all(data)?;
+            Ok(())
+        } else {
+            Err(CommunicatorError::Uninitialized)
+        }
     }
 
     async fn is_connected(&mut self) -> bool {

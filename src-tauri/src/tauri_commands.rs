@@ -6,6 +6,7 @@ pub mod serial {
             error::CommunicatorError, serial_communicator::SerialCommunicator, Communicator,
             CommunicatorType,
         },
+        device::Device,
         AppState,
     };
 
@@ -20,8 +21,8 @@ pub mod serial {
         baud_rate: u32,
         state: State<'_, AppState>,
     ) -> Result<(), CommunicatorError> {
-        let mut communicator = state.communicator.lock().await;
-        if communicator.is_some() {
+        let mut device = state.device.lock().await;
+        if device.is_some() {
             return Err(CommunicatorError::AlreadyConnected);
         }
         let mut comm = SerialCommunicator {
@@ -29,8 +30,12 @@ pub mod serial {
             baud_rate,
             port: None,
         };
+        log::info!("Connecting to serial device at {}:{}", port_name, baud_rate);
         comm.connect().await?;
-        *communicator = Some(CommunicatorType::Serial(comm));
+        log::info!("Connected to serial device at {}:{}", port_name, baud_rate);
+        log::info!("Creating device with serial communicator");
+        *device = Some(Device::new(CommunicatorType::Serial(comm)));
+        log::info!("Device created and stored in state");
         Ok(())
     }
 }
@@ -46,6 +51,7 @@ pub mod tcp {
             error::CommunicatorError, tcp_communicator::TcpCommunicator, Communicator,
             CommunicatorType,
         },
+        device::Device,
         AppState,
     };
 
@@ -55,8 +61,8 @@ pub mod tcp {
         port_number: u16,
         state: State<'_, AppState>,
     ) -> Result<(), CommunicatorError> {
-        let mut communicator = state.communicator.lock().await;
-        if communicator.is_some() {
+        let mut device = state.device.lock().await;
+        if device.is_some() {
             return Err(CommunicatorError::AlreadyConnected);
         }
         let address: IpAddr = address
@@ -69,7 +75,7 @@ pub mod tcp {
         };
         info!("Connecting to TCP device at {}:{}", address, port_number);
         comm.connect().await?;
-        *communicator = Some(CommunicatorType::Tcp(comm));
+        *device = Some(Device::new(CommunicatorType::Tcp(comm)));
         Ok(())
     }
 }
@@ -81,9 +87,9 @@ pub mod communicator {
 
     #[tauri::command]
     pub async fn is_connected(state: tauri::State<'_, AppState>) -> Result<bool, String> {
-        let communicator = &mut *state.communicator.lock().await;
-        let result = match communicator {
-            Some(communicator) => match communicator {
+        let mut device = state.device.lock().await;
+        let result = match &mut *device {
+            Some(device) => match &mut device.communicator {
                 CommunicatorType::Serial(comm) => comm.is_connected().await,
                 CommunicatorType::Tcp(comm) => comm.is_connected().await,
             },
@@ -93,9 +99,9 @@ pub mod communicator {
     }
     #[tauri::command]
     pub async fn disconnect(state: tauri::State<'_, AppState>) -> Result<(), CommunicatorError> {
-        let communicator = &mut *state.communicator.lock().await;
-        match communicator {
-            Some(communicator) => match communicator {
+        let mut device = state.device.lock().await;
+        match &mut *device {
+            Some(device) => match &mut device.communicator {
                 CommunicatorType::Serial(comm) => {
                     comm.disconnect().await?;
                 }
@@ -107,7 +113,9 @@ pub mod communicator {
                 return Err(CommunicatorError::Uninitialized);
             }
         }
-        *communicator = None;
+        *device = None;
         Ok(())
     }
 }
+
+mod rgb_control {}

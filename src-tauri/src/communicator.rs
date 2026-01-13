@@ -21,4 +21,11 @@ pub enum CommunicatorType {
     Tcp(TcpCommunicator),
 }
 
-impl CommunicatorType {}
+impl CommunicatorType {
+    pub async fn write(&mut self, data: &[u8]) -> Result<(), CommunicatorError> {
+        match self {
+            CommunicatorType::Serial(comm) => comm.write(data).await,
+            CommunicatorType::Tcp(comm) => comm.write(data).await,
+        }
+    }
+}

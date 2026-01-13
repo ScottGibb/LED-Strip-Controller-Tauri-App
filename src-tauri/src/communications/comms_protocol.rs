@@ -1,9 +1,9 @@
-use super::types::{Channel, Colour, ControlCommandId, FadeType, TX_MSG_SIZE};
+use super::types::{Colour, ControlCommandId, FadeType, TX_MSG_SIZE};
 
-pub fn create_constant_colour_message(channel: Channel, colour: Colour, brightness: u8) -> Vec<u8> {
-    let mut bytes = vec![
+pub fn create_constant_colour_message(channel: u8, colour: Colour, brightness: u8) -> Vec<u8> {
+    let bytes = vec![
         u8::from(ControlCommandId::LedChange),
-        u8::from(channel),
+        channel,
         u8::from(FadeType::FadeNone),
         u8::from(colour),
         brightness,
@@ -12,7 +12,7 @@ pub fn create_constant_colour_message(channel: Channel, colour: Colour, brightne
 }
 
 pub fn create_fade_message(
-    channel: Channel,
+    channel: u8,
     fade_type: FadeType,
     colour: Colour,
     brightness: u8,
@@ -30,7 +30,7 @@ pub fn create_fade_message(
     add_padding(bytes)
 }
 
-pub fn create_rgb_message(channel: Channel, red: u8, green: u8, blue: u8) -> Vec<u8> {
+pub fn create_rgb_message(channel: u8, red: u8, green: u8, blue: u8) -> Vec<u8> {
     let bytes = vec![
         u8::from(ControlCommandId::LedChange),
         u8::from(channel),
@@ -42,7 +42,7 @@ pub fn create_rgb_message(channel: Channel, red: u8, green: u8, blue: u8) -> Vec
     add_padding(bytes)
 }
 
-pub fn create_hsb_message(channel: Channel, hue: u16, saturation: u8, brightness: u8) -> Vec<u8> {
+pub fn create_hsb_message(channel: u8, hue: u16, saturation: u8, brightness: u8) -> Vec<u8> {
     let mut bytes = vec![
         u8::from(ControlCommandId::LedChange),
         u8::from(channel),

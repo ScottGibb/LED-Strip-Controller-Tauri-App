@@ -1,4 +1,13 @@
-use crate::communicator::{self, Communicator};
+use crate::{
+    communications::{
+        comms_protocol::{
+            create_constant_colour_message, create_fade_message, create_hsb_message,
+            create_rgb_message,
+        },
+        types::{Colour, FadeType},
+    },
+    communicator::CommunicatorType,
+};
 
 pub struct Device {
     pub name: String,
@@ -6,6 +15,7 @@ pub struct Device {
     pub memory: Option<Memory>,
     pub power_sensor: Option<PowerSensor>,
     pub temperature_sensor: Option<TemperatureSensor>,
+    pub communicator: CommunicatorType,
 }
 
 pub enum DeviceError {
@@ -14,32 +24,40 @@ pub enum DeviceError {
 }
 
 impl Device {
-    pub fn new(name: &str, _communicator: &mut impl Communicator) -> Self {
+    pub fn new(communicator: CommunicatorType) -> Self {
         Device {
-            name: name.to_string(),
+            name: String::new(),
             channels: Vec::new(),
             memory: None,
             power_sensor: None,
             temperature_sensor: None,
+            communicator,
         }
     }
-    pub fn set_channel(
+    pub async fn set_channel(
         &mut self,
         channel_index: usize,
         channel: Channel,
     ) -> Result<(), DeviceError> {
-        if channel_index >= self.channels.len() {
-            return Err(DeviceError::InvalidConfiguration);
+        if channel_index < self.channels.len() {
+            self.channels[channel_index] = channel;
+            self.communicator
+                .write(&self.channels[channel_index].create_message(channel_index as u8))
+                .await
+                .map_err(|_| DeviceError::CommunicationError)?;
+            Ok(())
+        } else {
+            Err(DeviceError::InvalidConfiguration)
         }
-        self.channels[channel_index] = channel;
-        // Use Communicator to send updated channel data to the device
-        Ok(())
     }
-    pub fn update_channels(&mut self, channels: Vec<Channel>) {
-        self.channels = channels;
+    pub async fn get_channel(&self, channel_index: usize) -> Result<&Channel, DeviceError> {
+        if channel_index < self.channels.len() {
+            Ok(&self.channels[channel_index])
+        } else {
+            Err(DeviceError::InvalidConfiguration)
+        }
     }
 }
-
 pub struct PowerSensor {
     pub voltage: f32,
     pub current: f32,
@@ -47,25 +65,60 @@ pub struct PowerSensor {
 }
 
 pub enum Channel {
-    RGB(u8, u8, u8),
-    HSV(u16, u8, u8),
+    Colour {
+        colour: Colour,
+        brightness: u8,
+    },
+    RGB {
+        red: u8,
+        green: u8,
+        blue: u8,
+    },
+    HSB {
+        hue: u16,
+        saturation: u8,
+        brightness: u8,
+    },
+    Fade {
+        fade_type: FadeType,
+        colour: Colour,
+        brightness: u8,
+        period_ms: u32,
+    },
 }
+
+impl Channel {
+    fn create_message(&self, channel: u8) -> Vec<u8> {
+        match self {
+            Channel::Colour { colour, brightness } => {
+                create_constant_colour_message(channel, colour.clone(), *brightness)
+            }
+            Channel::RGB { red, green, blue } => create_rgb_message(channel, *red, *green, *blue),
+            Channel::HSB {
+                hue,
+                saturation,
+                brightness,
+            } => create_hsb_message(channel, *hue, *saturation, *brightness),
+            Channel::Fade {
+                fade_type,
+                colour,
+                brightness,
+                period_ms,
+            } => create_fade_message(
+                channel,
+                fade_type.clone(),
+                colour.clone(),
+                *brightness,
+                *period_ms,
+            ),
+        }
+    }
+}
+
 pub struct TemperatureSensor {
     pub temperature_celsius: f32,
 }
 
 pub struct Memory {
     pub total_bytes: usize,
-}
-
-pub struct SerialDevice {
-    pub port_name: String,
-    pub baud_rate: u32,
-    pub configuration: Device,
-}
-
-pub struct NetworkDevice {
-    pub ip_address: String,
-    pub port: u16,
-    pub configuration: Device,
 }

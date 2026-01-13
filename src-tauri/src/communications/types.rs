@@ -3,6 +3,7 @@ pub const RX_MSG_CNT: usize = 14;
 pub const TX_MSG_SIZE: usize = 10;
 
 #[repr(u8)]
+#[derive(Clone)]
 pub enum Colour {
     Red = 0,
     Green = 1,
@@ -26,6 +27,7 @@ impl From<Colour> for u8 {
 }
 
 #[repr(u8)]
+#[derive(Clone)]
 pub enum FadeType {
     FadeNone = 0,
     FadeSine = 1,
@@ -39,20 +41,6 @@ pub enum FadeType {
 impl From<FadeType> for u8 {
     fn from(fade_type: FadeType) -> Self {
         fade_type as u8
-    }
-}
-
-#[repr(u8)]
-pub enum Channel {
-    ChannelNotSelected = 0,
-    Channel1 = 1,
-    Channel2 = 2,
-    Channel3 = 3,
-}
-
-impl From<Channel> for u8 {
-    fn from(channel: Channel) -> Self {
-        channel as u8
     }
 }
 
