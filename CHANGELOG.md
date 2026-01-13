@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.1.0](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.0.3...v1.1.0) (2026-01-13)
+
+
+### Features
+
+* add eslint ([7ad145a](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/7ad145a5027d950c7f49315894964f1e935ad5bb))
+* add missign defaults ([3464047](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/346404742713ecd7f2f2e6a1e1601207ae5b2186))
+* add missing codeowners for auto updating ([7d69948](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/7d699483206a49b7d446a07e2ced88308736f3f6))
+* add missing linter checks ([de89a1a](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/de89a1aa8d05f24491ebfb2b38c8eab034788ced))
+* add ruff cache ([b108395](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/b108395d52ecf7500e3aaed3964fc3f7d168ed6c))
+* add ts-sandard ([aafcfbc](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/aafcfbc20b0cecfbffb56374a4ffe23d08edc96d))
+* **ci:** add continuous build ([92b62f8](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/92b62f81f89dd2c432e77702e94ece2e409bd8b6))
+* **ci:** add deliberate formatting issues ([760943e](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/760943e7f905a79e3015fb5f252eae04ba5af240))
+* improved Python version script ([aa579fc](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/aa579fc37cfd87f80ef860ee900b6aebf4c186f9))
+
+
+### Bug Fixes
+
+* add eslint config file path ([7b9df99](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/7b9df99cb906001787f4e7d0a785dab5f7fc48e3))
+* Add linters ([87fe6ac](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/87fe6acf5e58ed6e6d9f80323e8456612dcf06c8))
+* add missing lock ([cb3634c](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/cb3634c9bfee10ee127fd387b41e95d4cbd80af6))
+* **ci:** fix(ci):  ([0576059](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/05760592b1e7dd9fbb5d0d33224af6fff8098452))
+* **ci:** add missing cargo deps ([a294983](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/a2949836350b87395bffccf498c7bd0e266a57a2))
+* **ci:** add missing sys dep ([2986afb](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/2986afbbc6d0a9d4919812b78255ca7c3dc64674))
+* **ci:** add precommands ([e1645e9](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/e1645e9e45a8c2f03908ed91ce6de896e1bd0c30))
+* **ci:** chatgpt generated this fix ([5849521](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/5849521ba2d8bf88f71756cfcd0c0fb7d1c9bafe))
+* **ci:** continous build ([f9028ce](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/f9028ce3fc48a8e20796fd6288bf1a9c9358bf6d))
+* **ci:** continuous build ([f74c220](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/f74c2209ffe199fd1095ab80be24e7d052082ead))
+* **ci:** fix bun on continuous build ([f8f305d](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/f8f305dc7e6a7d1c426b2b9cebc5b00456ba9eed))
+* **ci:** include dev deps ([44be476](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/44be47680f0813aa7005d051bca3c05307816a97))
+* **ci:** version number ([eb337eb](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/eb337eba6a1547bb62e02cb49ee8f70e2f76926f))
+* eslint config ([d64b7f7](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/d64b7f723868bd3808c13fe7da719791828d0d73))
+* fixing ci warnings? ([385b15f](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/385b15fffd0d9128a16938293e053bf3a5e3e640))
+* removing package-lock.json ([6e65664](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/6e65664a6dfd7a892ed933930a1d4b1d9ede16ec))
+* some eslint issues with TS ([78a3b00](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/78a3b001cf544243f3e524182f75f70b607ebec0))
+* ts standard error ([b056405](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/b0564053a38398536a509f200482f644b6c5bce9))
+
 ## [1.0.3](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.0.2...v1.0.3) (2025-12-24)
 
 ### Bug Fixes
