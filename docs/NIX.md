@@ -6,19 +6,10 @@ This directory contains Nix flake configuration for reproducible builds and deve
 
 ### Prerequisites
 
-1. Install Nix with flakes enabled:
-   ```bash
-   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-   ```
-
-2. (Optional) Install direnv for automatic environment loading:
-   ```bash
-   # On NixOS
-   nix-env -iA nixos.direnv
-   
-   # On other systems with Nix
-   nix-env -iA nixpkgs.direnv
-   ```
+Install Nix with flakes enabled:
+```bash
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+```
 
 ### Development Environment
 
@@ -33,17 +24,6 @@ This provides:
 - Bun package manager
 - Cargo Tauri CLI
 - All system dependencies (WebKitGTK, GTK3, etc. on Linux)
-
-### Using direnv
-
-If you have direnv installed:
-```bash
-# Allow direnv for this project
-direnv allow
-
-# Environment will auto-load when entering the directory
-cd /path/to/LED-Strip-Controller-Tauri-App
-```
 
 ### Building the Application
 
@@ -105,4 +85,3 @@ Check that you have sufficient disk space and that all substituters are accessib
 
 - [Nix Flakes Documentation](https://nixos.wiki/wiki/Flakes)
 - [Tauri Prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites)
-- [direnv Documentation](https://direnv.net/)

@@ -27,4 +27,3 @@ megalinter-reports/
 # Nix
 result
 result-*
-.direnv/
