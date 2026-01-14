@@ -7,6 +7,7 @@ This flake provides a Nix package for installing the LED Strip Controller Tauri 
 ### Prerequisites
 
 Install Nix with flakes enabled:
+
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
@@ -20,6 +21,7 @@ nix profile install github:ScottGibb/LED-Strip-Controller-Tauri-App
 ```
 
 Then run the application:
+
 ```bash
 led-strip-controller-tauri
 ```
@@ -27,6 +29,7 @@ led-strip-controller-tauri
 #### Option 2: Use with home-manager
 
 Add to your `flake.nix`:
+
 ```nix
 {
   inputs = {
@@ -59,6 +62,7 @@ nix run github:ScottGibb/LED-Strip-Controller-Tauri-App
 ### Building from Source
 
 Clone the repository and build:
+
 ```bash
 git clone https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App
 cd LED-Strip-Controller-Tauri-App
@@ -66,6 +70,7 @@ nix build
 ```
 
 The built application will be available in the `result` directory:
+
 ```bash
 ./result/bin/led-strip-controller-tauri
 ```
@@ -73,11 +78,13 @@ The built application will be available in the `result` directory:
 ## Package Information
 
 The package includes:
+
 - The compiled LED Strip Controller Tauri application
 - Desktop entry file for application menu integration
 - Application icon
 
 Runtime dependencies (automatically included on Linux):
+
 - WebKitGTK 4.1
 - GTK3
 - Cairo, GDK-Pixbuf, GLib
@@ -91,6 +98,7 @@ Runtime dependencies (automatically included on Linux):
 ## CI/CD Integration
 
 The project includes a GitHub Actions workflow (`.github/workflows/nix-build.yaml`) that:
+
 - Verifies the flake configuration
 - Tests package builds on Linux and macOS
 - Ensures the application can be installed and run
@@ -98,13 +106,17 @@ The project includes a GitHub Actions workflow (`.github/workflows/nix-build.yam
 ## Troubleshooting
 
 ### Flake not found
+
 Ensure you're referencing the correct repository URL or are in the project root directory.
 
 ### Build failures
+
 Check that you have sufficient disk space and that all substituters are accessible.
 
 ### Installation conflicts
+
 If you already have the package installed, remove it first:
+
 ```bash
 nix profile remove led-strip-controller-tauri
 ```
