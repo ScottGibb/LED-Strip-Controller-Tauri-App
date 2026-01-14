@@ -91,9 +91,11 @@
               patchelf
             ];
 
-          buildInputs = runtimeDeps ++ (with pkgs; [
-            openssl
-          ]);
+          buildInputs =
+            runtimeDeps
+            ++ (with pkgs; [
+              openssl
+            ]);
 
           # Pre-build: prepare frontend dist
           preBuild = ''
