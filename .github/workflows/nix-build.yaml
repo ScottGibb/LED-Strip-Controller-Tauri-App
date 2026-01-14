@@ -22,9 +22,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-    
+
     runs-on: ${{ matrix.os }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -36,7 +36,7 @@ jobs:
         uses: cachix/cachix-action@v15
         with:
           name: nix-community
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           skipPush: true
 
       - name: Check flake
@@ -49,7 +49,7 @@ jobs:
         run: |
           nix build .#default --print-build-logs || true
           echo "Note: Full package build may require significant time and resources in CI"
-          
+
       - name: Verify package output
         run: |
           if [ -d result ]; then

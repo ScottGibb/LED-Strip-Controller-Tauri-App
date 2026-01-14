@@ -35,11 +35,13 @@ This project provides a [Nix](https://nixos.org/) package for easy installation.
 ### Installation
 
 Install directly from the flake:
+
 ```bash
 nix profile install github:ScottGibb/LED-Strip-Controller-Tauri-App
 ```
 
 Or add to your home-manager configuration:
+
 ```nix
 {
   inputs.led-strip-controller.url = "github:ScottGibb/LED-Strip-Controller-Tauri-App";
@@ -54,11 +56,13 @@ Or add to your home-manager configuration:
 ### Running
 
 After installation, run the application:
+
 ```bash
 led-strip-controller-tauri
 ```
 
 Or run directly without installing:
+
 ```bash
 nix run github:ScottGibb/LED-Strip-Controller-Tauri-App
 ```
@@ -66,6 +70,7 @@ nix run github:ScottGibb/LED-Strip-Controller-Tauri-App
 ### Building from Source
 
 Build locally:
+
 ```bash
 nix build
 ```
