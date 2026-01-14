@@ -110,7 +110,7 @@
               wrapProgram $out/bin/${pname} \
                 --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath runtimeDeps}"
             ''}
-            
+
             # Install desktop file
             mkdir -p $out/share/applications
             cat > $out/share/applications/${pname}.desktop <<EOF
