@@ -49,7 +49,7 @@
             export HOME=$TMPDIR
             bun install --frozen-lockfile --no-progress
           '';
-          
+
           buildPhase = ''
             bun run build
           '';
