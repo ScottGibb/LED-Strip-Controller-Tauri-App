@@ -70,9 +70,11 @@
           pname = "led-strip-controller-tauri";
           version = "1.0.3";
 
-          src = ./.;
-
-          sourceRoot = "source/src-tauri";
+          postPatch = ''
+            # Patch tauri.conf.json to use a direct version string instead of ../package.json
+            substituteInPlace tauri.conf.json \
+              --replace-fail '"version": "../package.json"' '"version": "${version}"'
+          '';
 
           cargoLock = {
             lockFile = ./src-tauri/Cargo.lock;
