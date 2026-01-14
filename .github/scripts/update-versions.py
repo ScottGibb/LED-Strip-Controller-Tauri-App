@@ -14,14 +14,18 @@ logging.basicConfig(level=logging.INFO)
 CARGO_TOML_FILE_PATH = os.getenv("CARGO_TOML_FILE_PATH", "src-tauri/Cargo.toml")
 CARGO_LOCK_FILE_PATH = os.getenv("CARGO_LOCK_FILE_PATH", "src-tauri/Cargo.lock")
 NODE_PACKAGE_JSON_PATH = os.getenv("NODE_PACKAGE_JSON_PATH", "package.json")
+FLAKE_NIX_FILE_PATH = os.getenv("FLAKE_NIX_FILE_PATH", "flake.nix")
 
 
-def find_current_version(node_package_json_path) -> str:
+def find_current_version(node_package_json_path: str) -> str:
     """
     Extracts the current version from the specified package.json file.
-    :param node_package_json_path: Path to the package.json file
-    :return: The current version string from package.json
-    :rtype: str
+
+    Args:
+        node_package_json_path: Path to the package.json file
+
+    Returns:
+        The current version string from package.json
     """
     with open(node_package_json_path, "r") as f:
         package_json = json.load(f)
@@ -31,8 +35,10 @@ def find_current_version(node_package_json_path) -> str:
 def update_cargo_toml_version(cargo_toml_path: str, new_version: str) -> None | OSError:
     """
     Updates the version in the specified Cargo.toml file.
-    :param cargo_toml_path: Path to the Cargo.toml file
-    :param new_version: The new version string to set
+
+    Args:
+        cargo_toml_path: Path to the Cargo.toml file
+        new_version: The new version string to set
     """
     with open(cargo_toml_path, "r") as f:
         lines = f.readlines()
@@ -53,9 +59,11 @@ def update_cargo_lock_version(
 ) -> None | OSError:
     """
     Updates the version in the specified Cargo.lock file for the given project.
-    :param cargo_lock_path: Path to the Cargo.lock file
-    :param new_version: The new version string to set
-    :param project_name: The name of the project to update in Cargo.lock
+
+    Args:
+        cargo_lock_path: Path to the Cargo.lock file
+        new_version: The new version string to set
+        project_name: The name of the project to update in Cargo.lock
     """
     with open(cargo_lock_path, "r") as f:
         lines = f.readlines()
@@ -77,11 +85,37 @@ def update_cargo_lock_version(
                 f.write(line)
 
 
+def update_flake_nix_version(flake_nix_path: str, new_version: str) -> None | OSError:
+    """
+    Updates the version in the specified flake.nix file.
+
+    Args:
+        flake_nix_path: Path to the flake.nix file
+        new_version: The new version string to set
+    """
+    with open(flake_nix_path, "r") as f:
+        lines = f.readlines()
+
+    with open(flake_nix_path, "w") as f:
+        for line in lines:
+            if line.strip().startswith("version ="):
+                logging.info(
+                    f'Updating flake.nix version from {line.strip()} to version = "{new_version}"'
+                )
+                f.write(f'          version = "{new_version}";\n')
+            else:
+                f.write(line)
+
+
 def get_project_name(cargo_toml_path: str) -> str | ValueError:
     """
     Extracts the project name from the specified Cargo.toml file.
-    :param cargo_toml_path: Path to the Cargo.toml file
-    :return: The project name string from Cargo.toml
+
+    Args:
+        cargo_toml_path: Path to the Cargo.toml file
+
+    Returns:
+        The project name string from Cargo.toml
     """
     with open(cargo_toml_path, "r") as f:
         lines = f.readlines()
