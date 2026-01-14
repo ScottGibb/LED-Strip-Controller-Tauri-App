@@ -25,36 +25,47 @@ For iOS development, run:
 
 ## Nix Setup
 
-This project supports [Nix](https://nixos.org/) for reproducible development environments and builds.
+This project provides a [Nix](https://nixos.org/) package for easy installation.
 
 ### Prerequisites
 
 - Install Nix with flakes support: [https://nixos.org/download.html](https://nixos.org/download.html)
 - Enable flakes in your Nix configuration
 
-### Development with Nix
+### Installation
 
-Enter the development shell with all dependencies:
+Install directly from the flake:
 ```bash
-nix develop
+nix profile install github:ScottGibb/LED-Strip-Controller-Tauri-App
 ```
 
-### Building with Nix
+Or add to your home-manager configuration:
+```nix
+{
+  inputs.led-strip-controller.url = "github:ScottGibb/LED-Strip-Controller-Tauri-App";
+  
+  # In your home-manager config:
+  home.packages = [
+    inputs.led-strip-controller.packages.${system}.default
+  ];
+}
+```
 
-Build the application:
+### Running
+
+After installation, run the application:
+```bash
+led-strip-controller-tauri
+```
+
+Or run directly without installing:
+```bash
+nix run github:ScottGibb/LED-Strip-Controller-Tauri-App
+```
+
+### Building from Source
+
+Build locally:
 ```bash
 nix build
 ```
-
-Run the application directly:
-```bash
-nix run
-```
-
-### What's Included
-
-The Nix flake provides:
-- Rust toolchain with rust-analyzer
-- Node.js and Bun
-- All required system dependencies for Tauri (Linux: WebKitGTK, etc.)
-- Cargo Tauri CLI
