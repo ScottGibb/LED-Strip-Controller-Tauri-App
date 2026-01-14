@@ -108,35 +108,25 @@
 
           # Post-install: wrap with runtime dependencies and install desktop files
           postInstall = ''
-                        ${lib.optionalString pkgs.stdenv.isLinux ''
-                          wrapProgram $out/bin/${pname} \
-                            --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath runtimeDeps}"
-                        ''}
-            <<<<<<< HEAD
-                        
-            =======
-
-            >>>>>>> megalinter-fixes-copilot/add-nix-config-for-tauri
-                        # Install desktop file
-                        mkdir -p $out/share/applications
-                        cat > $out/share/applications/${pname}.desktop <<EOF
-                        [Desktop Entry]
-                        Type=Application
-                        Name=LED Strip Controller
-                        Exec=$out/bin/${pname}
-                        Icon=${pname}
-                        Categories=Utility;
-                        Terminal=false
-                        EOF
-            <<<<<<< HEAD
-                        
-            =======
-
-            >>>>>>> megalinter-fixes-copilot/add-nix-config-for-tauri
-                        # Install icon
-                        mkdir -p $out/share/icons/hicolor/128x128/apps
-                        install -Dm644 icons/128x128.png \
-                          $out/share/icons/hicolor/128x128/apps/${pname}.png
+            ${lib.optionalString pkgs.stdenv.isLinux ''
+              wrapProgram $out/bin/${pname} \
+                --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath runtimeDeps}"
+            ''}
+            # Install desktop file
+            mkdir -p $out/share/applications
+            cat > $out/share/applications/${pname}.desktop <<EOF
+            [Desktop Entry]
+            Type=Application
+            Name=LED Strip Controller
+            Exec=$out/bin/${pname}
+            Icon=${pname}
+            Categories=Utility;
+            Terminal=false
+                                
+            # Install icon
+            mkdir -p $out/share/icons/hicolor/128x128/apps
+            install -Dm644 icons/128x128.png \
+              $out/share/icons/hicolor/128x128/apps/${pname}.png
           '';
 
           meta = with pkgs.lib; {
