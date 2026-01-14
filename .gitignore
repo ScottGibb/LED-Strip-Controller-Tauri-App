@@ -27,3 +27,6 @@ megalinter-reports/
 # Nix
 result
 result-*
+
+# Package managers
+package-lock.json
