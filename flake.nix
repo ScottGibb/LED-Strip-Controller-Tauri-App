@@ -37,11 +37,14 @@
             librsvg
           ];
 
+        # Import version from Cargo.toml
+        manifest = (pkgs.lib.importTOML ./src-tauri/Cargo.toml).package;
+
       in
       {
         packages.default = pkgs.stdenv.mkDerivation rec {
-          pname = "led-strip-controller-tauri";
-          version = "1.0.3";
+          pname = manifest.name;
+          version = manifest.version;
 
           src = ./.;
 
@@ -73,6 +76,10 @@
             cp "$sourceRoot/src-tauri/Cargo.lock" "$sourceRoot/Cargo.lock"
           '';
 
+          # Tauri normally reads version from package.json, but we use Cargo.toml as our
+          # single source of truth. This patches tauri.conf.json during build to inject
+          # the version from manifest.version (extracted from Cargo.toml above).
+          # This ensures we only maintain the version in one place.
           postPatch = ''
             # Patch tauri.conf.json to use direct version and configure for Nix build
             substituteInPlace src-tauri/tauri.conf.json \
