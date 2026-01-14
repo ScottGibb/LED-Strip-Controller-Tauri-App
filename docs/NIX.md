@@ -17,7 +17,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 #### Option 1: Install with nix profile
 
 ```bash
-nix profile install github:ScottGibb/LED-Strip-Controller-Tauri-App
+nix profile add github:ScottGibb/LED-Strip-Controller-Tauri-App
 ```
 
 Then run the application:
@@ -118,7 +118,7 @@ Check that you have sufficient disk space and that all substituters are accessib
 If you already have the package installed, remove it first:
 
 ```bash
-nix profile remove led-strip-controller-tauri
+nix profile remove LED-Strip-Controller-Tauri-App
 ```
 
 ## Further Reading
