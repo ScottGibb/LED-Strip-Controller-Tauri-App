@@ -20,16 +20,18 @@
         };
 
         # Runtime dependencies for the application
-        runtimeDeps = with pkgs; lib.optionals stdenv.isLinux [
-          webkitgtk_4_1
-          gtk3
-          cairo
-          gdk-pixbuf
-          glib
-          dbus
-          openssl
-          librsvg
-        ];
+        runtimeDeps =
+          with pkgs;
+          lib.optionals stdenv.isLinux [
+            webkitgtk_4_1
+            gtk3
+            cairo
+            gdk-pixbuf
+            glib
+            dbus
+            openssl
+            librsvg
+          ];
 
         # Build the frontend with dependencies
         frontend = pkgs.stdenv.mkDerivation {
