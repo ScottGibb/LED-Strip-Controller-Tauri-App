@@ -44,14 +44,14 @@ jobs:
           # Check if flake.nix was modified
           if git diff --quiet flake.nix; then
             echo "✓ Hash is already correct, no changes needed"
-            echo "has_changes=0" >> $GITHUB_OUTPUT
+            echo "has_changes=0" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           # Extract new hash
           NEW_HASH=$(grep -oP 'outputHash = "\Ksha256-[A-Za-z0-9+/=]+' flake.nix)
-          echo "has_changes=1" >> $GITHUB_OUTPUT
-          echo "NEW_HASH=$NEW_HASH" >> $GITHUB_ENV
+          echo "has_changes=1" >> "$GITHUB_OUTPUT"
+          echo "NEW_HASH=$NEW_HASH" >> "$GITHUB_ENV"
 
       - name: Create Pull Request with hash update
         uses: peter-evans/create-pull-request@v8
