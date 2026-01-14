@@ -72,11 +72,7 @@ jobs:
 
       - name: Verify package output
         run: |
-          if [ -d result ]; then
-            echo "✅ Package built successfully"
-            ls -lh result/bin/
-            file result/bin/* || true
-          else
-            echo "⚠️ Build may have failed or is incomplete"
-            echo "This is expected on first run - the outputHash needs to be updated"
+          if [ ! -d result ]; then
+            echo "Build failed: 'result' directory does not exist."
+            exit 1
           fi
