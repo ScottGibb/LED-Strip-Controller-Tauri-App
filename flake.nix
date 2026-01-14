@@ -4,27 +4,17 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, rust-overlay }:
+  outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs {
-          inherit system overlays;
-        };
-        
-        # Rust toolchain
-        rustToolchain = pkgs.rust-bin.stable.latest.default.override {
-          extensions = [ "rust-src" "rust-analyzer" ];
+          inherit system;
         };
 
-        # Build inputs for Tauri on Linux
-        linuxBuildInputs = with pkgs; [
+        # Runtime dependencies for the application
+        runtimeDeps = with pkgs; lib.optionals stdenv.isLinux [
           webkitgtk_4_1
           gtk3
           cairo
@@ -33,53 +23,34 @@
           dbus
           openssl
           librsvg
-          libappindicator-gtk3
-        ];
-
-        # Native build inputs
-        nativeBuildInputs = with pkgs; [
-          pkg-config
-          makeWrapper
-          patchelf
-        ];
-
-        # Common dependencies
-        commonDeps = with pkgs; [
-          rustToolchain
-          nodejs_20
-          bun
-          cargo-tauri
         ];
 
       in
       {
-        # Development shell
-        devShells.default = pkgs.mkShell {
-          buildInputs = commonDeps ++ (if pkgs.stdenv.isLinux then linuxBuildInputs else []);
-          nativeBuildInputs = nativeBuildInputs;
-          
-          shellHook = ''
-            export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath (if pkgs.stdenv.isLinux then linuxBuildInputs else [])}:$LD_LIBRARY_PATH
-            echo "LED Strip Controller Tauri App development environment"
-            echo "Run 'bun install' to install frontend dependencies"
-            echo "Run 'bun run tauri dev' to start the development server"
-          '';
-        };
-
-        # Package definition
         packages.default = pkgs.stdenv.mkDerivation rec {
           pname = "led-strip-controller-tauri";
           version = "1.0.3";
 
           src = ./.;
 
-          buildInputs = commonDeps ++ (if pkgs.stdenv.isLinux then linuxBuildInputs else []);
-          nativeBuildInputs = nativeBuildInputs;
+          nativeBuildInputs = with pkgs; [
+            pkg-config
+            rustPlatform.bindgenHook
+            cargo
+            rustc
+            nodejs_20
+            bun
+            cargo-tauri
+            makeWrapper
+          ] ++ lib.optionals stdenv.isLinux [
+            patchelf
+          ];
+
+          buildInputs = runtimeDeps;
 
           buildPhase = ''
             export HOME=$TMPDIR
             export CARGO_HOME=$TMPDIR/.cargo
-            export RUSTUP_HOME=$TMPDIR/.rustup
             
             # Install frontend dependencies
             bun install --frozen-lockfile
@@ -88,30 +59,37 @@
             bun run build
             
             # Build the Tauri app
-            cargo tauri build
+            cargo tauri build --bundles none
           '';
 
           installPhase = ''
             mkdir -p $out/bin
+            
+            # Install the binary
+            install -Dm755 src-tauri/target/release/${pname} $out/bin/${pname}
+            
+            # Wrap the binary with runtime dependencies on Linux
+            ${pkgs.lib.optionalString pkgs.stdenv.isLinux ''
+              wrapProgram $out/bin/${pname} \
+                --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath runtimeDeps}"
+            ''}
+            
+            # Install desktop file
             mkdir -p $out/share/applications
+            cat > $out/share/applications/${pname}.desktop <<EOF
+            [Desktop Entry]
+            Type=Application
+            Name=LED Strip Controller
+            Exec=$out/bin/${pname}
+            Icon=${pname}
+            Categories=Utility;
+            Terminal=false
+            EOF
+            
+            # Install icon
             mkdir -p $out/share/icons/hicolor/128x128/apps
-            
-            # Install the binary (adjust path based on platform)
-            if [ -f src-tauri/target/release/led-strip-controller-tauri ]; then
-              install -m755 src-tauri/target/release/led-strip-controller-tauri $out/bin/
-            elif [ -f src-tauri/target/release/bundle/appimage/led-strip-controller-tauri_${version}_amd64.AppImage ]; then
-              install -m755 src-tauri/target/release/bundle/appimage/led-strip-controller-tauri_${version}_amd64.AppImage $out/bin/led-strip-controller-tauri
-            fi
-            
-            # Install desktop file if it exists
-            if [ -f src-tauri/target/release/bundle/deb/led-strip-controller-tauri_${version}_amd64/data/usr/share/applications/*.desktop ]; then
-              install -m644 src-tauri/target/release/bundle/deb/led-strip-controller-tauri_${version}_amd64/data/usr/share/applications/*.desktop $out/share/applications/
-            fi
-            
-            # Install icon if it exists
-            if [ -f src-tauri/icons/128x128.png ]; then
-              install -m644 src-tauri/icons/128x128.png $out/share/icons/hicolor/128x128/apps/led-strip-controller-tauri.png
-            fi
+            install -Dm644 src-tauri/icons/128x128.png \
+              $out/share/icons/hicolor/128x128/apps/${pname}.png
           '';
 
           meta = with pkgs.lib; {
@@ -120,6 +98,7 @@
             license = licenses.mit;
             platforms = platforms.linux ++ platforms.darwin;
             maintainers = [ ];
+            mainProgram = pname;
           };
         };
 
