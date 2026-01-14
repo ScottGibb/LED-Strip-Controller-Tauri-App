@@ -13,9 +13,9 @@ echo "Building to get the correct hash..."
 NEW_HASH=$(nix build .#default 2>&1 | grep -oP "got:\s+\Ksha256-[A-Za-z0-9+/=]+" || true)
 
 if [ -z "$NEW_HASH" ]; then
-    echo "Error: Could not extract hash. Restoring original flake.nix"
-    mv flake.nix.bak flake.nix
-    exit 1
+	echo "Error: Could not extract hash. Restoring original flake.nix"
+	mv flake.nix.bak flake.nix
+	exit 1
 fi
 
 echo "New hash: $NEW_HASH"
