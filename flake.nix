@@ -81,12 +81,15 @@
           };
 
           # Build dependencies
-          nativeBuildInputs = with pkgs; [
-            pkg-config
-            makeWrapper
-          ] ++ lib.optionals stdenv.isLinux [
-            patchelf
-          ];
+          nativeBuildInputs =
+            with pkgs;
+            [
+              pkg-config
+              makeWrapper
+            ]
+            ++ lib.optionals stdenv.isLinux [
+              patchelf
+            ];
 
           buildInputs = runtimeDeps ++ (with pkgs; [
             openssl
