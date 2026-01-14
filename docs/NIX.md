@@ -17,21 +17,25 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 **Important**: On the first build, the frontend dependency hash needs to be updated. This is a one-time setup:
 
 1. Try to build (it will fail with a hash mismatch):
+
    ```bash
    nix build
    ```
 
 2. The error message will show the correct hash. Look for a line like:
+
    ```
    got:    sha256-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=
    ```
 
 3. Update `flake.nix` line 49 with this hash, or use the helper script:
+
    ```bash
    ./update-hash.sh
    ```
 
 4. Build again:
+
    ```bash
    nix build
    ```
