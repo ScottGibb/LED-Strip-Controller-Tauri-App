@@ -58,7 +58,7 @@ jobs:
         id: cpr
         if: steps.update-hash.outputs.has_changes == '1'
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           commit-message: "chore: update node dependencies hash to ${{ env.NEW_HASH }}"
           title: "chore: update node dependencies hash"
           labels: |
