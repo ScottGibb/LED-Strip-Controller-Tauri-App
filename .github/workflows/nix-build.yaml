@@ -7,17 +7,35 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "flake.nix"
-      - "flake.lock"
-      - ".github/workflows/nix-build.yaml"
-      - "src-tauri/**"
-      - "src/**"
-      - "package.json"
-      - "bun.lock"
-
 jobs:
+  nix-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v15
+        with:
+          name: nix-community
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          skipPush: true
+
+      - name: Check flake
+        run: nix flake check --all-systems
+
+      - name: Show flake info
+        run: nix flake show
+
+      - name: Verify flake metadata
+        run: nix flake metadata
+
   nix-build:
+    needs: nix-check
     strategy:
       fail-fast: false
       matrix:
@@ -39,26 +57,13 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           skipPush: true
 
-      - name: Check flake
-        run: nix flake check
-
-      - name: Show flake info
-        run: nix flake show
-
-      - name: Verify flake metadata
-        run: nix flake metadata
-
       - name: Build package
         run: |
           nix build .#default --print-build-logs --keep-going || true
-          
+
       - name: Verify package output
         run: |
-          if [ -d result ]; then
-            echo "✅ Package built successfully"
-            ls -lh result/bin/
-            file result/bin/* || true
-          else
-            echo "⚠️ Build may have failed or is incomplete"
-            echo "This is expected on first run - the outputHash needs to be updated"
+          if [ ! -d result ]; then
+            echo "Build failed: 'result' directory does not exist."
+            exit 1
           fi

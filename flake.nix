@@ -6,51 +6,63 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs {
           inherit system;
         };
+        lib = pkgs.lib;
 
         # Runtime dependencies for the application
-        runtimeDeps = with pkgs; lib.optionals stdenv.isLinux [
-          webkitgtk_4_1
-          gtk3
-          cairo
-          gdk-pixbuf
-          glib
-          dbus
-          openssl
-          librsvg
-        ];
+        runtimeDeps =
+          with pkgs;
+          lib.optionals stdenv.isLinux [
+            webkitgtk_4_1
+            gtk3
+            cairo
+            gdk-pixbuf
+            glib
+            dbus
+            openssl
+            librsvg
+          ];
 
         # Build the frontend with dependencies
         frontend = pkgs.stdenv.mkDerivation {
           pname = "led-strip-controller-frontend";
           version = "1.0.3";
-          
+
           src = ./.;
-          
-          nativeBuildInputs = [ pkgs.bun pkgs.nodejs_20 ];
-          
+
+          nativeBuildInputs = [
+            pkgs.bun
+            pkgs.nodejs_20
+          ];
+
           configurePhase = ''
             export HOME=$TMPDIR
             bun install --frozen-lockfile --no-progress
           '';
-          
+
           buildPhase = ''
             bun run build
           '';
-          
+
           installPhase = ''
             mkdir -p $out
             cp -r dist $out/
           '';
-          
+
           outputHashMode = "recursive";
           outputHashAlgo = "sha256";
-          outputHash = "sha256-0000000000000000000000000000000000000000000=";
+          outputHash = "sha256-ns/4S646/+0cHfLSNpo4KRcQUqjGXJqOLbMTSeVXmjA=";
         };
 
       in
@@ -58,26 +70,34 @@
         packages.default = pkgs.rustPlatform.buildRustPackage rec {
           pname = "led-strip-controller-tauri";
           version = "1.0.3";
+          src = ./src-tauri;
 
-          src = ./.;
-
-          sourceRoot = "source/src-tauri";
+          postPatch = ''
+            # Patch tauri.conf.json to use a direct version string instead of ../package.json
+            substituteInPlace tauri.conf.json \
+              --replace-fail '"version": "../package.json"' '"version": "${version}"'
+          '';
 
           cargoLock = {
             lockFile = ./src-tauri/Cargo.lock;
           };
 
           # Build dependencies
-          nativeBuildInputs = with pkgs; [
-            pkg-config
-            makeWrapper
-          ] ++ lib.optionals stdenv.isLinux [
-            patchelf
-          ];
+          nativeBuildInputs =
+            with pkgs;
+            [
+              pkg-config
+              makeWrapper
+            ]
+            ++ lib.optionals stdenv.isLinux [
+              patchelf
+            ];
 
-          buildInputs = runtimeDeps ++ (with pkgs; [
-            openssl
-          ]);
+          buildInputs =
+            runtimeDeps
+            ++ (with pkgs; [
+              openssl
+            ]);
 
           # Pre-build: prepare frontend dist
           preBuild = ''
@@ -88,27 +108,35 @@
 
           # Post-install: wrap with runtime dependencies and install desktop files
           postInstall = ''
-            ${lib.optionalString pkgs.stdenv.isLinux ''
-              wrapProgram $out/bin/${pname} \
-                --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath runtimeDeps}"
-            ''}
-            
-            # Install desktop file
-            mkdir -p $out/share/applications
-            cat > $out/share/applications/${pname}.desktop <<EOF
-            [Desktop Entry]
-            Type=Application
-            Name=LED Strip Controller
-            Exec=$out/bin/${pname}
-            Icon=${pname}
-            Categories=Utility;
-            Terminal=false
-            EOF
-            
-            # Install icon
-            mkdir -p $out/share/icons/hicolor/128x128/apps
-            install -Dm644 icons/128x128.png \
-              $out/share/icons/hicolor/128x128/apps/${pname}.png
+                        ${lib.optionalString pkgs.stdenv.isLinux ''
+                          wrapProgram $out/bin/${pname} \
+                            --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath runtimeDeps}"
+                        ''}
+            <<<<<<< HEAD
+                        
+            =======
+
+            >>>>>>> megalinter-fixes-copilot/add-nix-config-for-tauri
+                        # Install desktop file
+                        mkdir -p $out/share/applications
+                        cat > $out/share/applications/${pname}.desktop <<EOF
+                        [Desktop Entry]
+                        Type=Application
+                        Name=LED Strip Controller
+                        Exec=$out/bin/${pname}
+                        Icon=${pname}
+                        Categories=Utility;
+                        Terminal=false
+                        EOF
+            <<<<<<< HEAD
+                        
+            =======
+
+            >>>>>>> megalinter-fixes-copilot/add-nix-config-for-tauri
+                        # Install icon
+                        mkdir -p $out/share/icons/hicolor/128x128/apps
+                        install -Dm644 icons/128x128.png \
+                          $out/share/icons/hicolor/128x128/apps/${pname}.png
           '';
 
           meta = with pkgs.lib; {
