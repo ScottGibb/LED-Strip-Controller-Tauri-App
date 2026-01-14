@@ -14,7 +14,6 @@ logging.basicConfig(level=logging.INFO)
 CARGO_TOML_FILE_PATH = os.getenv("CARGO_TOML_FILE_PATH", "src-tauri/Cargo.toml")
 CARGO_LOCK_FILE_PATH = os.getenv("CARGO_LOCK_FILE_PATH", "src-tauri/Cargo.lock")
 NODE_PACKAGE_JSON_PATH = os.getenv("NODE_PACKAGE_JSON_PATH", "package.json")
-FLAKE_NIX_FILE_PATH = os.getenv("FLAKE_NIX_FILE_PATH", "flake.nix")
 
 
 def find_current_version(node_package_json_path: str) -> str:
@@ -81,28 +80,6 @@ def update_cargo_lock_version(
                     f'Updating Cargo.lock version from {line.strip()} to version = "{new_version}"'
                 )
                 f.write(f'version = "{new_version}"\n')
-            else:
-                f.write(line)
-
-
-def update_flake_nix_version(flake_nix_path: str, new_version: str) -> None | OSError:
-    """
-    Updates the version in the specified flake.nix file.
-
-    Args:
-        flake_nix_path: Path to the flake.nix file
-        new_version: The new version string to set
-    """
-    with open(flake_nix_path, "r") as f:
-        lines = f.readlines()
-
-    with open(flake_nix_path, "w") as f:
-        for line in lines:
-            if line.strip().startswith("version ="):
-                logging.info(
-                    f'Updating flake.nix version from {line.strip()} to version = "{new_version}"'
-                )
-                f.write(f'          version = "{new_version}";\n')
             else:
                 f.write(line)
 
