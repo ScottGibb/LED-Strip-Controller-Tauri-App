@@ -53,7 +53,7 @@
           buildPhase = ''
             bun run build
           '';
-          
+
           installPhase = ''
             mkdir -p $out
             cp -r dist $out/
