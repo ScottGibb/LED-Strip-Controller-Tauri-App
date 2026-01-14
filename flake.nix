@@ -17,6 +17,9 @@
       let
         pkgs = import nixpkgs {
           inherit system;
+          config = {
+            allowUnfree = true;
+          };
         };
         lib = pkgs.lib;
 
@@ -34,99 +37,111 @@
             librsvg
           ];
 
-        # Build the frontend with dependencies
-        frontend = pkgs.stdenv.mkDerivation {
-          pname = "led-strip-controller-frontend";
+      in
+      {
+        packages.default = pkgs.stdenv.mkDerivation rec {
+          pname = "led-strip-controller-tauri";
           version = "1.0.3";
 
           src = ./.;
 
-          nativeBuildInputs = [
-            pkgs.bun
-            pkgs.nodejs_20
-          ];
-
-          configurePhase = ''
-            export HOME=$TMPDIR
-            bun install --frozen-lockfile --no-progress
-          '';
-
-          buildPhase = ''
-            bun run build
-          '';
-
-          installPhase = ''
-            mkdir -p $out
-            cp -r dist $out/
-          '';
-
-          outputHashMode = "recursive";
-          outputHashAlgo = "sha256";
-          outputHash = "sha256-ns/4S646/+0cHfLSNpo4KRcQUqjGXJqOLbMTSeVXmjA=";
-        };
-
-      in
-      {
-        packages.default = pkgs.rustPlatform.buildRustPackage rec {
-          pname = "led-strip-controller-tauri";
-          version = "1.0.3";
-          src = ./src-tauri;
-
-          postPatch = ''
-            # Patch tauri.conf.json to use a direct version string instead of ../package.json
-            substituteInPlace tauri.conf.json \
-              --replace-fail '"version": "../package.json"' '"version": "${version}"'
-          '';
-
-          cargoLock = {
-            lockFile = ./src-tauri/Cargo.lock;
-          };
-
-          # Build dependencies
           nativeBuildInputs =
             with pkgs;
             [
+              bun
+              nodejs_20
               pkg-config
+              rustc
+              cargo
+              rustPlatform.cargoSetupHook
               makeWrapper
+              libiconv
             ]
-            ++ lib.optionals stdenv.isLinux [
-              patchelf
+            ++ lib.optionals pkgs.stdenv.isDarwin [
+              darwin.xattr
+              darwin.cctools
             ];
 
-          buildInputs =
-            runtimeDeps
-            ++ (with pkgs; [
-              openssl
-            ]);
+          buildInputs = runtimeDeps ++ (with pkgs; [ openssl ]);
 
-          # Pre-build: prepare frontend dist
-          preBuild = ''
-            # Copy pre-built frontend
-            mkdir -p ../dist
-            cp -r ${frontend}/dist/* ../dist/
+          cargoDeps = pkgs.rustPlatform.importCargoLock {
+            lockFile = ./src-tauri/Cargo.lock;
+          };
+
+          postUnpack = ''
+            # Copy Cargo.lock to the source root so cargoSetupHook can find it
+            cp "$sourceRoot/src-tauri/Cargo.lock" "$sourceRoot/Cargo.lock"
           '';
 
-          # Post-install: wrap with runtime dependencies and install desktop files
-          postInstall = ''
-            ${lib.optionalString pkgs.stdenv.isLinux ''
-              wrapProgram $out/bin/${pname} \
-                --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath runtimeDeps}"
-            ''}
-            # Install desktop file
-            mkdir -p $out/share/applications
-            cat > $out/share/applications/${pname}.desktop <<EOF
-            [Desktop Entry]
-            Type=Application
-            Name=LED Strip Controller
-            Exec=$out/bin/${pname}
-            Icon=${pname}
-            Categories=Utility;
-            Terminal=false
-                                
-            # Install icon
-            mkdir -p $out/share/icons/hicolor/128x128/apps
-            install -Dm644 icons/128x128.png \
-              $out/share/icons/hicolor/128x128/apps/${pname}.png
+          postPatch = ''
+            # Patch tauri.conf.json to use direct version and configure for Nix build
+            substituteInPlace src-tauri/tauri.conf.json \
+              --replace-fail '"version": "../package.json"' '"version": "${version}"'
+          ''
+          + lib.optionalString pkgs.stdenv.isDarwin ''
+            # On macOS, disable DMG bundling and only build .app bundle
+            substituteInPlace src-tauri/tauri.conf.json \
+              --replace-fail '"targets": "all"' '"targets": "app"'
+            # Disable code signing on macOS for Nix builds
+            # Create a dummy codesign that does nothing
+            mkdir -p $TMPDIR/bin
+            cat > $TMPDIR/bin/codesign << 'EOF'
+            #!/bin/sh
+            echo "Skipping codesign in Nix build"
+            exit 0
+            EOF
+            chmod +x $TMPDIR/bin/codesign
+            export PATH=$TMPDIR/bin:$PATH
+          '';
+
+          preConfigure = ''
+            # Set up cargo vendored dependencies
+            export CARGO_HOME=$(mktemp -d cargo-home-XXXXXX)
+          '';
+
+          configurePhase = ''
+            runHook preConfigure
+            export HOME=$TMPDIR
+            bun install
+            runHook postConfigure
+          '';
+
+          buildPhase = ''
+            runHook preBuild
+            # Disable code signing for Nix build
+            export TAURI_SIGNING_PRIVATE_KEY=""
+            export TAURI_SIGNING_PRIVATE_KEY_PASSWORD=""
+            bun run tauri build
+            runHook postBuild
+          '';
+
+          installPhase = ''
+            runHook preInstall
+            mkdir -p $out/bin
+          ''
+          + lib.optionalString pkgs.stdenv.isDarwin ''
+            # On macOS, copy the .app bundle
+            mkdir -p $out/Applications
+            cp -r src-tauri/target/release/bundle/macos/*.app $out/Applications/
+            ln -s $out/Applications/*.app/Contents/MacOS/${pname} $out/bin/${pname}
+          ''
+          + lib.optionalString pkgs.stdenv.isLinux ''
+            # On Linux, install the binary
+            install -Dm755 src-tauri/target/release/${pname} $out/bin/${pname}
+
+            # Install desktop file and icon if they exist
+            if [ -f src-tauri/icons/128x128.png ]; then
+              install -Dm644 src-tauri/icons/128x128.png \
+                $out/share/icons/hicolor/128x128/apps/${pname}.png
+            fi
+          ''
+          + ''
+            runHook postInstall
+          '';
+
+          postFixup = lib.optionalString pkgs.stdenv.isLinux ''
+            wrapProgram $out/bin/${pname} \
+              --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath runtimeDeps}"
           '';
 
           meta = with pkgs.lib; {
