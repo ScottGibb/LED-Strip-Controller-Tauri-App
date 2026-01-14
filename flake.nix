@@ -122,7 +122,7 @@
             Categories=Utility;
             Terminal=false
             EOF
-            
+
             # Install icon
             mkdir -p $out/share/icons/hicolor/128x128/apps
             install -Dm644 icons/128x128.png \
