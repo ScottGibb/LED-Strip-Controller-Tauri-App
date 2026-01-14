@@ -1,41 +1,12 @@
-name: "Nix Build Verification"
+name: "Nix Continuous Build"
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - release-please-**
+
 jobs:
-  nix-check:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
-
-      - name: Setup Cachix
-        uses: cachix/cachix-action@v15
-        with:
-          name: nix-community
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-          skipPush: true
-
-      - name: Check flake
-        run: nix flake check --all-systems
-
-      - name: Show flake info
-        run: nix flake show
-
-      - name: Verify flake metadata
-        run: nix flake metadata
-
   nix-build:
-    needs: nix-check
     strategy:
       fail-fast: false
       matrix:

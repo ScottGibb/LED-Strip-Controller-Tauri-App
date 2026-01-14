@@ -40,6 +40,38 @@
         # Import version from Cargo.toml
         manifest = (pkgs.lib.importTOML ./src-tauri/Cargo.toml).package;
 
+        # Fixed-output derivation to download node dependencies
+        # This derivation is allowed network access because it has a fixed output hash
+        # When package.json or bun.lock changes, update the hash by:
+        # 1. Change the hash to a dummy value
+        # 2. Run: nix build .#default 2>&1 | grep "got:"
+        # 3. Copy the correct hash from the error message
+        nodeDependencies = pkgs.stdenv.mkDerivation {
+          pname = "${manifest.name}-node-deps";
+          version = manifest.version;
+
+          src = ./.;
+
+          nativeBuildInputs = [ pkgs.bun ];
+
+          buildPhase = ''
+            export HOME=$TMPDIR
+            bun install --frozen-lockfile --no-progress
+          '';
+
+          installPhase = ''
+            mkdir -p $out
+            cp -r node_modules $out/
+          '';
+
+          # Disable all fixup phases to prevent store path references
+          dontFixup = true;
+
+          outputHashMode = "recursive";
+          outputHashAlgo = "sha256";
+          outputHash = "sha256-ZwE9ZoRfSdAcn66ouBuOz295k/krqN2rO1nZWZHvGUE=";
+        };
+
       in
       {
         packages.default = pkgs.stdenv.mkDerivation rec {
@@ -104,12 +136,16 @@
           preConfigure = ''
             # Set up cargo vendored dependencies
             export CARGO_HOME=$(mktemp -d cargo-home-XXXXXX)
+
+            # Copy pre-downloaded node_modules from the FOD
+            cp -r ${nodeDependencies}/node_modules .
+            chmod -R +w node_modules
           '';
 
           configurePhase = ''
             runHook preConfigure
             export HOME=$TMPDIR
-            bun install
+            # Dependencies already copied from FOD in preConfigure, no need to install
             runHook postConfigure
           '';
 
