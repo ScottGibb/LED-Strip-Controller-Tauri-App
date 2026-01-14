@@ -29,6 +29,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Cleanup existing _nixbld1 user on macOS
+        if: runner.os == 'macOS'
+        run: |
+          sudo dscl . -delete /Users/_nixbld1 || true
+          sudo dscl . -delete /Groups/nixbld || true
+
       - name: Install Nix
         uses: cachix/install-nix-action@v27
         with:
