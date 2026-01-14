@@ -25,83 +25,70 @@
           librsvg
         ];
 
-        # Frontend dependencies - fetch with bun in a FOD
-        frontend-deps = pkgs.stdenv.mkDerivation {
-          pname = "led-strip-controller-frontend-deps";
+        # Build the frontend with dependencies
+        frontend = pkgs.stdenv.mkDerivation {
+          pname = "led-strip-controller-frontend";
           version = "1.0.3";
           
           src = ./.;
           
-          nativeBuildInputs = [ pkgs.bun ];
+          nativeBuildInputs = [ pkgs.bun pkgs.nodejs_20 ];
           
-          buildPhase = ''
+          configurePhase = ''
             export HOME=$TMPDIR
             bun install --frozen-lockfile --no-progress
           '';
           
+          buildPhase = ''
+            bun run build
+          '';
+          
           installPhase = ''
             mkdir -p $out
-            cp -r node_modules $out/
+            cp -r dist $out/
           '';
           
           outputHashMode = "recursive";
           outputHashAlgo = "sha256";
-          outputHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+          outputHash = "sha256-0000000000000000000000000000000000000000000=";
         };
 
       in
       {
-        packages.default = pkgs.stdenv.mkDerivation rec {
+        packages.default = pkgs.rustPlatform.buildRustPackage rec {
           pname = "led-strip-controller-tauri";
           version = "1.0.3";
 
           src = ./.;
 
-          cargoDeps = pkgs.rustPlatform.importCargoLock {
+          sourceRoot = "source/src-tauri";
+
+          cargoLock = {
             lockFile = ./src-tauri/Cargo.lock;
           };
 
+          # Build dependencies
           nativeBuildInputs = with pkgs; [
             pkg-config
-            rustPlatform.cargoSetupHook
-            rustPlatform.bindgenHook
-            cargo
-            rustc
-            nodejs_20
-            bun
-            cargo-tauri
             makeWrapper
           ] ++ lib.optionals stdenv.isLinux [
             patchelf
           ];
 
-          buildInputs = runtimeDeps;
+          buildInputs = runtimeDeps ++ (with pkgs; [
+            openssl
+          ]);
 
+          # Pre-build: prepare frontend dist
           preBuild = ''
-            export HOME=$TMPDIR
-            export CARGO_HOME=$TMPDIR/.cargo
-            
-            # Copy pre-fetched node_modules
-            cp -r ${frontend-deps}/node_modules ./
-            chmod -R u+w node_modules
+            # Copy pre-built frontend
+            mkdir -p ../dist
+            cp -r ${frontend}/dist/* ../dist/
           '';
 
-          buildPhase = ''
-            # Build the frontend
-            bun run build
-            
-            # Build the Tauri app
-            cargo tauri build --bundles none
-          '';
-
-          installPhase = ''
-            mkdir -p $out/bin
-            
-            # Install the binary
-            install -Dm755 src-tauri/target/release/${pname} $out/bin/${pname}
-            
-            # Wrap the binary with runtime dependencies on Linux
-            ${pkgs.lib.optionalString pkgs.stdenv.isLinux ''
+          # Post-install: wrap with runtime dependencies and install desktop files
+          postInstall = ''
+            ${lib.optionalString pkgs.stdenv.isLinux ''
               wrapProgram $out/bin/${pname} \
                 --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath runtimeDeps}"
             ''}
@@ -120,7 +107,7 @@
             
             # Install icon
             mkdir -p $out/share/icons/hicolor/128x128/apps
-            install -Dm644 src-tauri/icons/128x128.png \
+            install -Dm644 icons/128x128.png \
               $out/share/icons/hicolor/128x128/apps/${pname}.png
           '';
 
