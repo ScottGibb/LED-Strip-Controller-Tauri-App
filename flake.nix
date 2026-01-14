@@ -25,6 +25,30 @@
           librsvg
         ];
 
+        # Frontend dependencies - fetch with bun in a FOD
+        frontend-deps = pkgs.stdenv.mkDerivation {
+          pname = "led-strip-controller-frontend-deps";
+          version = "1.0.3";
+          
+          src = ./.;
+          
+          nativeBuildInputs = [ pkgs.bun ];
+          
+          buildPhase = ''
+            export HOME=$TMPDIR
+            bun install --frozen-lockfile --no-progress
+          '';
+          
+          installPhase = ''
+            mkdir -p $out
+            cp -r node_modules $out/
+          '';
+          
+          outputHashMode = "recursive";
+          outputHashAlgo = "sha256";
+          outputHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+        };
+
       in
       {
         packages.default = pkgs.stdenv.mkDerivation rec {
@@ -33,8 +57,13 @@
 
           src = ./.;
 
+          cargoDeps = pkgs.rustPlatform.importCargoLock {
+            lockFile = ./src-tauri/Cargo.lock;
+          };
+
           nativeBuildInputs = with pkgs; [
             pkg-config
+            rustPlatform.cargoSetupHook
             rustPlatform.bindgenHook
             cargo
             rustc
@@ -48,13 +77,16 @@
 
           buildInputs = runtimeDeps;
 
-          buildPhase = ''
+          preBuild = ''
             export HOME=$TMPDIR
             export CARGO_HOME=$TMPDIR/.cargo
             
-            # Install frontend dependencies
-            bun install --frozen-lockfile
-            
+            # Copy pre-fetched node_modules
+            cp -r ${frontend-deps}/node_modules ./
+            chmod -R u+w node_modules
+          '';
+
+          buildPhase = ''
             # Build the frontend
             bun run build
             
