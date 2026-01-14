@@ -58,7 +58,7 @@
             mkdir -p $out
             cp -r dist $out/
           '';
-          
+
           outputHashMode = "recursive";
           outputHashAlgo = "sha256";
           outputHash = "sha256-0000000000000000000000000000000000000000000=";
