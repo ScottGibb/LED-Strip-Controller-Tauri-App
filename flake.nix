@@ -39,9 +39,12 @@
           version = "1.0.3";
 
           src = ./.;
-          
-          nativeBuildInputs = [ pkgs.bun pkgs.nodejs_20 ];
-          
+
+          nativeBuildInputs = [
+            pkgs.bun
+            pkgs.nodejs_20
+          ];
+
           configurePhase = ''
             export HOME=$TMPDIR
             bun install --frozen-lockfile --no-progress
