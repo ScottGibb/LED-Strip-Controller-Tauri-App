@@ -18,6 +18,7 @@
         pkgs = import nixpkgs {
           inherit system;
         };
+        lib = pkgs.lib;
 
         # Runtime dependencies for the application
         runtimeDeps =
@@ -69,6 +70,7 @@
         packages.default = pkgs.rustPlatform.buildRustPackage rec {
           pname = "led-strip-controller-tauri";
           version = "1.0.3";
+          src = ./src-tauri;
 
           postPatch = ''
             # Patch tauri.conf.json to use a direct version string instead of ../package.json
