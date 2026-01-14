@@ -1,4 +1,4 @@
-name: Release Lock Updater
+name: Release Updater
 
 on:
   push:
@@ -18,10 +18,20 @@ jobs:
       - uses: astral-sh/setup-uv@v7
       - name: Run update-versions script
         run: uv run ./.github/scripts/update-versions.py
+      - name: Update hash if needed
+        run: |
+          # Run the update script
+          bash .github/scripts/update-node-hash.sh
+
+          # Check if flake.nix was modified
+          if git diff --quiet flake.nix; then
+            echo "✓ Hash is already correct, no changes needed"
+            exit 0
+          fi
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "chore: update versions" || echo "No changes to commit"
+          git commit -m "chore: update versions and hashes" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
