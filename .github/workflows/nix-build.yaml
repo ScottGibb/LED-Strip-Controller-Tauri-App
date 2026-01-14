@@ -59,7 +59,7 @@ jobs:
 
       - name: Build package
         run: |
-          nix build .#default --print-build-logs --keep-going || true
+          nix build .#default --print-build-logs
 
       - name: Verify package output
         run: |
