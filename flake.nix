@@ -37,7 +37,7 @@
         frontend = pkgs.stdenv.mkDerivation {
           pname = "led-strip-controller-frontend";
           version = "1.0.3";
-          
+
           src = ./.;
           
           nativeBuildInputs = [ pkgs.bun pkgs.nodejs_20 ];
