@@ -1,4 +1,4 @@
-name: Release Updater
+name: Release Lock Updater
 
 on:
   push:
