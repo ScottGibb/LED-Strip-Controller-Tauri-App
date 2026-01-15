@@ -80,7 +80,7 @@ The built application will be available in the `result` directory:
 The package includes:
 
 - The compiled LED Strip Controller Tauri application
-- Desktop entry file for application menu integration
+- Desktop entry file for application menu integration (Linux)
 - Application icon
 
 Runtime dependencies (automatically included on Linux):
@@ -89,6 +89,15 @@ Runtime dependencies (automatically included on Linux):
 - GTK3
 - Cairo, GDK-Pixbuf, GLib
 - DBus, OpenSSL, librsvg
+
+## Technical Details
+
+The flake uses Nix best practices for Tauri applications:
+
+- **Tauri Hook**: Uses the official `cargo-tauri.hook` from nixpkgs for proper Tauri app building
+- **Frontend Build**: Frontend is built in a Fixed Output Derivation (FOD) with bun, which allows network access for dependency fetching
+- **Cargo Dependencies**: Automatically vendored from `Cargo.lock` using `rustPlatform.buildRustPackage`
+- **Reproducibility**: All dependencies are hashed and cached for deterministic builds
 
 ## Supported Platforms
 
