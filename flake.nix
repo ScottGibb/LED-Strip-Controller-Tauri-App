@@ -27,42 +27,22 @@
           pname = manifest.name;
           version = manifest.version;
 
-          src = ./.;
+          src = lib.cleanSource ./.;
 
-          # Change to src-tauri directory for cargo build
-          sourceRoot = "source/src-tauri";
+          # Build from src-tauri directory
+          cargoRoot = "src-tauri";
+          buildAndTestSubdir = cargoRoot;
 
           cargoLock = {
             lockFile = ./src-tauri/Cargo.lock;
           };
 
-          # Frontend is built in a separate derivation to cache node dependencies
-          # This uses a Fixed Output Derivation which is allowed network access
-          frontend = pkgs.stdenv.mkDerivation {
-            pname = "${pname}-frontend";
-            inherit version src;
-
-            nativeBuildInputs = [ pkgs.bun pkgs.nodejs_20 ];
-
-            buildPhase = ''
-              export HOME=$TMPDIR
-              bun install --frozen-lockfile --no-progress
-              bun run build
-            '';
-
-            installPhase = ''
-              cp -r dist $out
-            '';
-
-            outputHashMode = "recursive";
-            outputHashAlgo = "sha256";
-            outputHash = "sha256-uA3IXiJWqpoGI4djdoISP2Gp736XZjSKnTe1n97Tj6E=";
-          };
-
-          # Use Tauri hook for proper Tauri app building
+          # Native build inputs
           nativeBuildInputs = with pkgs; [
             pkg-config
             makeWrapper
+            bun
+            nodejs_20
             cargo-tauri.hook
           ] ++ lib.optionals stdenv.isDarwin [
             darwin.apple_sdk.frameworks.CoreServices
@@ -81,13 +61,17 @@
             librsvg
           ];
 
-          # Tauri configuration
-          tauriHook.frontendDist = frontend;
-
           # Patch tauri.conf.json to use version from Cargo.toml
           postPatch = ''
-            substituteInPlace tauri.conf.json \
+            substituteInPlace ${cargoRoot}/tauri.conf.json \
               --replace-fail '"version": "../package.json"' '"version": "${version}"'
+          '';
+
+          # Install frontend dependencies and build
+          preBuild = ''
+            export HOME=$TMPDIR
+            bun install --frozen-lockfile --no-progress
+            bun run build
           '';
 
           # Wrapper for runtime dependencies on Linux

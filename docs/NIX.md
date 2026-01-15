@@ -92,12 +92,15 @@ Runtime dependencies (automatically included on Linux):
 
 ## Technical Details
 
-The flake uses Nix best practices for Tauri applications:
+The flake uses Nix best practices for Tauri applications, inspired by projects like [xtee](https://github.com/mossida/xtee):
 
 - **Tauri Hook**: Uses the official `cargo-tauri.hook` from nixpkgs for proper Tauri app building
-- **Frontend Build**: Frontend is built in a Fixed Output Derivation (FOD) with bun, which allows network access for dependency fetching
-- **Cargo Dependencies**: Automatically vendored from `Cargo.lock` using `rustPlatform.buildRustPackage`
-- **Reproducibility**: All dependencies are hashed and cached for deterministic builds
+- **Rust Platform**: Built with `rustPlatform.buildRustPackage` following standard Rust packaging patterns
+- **Bun Dependencies**: Dependencies installed during build phase with `bun install --frozen-lockfile`
+- **Cargo Dependencies**: Automatically vendored from `Cargo.lock`
+- **Clean Source**: Uses `lib.cleanSource` to exclude unnecessary files from the build
+
+Note: Future improvements may include bun2nix integration for better offline dependency management.
 
 ## Supported Platforms
 
