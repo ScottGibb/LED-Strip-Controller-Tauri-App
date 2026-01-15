@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "postinstall": "bun2nix -o nix/pkgs/led-strip-controller-tauri/deps.nix"
+    "postinstall": "bun2nix -o bun.nix"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
