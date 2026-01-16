@@ -1,100 +1,66 @@
 {
-  description = "LED Strip Controller Tauri App";
+  description = "Bun2Nix minimal sample";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    systems.url = "github:nix-systems/default";
+
+    bun2nix.url = "github:baileyluTCD/bun2nix";
+    bun2nix.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  # Use the cached version of bun2nix from the nix-community cli
+  nixConfig = {
+    extra-substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 
   outputs =
+    inputs:
+    let
+      # Read each system from the nix-systems input
+      eachSystem = inputs.nixpkgs.lib.genAttrs (import inputs.systems);
+
+      # Access the package set for a given system
+      pkgsFor = eachSystem (
+        system:
+        import inputs.nixpkgs {
+          inherit system;
+          # Use the bun2nix overlay, which puts `bun2nix` in pkgs
+          # You can, of course, still access
+          # inputs.bun2nix.packages.${system}.default instead
+          # and use that to build your package instead
+          overlays = [ inputs.bun2nix.overlays.default ];
+        }
+      );
+    in
     {
-      self,
-      nixpkgs,
-      flake-utils,
-    }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        lib = pkgs.lib;
+      packages = eachSystem (system: {
+        # Produce a package for this template with bun2nix in
+        # the overlay
+        default = pkgsFor.${system}.callPackage ./default.nix { };
+      });
 
-        # Import version from Cargo.toml
-        manifest = (lib.importTOML ./src-tauri/Cargo.toml).package;
-
-      in
-      {
-        packages.default = pkgs.rustPlatform.buildRustPackage rec {
-          pname = manifest.name;
-          version = manifest.version;
-
-          src = lib.cleanSource ./.;
-
-          # Build from src-tauri directory
-          cargoRoot = "src-tauri";
-          buildAndTestSubdir = cargoRoot;
-
-          cargoLock = {
-            lockFile = ./src-tauri/Cargo.lock;
-          };
-
-          # Native build inputs
-          nativeBuildInputs = with pkgs; [
-            pkg-config
-            makeWrapper
+      devShells = eachSystem (system: {
+        default = pkgsFor.${system}.mkShell {
+          packages = with pkgsFor.${system}; [
             bun
-            nodejs_20
-            cargo-tauri.hook
-          ] ++ lib.optionals stdenv.isDarwin [
-            darwin.apple_sdk.frameworks.CoreServices
-            darwin.apple_sdk.frameworks.SystemConfiguration
+
+            # Add the bun2nix binary to our devshell
+            # Optional now that we have a binary on npm
+            bun2nix
           ];
 
-          buildInputs = with pkgs; [
-            openssl
-          ] ++ lib.optionals stdenv.isLinux [
-            webkitgtk_4_1
-            gtk3
-            cairo
-            gdk-pixbuf
-            glib
-            dbus
-            librsvg
-          ];
-
-          # Patch tauri.conf.json to use version from Cargo.toml
-          postPatch = ''
-            substituteInPlace ${cargoRoot}/tauri.conf.json \
-              --replace-fail '"version": "../package.json"' '"version": "${version}"'
+          shellHook = ''
+            bun install --frozen-lockfile
           '';
-
-          # Install frontend dependencies and build
-          preBuild = ''
-            export HOME=$TMPDIR
-            bun install --frozen-lockfile --no-progress
-            bun run build
-          '';
-
-          # Wrapper for runtime dependencies on Linux
-          postInstall = lib.optionalString stdenv.isLinux ''
-            wrapProgram $out/bin/${pname} \
-              --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath buildInputs}"
-          '';
-
-          meta = with lib; {
-            description = "A Tauri App for controlling LED strips";
-            homepage = "https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App";
-            license = licenses.mit;
-            platforms = platforms.linux ++ platforms.darwin;
-            maintainers = [ ];
-            mainProgram = pname;
-          };
         };
-
-        # App definition for nix run
-        apps.default = {
-          type = "app";
-          program = "${self.packages.${system}.default}/bin/led-strip-controller-tauri";
-        };
-      }
-    );
+      });
+    };
 }
