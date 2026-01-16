@@ -13,20 +13,21 @@
   bun2nix,
 }:
 
+let
+  manifest = (lib.importTOML ./src-tauri/Cargo.toml).package;
+in
 rustPlatform.buildRustPackage (finalAttrs: {
-  pname = "led-strip-controller-tauri-app";
-  version = "2.0.3";
-  src = ./.;
-  bunDeps = bun2nix.fetchBunDeps {
+
+  pname = manifest.name;
+  version = manifest.version;
+  npmDeps = bun2nix.fetchBunDeps {
     bunNix = import ./bun.nix;
+    inherit (finalAttrs) src;
   };
 
   dontUseBunBuild = true;
   dontUseBunPatch = true;
   dontUseBunCheck = true;
-
-  cargoRoot = "./src-tauri";
-  buildAndTestSubdir = finalAttrs.cargoRoot;
 
   cargoHash = "sha256-0Lb7vCQoyasm9pNVbMb2dHI2F22T4tOr+xVgnULHuYI=";
 
@@ -45,20 +46,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
     webkitgtk_4_1
   ];
 
-  buildPhase = ''
-    export HOME=$TMPDIR
-    export BUN_INSTALL_CACHE=$bunDeps
-    export PATH=$bun/bin:$PATH
-
-    echo "Installing Bun dependencies offline..."
-    bun install --offline
-    bun tauri build --no-sign --release
-  '';
-
-  installPhase = ''
-    mkdir -p $out
-    cp -r dist/* $out/
-  '';
+  # Set our Tauri source directory
+  cargoRoot = "src-tauri";
+  # And make sure we build there too
+  buildAndTestSubdir = finalAttrs.cargoRoot;
   meta = {
     description = "Led Strip Controller Tauri App";
     mainProgram = "led-strip-controller-tauri-app";
