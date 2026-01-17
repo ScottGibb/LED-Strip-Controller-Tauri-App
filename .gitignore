@@ -23,3 +23,10 @@ dist-ssr
 
 megalinter-reports/
 .ruff-cache/
+
+# Nix
+result
+result-*
+
+# Package managers
+package-lock.json
