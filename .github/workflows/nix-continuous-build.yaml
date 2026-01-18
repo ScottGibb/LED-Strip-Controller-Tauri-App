@@ -3,7 +3,10 @@ name: "Nix Continuous Build"
 on:
   push:
     branches:
-      - release-please-**
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   nix-build:

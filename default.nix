@@ -58,6 +58,16 @@ rustPlatform.buildRustPackage (finalAttrs: {
     webkitgtk_4_1
   ];
 
+  installPhase =
+    let
+      targetDir = "target/${stdenv.hostPlatform.rust.rustcTarget}/release";
+    in
+    ''
+      runHook preInstall
+      install -Dm755 "${targetDir}/${manifest.name}" "$out/bin/${manifest.name}"
+      runHook postInstall
+    '';
+
   meta = {
     description = "Led Strip Controller Tauri App";
     mainProgram = manifest.name;
