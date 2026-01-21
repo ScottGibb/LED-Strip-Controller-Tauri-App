@@ -1,5 +1,5 @@
 {
-  description = "Bun2Nix minimal sample";
+  description = "LED Strip Controller Tauri App";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -9,7 +9,6 @@
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # Use the cached version of bun2nix from the nix-community cli
   nixConfig = {
     extra-substituters = [
       "https://cache.nixos.org"
@@ -24,43 +23,91 @@
   outputs =
     inputs:
     let
-      # Read each system from the nix-systems input
       eachSystem = inputs.nixpkgs.lib.genAttrs (import inputs.systems);
 
-      # Access the package set for a given system
       pkgsFor = eachSystem (
         system:
         import inputs.nixpkgs {
           inherit system;
-          # Use the bun2nix overlay, which puts `bun2nix` in pkgs
-          # You can, of course, still access
-          # inputs.bun2nix.packages.${system}.default instead
-          # and use that to build your package instead
           overlays = [ inputs.bun2nix.overlays.default ];
         }
       );
     in
     {
       packages = eachSystem (system: {
-        # Produce a package for this template with bun2nix in
-        # the overlay
-        default = pkgsFor.${system}.callPackage ./default.nix { };
-      });
+        default = pkgsFor.${system}.callPackage (
+          {
+            lib,
+            stdenv,
+            rustPlatform,
+            cargo-tauri,
+            glib-networking,
+            openssl,
+            pkg-config,
+            webkitgtk_4_1,
+            wrapGAppsHook4,
 
-      devShells = eachSystem (system: {
-        default = pkgsFor.${system}.mkShell {
-          packages = with pkgsFor.${system}; [
-            bun
+            bun,
+            bun2nix,
+            nodejs,
+            typescript,
+          }:
 
-            # Add the bun2nix binary to our devshell
-            # Optional now that we have a binary on npm
-            bun2nix
-          ];
+          let
+            manifest = (lib.importTOML ./src-tauri/Cargo.toml).package;
+          in
+          rustPlatform.buildRustPackage (finalAttrs: {
+            pname = manifest.name;
+            version = manifest.version;
 
-          shellHook = ''
-            bun install --frozen-lockfile
-          '';
-        };
+            src = ./.;
+
+            cargoLock = {
+              lockFile = ./src-tauri/Cargo.lock;
+            };
+
+            # 🔴 Must be called bunDeps
+            bunDeps = bun2nix.fetchBunDeps {
+              bunNix = import ./bun.nix;
+              inherit (finalAttrs) src;
+            };
+
+            cargoRoot = "src-tauri";
+            buildAndTestSubdir = finalAttrs.cargoRoot;
+
+            nativeBuildInputs = [
+              cargo-tauri.hook
+
+              bun
+              bun2nix.hook
+
+              pkg-config
+
+            ]
+            ++ lib.optionals stdenv.hostPlatform.isLinux [
+              wrapGAppsHook4
+            ];
+
+            buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
+              glib-networking
+              openssl
+              webkitgtk_4_1
+            ];
+
+            postInstall = lib.optionalString stdenv.hostPlatform.isDarwin ''
+              mkdir -p $out/bin
+              cat > $out/bin/${manifest.name} <<EOF
+              #!/bin/sh
+              exec open -a $out/Applications/${manifest.name}.app
+              EOF
+              chmod +x $out/bin/${manifest.name}
+            '';
+            meta = {
+              description = "Led Strip Controller Tauri App";
+              mainProgram = manifest.name;
+            };
+          })
+        ) { };
       });
     };
 }
