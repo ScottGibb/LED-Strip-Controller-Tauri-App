@@ -75,6 +75,10 @@
             cargoRoot = "src-tauri";
             buildAndTestSubdir = finalAttrs.cargoRoot;
 
+            # Let Tauri's cargo-tauri.hook handle the frontend build
+            dontUseBunBuild = true;
+            dontUseBunCheck = true;
+
             nativeBuildInputs = [
               cargo-tauri.hook
 
