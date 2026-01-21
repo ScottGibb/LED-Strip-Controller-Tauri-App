@@ -22,10 +22,11 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = manifest.name;
   version = manifest.version;
 
-  # 🔴 REQUIRED
   src = ./.;
 
-  cargoHash = "sha256-0Lb7vCQoyasm9pNVbMb2dHI2F22T4tOr+xVgnULHuYI=";
+  cargoLock = {
+    lockFile = ./src-tauri/Cargo.lock;
+  };
 
   # 🔴 Must be called bunDeps
   bunDeps = bun2nix.fetchBunDeps {
@@ -33,20 +34,17 @@ rustPlatform.buildRustPackage (finalAttrs: {
     inherit (finalAttrs) src;
   };
 
-  dontUseBunBuild = true;
-  dontUseBunPatch = true;
-  dontUseBunCheck = true;
-
   cargoRoot = "src-tauri";
   buildAndTestSubdir = finalAttrs.cargoRoot;
 
   nativeBuildInputs = [
+    cargo-tauri.hook
+
     bun
     bun2nix.hook
-    cargo-tauri.hook
+
     pkg-config
-    nodejs
-    typescript
+
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [
     wrapGAppsHook4
@@ -58,16 +56,14 @@ rustPlatform.buildRustPackage (finalAttrs: {
     webkitgtk_4_1
   ];
 
-  installPhase =
-    let
-      targetDir = "target/${stdenv.hostPlatform.rust.rustcTarget}/release";
-    in
-    ''
-      runHook preInstall
-      install -Dm755 "${targetDir}/${manifest.name}" "$out/bin/${manifest.name}"
-      runHook postInstall
-    '';
-
+  postInstall = lib.optionalString stdenv.hostPlatform.isDarwin ''
+    mkdir -p $out/bin
+    cat > $out/bin/${manifest.name} <<EOF
+    #!/bin/sh
+    exec open -a $out/Applications/${manifest.name}.app
+    EOF
+    chmod +x $out/bin/${manifest.name}
+  '';
   meta = {
     description = "Led Strip Controller Tauri App";
     mainProgram = manifest.name;
