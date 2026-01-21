@@ -49,5 +49,7 @@ TYPESCRIPT_STANDARD_FILTER_REGEX_EXCLUDE: vite\.config\.ts
 TSX_ESLINT_PRE_COMMANDS:
   - command: pwd
     cwd: workspace
-  - command: npm install --include=dev
+  - command: |
+      npm install --include=dev
+      npm install -g bun
     cwd: workspace
