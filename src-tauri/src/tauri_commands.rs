@@ -30,9 +30,9 @@ pub mod serial {
             baud_rate,
             port: None,
         };
-        log::info!("Connecting to serial device at {}:{}", port_name, baud_rate);
+        log::info!("Connecting to serial device at {port_name}:{baud_rate}");
         comm.connect().await?;
-        log::info!("Connected to serial device at {}:{}", port_name, baud_rate);
+        log::info!("Connected to serial device at {port_name}:{baud_rate}");
         log::info!("Creating device with serial communicator");
         *device = Some(Device::new(CommunicatorType::Serial(comm)));
         log::info!("Device created and stored in state");
@@ -73,7 +73,7 @@ pub mod tcp {
             port_number,
             stream: None,
         };
-        info!("Connecting to TCP device at {}:{}", address, port_number);
+        info!("Connecting to TCP device at {address}:{port_number}");
         comm.connect().await?;
         *device = Some(Device::new(CommunicatorType::Tcp(comm)));
         Ok(())
