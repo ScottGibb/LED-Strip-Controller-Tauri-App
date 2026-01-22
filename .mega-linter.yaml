@@ -46,6 +46,8 @@ TSX_ESLINT_COMMAND_REMOVE_ARGUMENTS: "--no-eslintrc"
 JSON_JSONLINT_FILTER_REGEX_EXCLUDE: tsconfig.json
 TYPESCRIPT_STANDARD_FILTER_REGEX_EXCLUDE: vite\.config\.ts
 
+CSS_STYLELINT_FILTER_REGEX_EXCLUDE: "src/styles/tailwind.css"
+
 TSX_ESLINT_PRE_COMMANDS:
   - command: pwd
     cwd: workspace
