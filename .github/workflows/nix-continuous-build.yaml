@@ -1,0 +1,36 @@
+name: "Nix Continuous Build"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  nix-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Build package
+        run: |
+          nix build .#default --print-build-logs
+
+      - name: Verify package output
+        run: |
+          if [ ! -d result ]; then
+            echo "Build failed: 'result' directory does not exist."
+            exit 1
+          fi
