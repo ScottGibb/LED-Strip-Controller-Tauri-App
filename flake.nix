@@ -49,8 +49,6 @@
 
             bun,
             bun2nix,
-            nodejs,
-            typescript,
           }:
 
           let
