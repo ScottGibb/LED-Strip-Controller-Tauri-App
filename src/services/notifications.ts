@@ -18,7 +18,7 @@ export const notify = (
   timeout = 3000,
 ): string => {
   toastConfig.autoClose = timeout;
-  toastConfig.toastId = id ? id : Date.now().toString(16);
+  toastConfig.toastId = id ?? Date.now().toString(16);
   toast.info(message, toastConfig);
   return toastConfig.toastId;
 };
@@ -29,7 +29,7 @@ export const notifyError = (
   timeout = 3000,
 ): string => {
   toastConfig.autoClose = timeout;
-  toastConfig.toastId = id ? id : Date.now().toString(16);
+  toastConfig.toastId = id ?? Date.now().toString(16);
   toast.error(message, toastConfig);
   return toastConfig.toastId;
 };
@@ -40,7 +40,7 @@ export const notifySuccess = (
   timeout = 3000,
 ): string => {
   toastConfig.autoClose = timeout;
-  toastConfig.toastId = id ? id : Date.now().toString(16);
+  toastConfig.toastId = id ?? Date.now().toString(16);
   toast.success(message, toastConfig);
   return toastConfig.toastId;
 };
@@ -51,7 +51,7 @@ export const notifyWarning = (
   timeout = 3000,
 ): string => {
   toastConfig.autoClose = timeout;
-  toastConfig.toastId = id ? id : Date.now().toString(16);
+  toastConfig.toastId = id ?? Date.now().toString(16);
   toast.warning(message, toastConfig);
   return toastConfig.toastId;
 };
@@ -62,7 +62,7 @@ export const notifyInfo = (
   timeout = 3000,
 ): string => {
   toastConfig.autoClose = timeout;
-  toastConfig.toastId = id ? id : Date.now().toString(16);
+  toastConfig.toastId = id ?? Date.now().toString(16);
   toast.info(message, toastConfig);
   return toastConfig.toastId;
 };
@@ -73,10 +73,10 @@ export const notifySuspense = (
   timeout = 3000,
 ): { id: Id; cancel: () => void } => {
   toastConfig.autoClose = false;
-  toastConfig.toastId = id ? id : Date.now().toString(16);
+  toastConfig.toastId = id ?? Date.now().toString(16);
   const toastId = toast.loading(message, toastConfig);
 
-  const cancel = () => {
+  const cancel = (): void => {
     toast.dismiss(toastId);
   };
 
