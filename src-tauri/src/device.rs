@@ -69,12 +69,12 @@ pub enum Channel {
         colour: Colour,
         brightness: u8,
     },
-    RGB {
+    Rgb {
         red: u8,
         green: u8,
         blue: u8,
     },
-    HSB {
+    Hsb {
         hue: u16,
         saturation: u8,
         brightness: u8,
@@ -93,8 +93,8 @@ impl Channel {
             Channel::Colour { colour, brightness } => {
                 create_constant_colour_message(channel, colour.clone(), *brightness)
             }
-            Channel::RGB { red, green, blue } => create_rgb_message(channel, *red, *green, *blue),
-            Channel::HSB {
+            Channel::Rgb { red, green, blue } => create_rgb_message(channel, *red, *green, *blue),
+            Channel::Hsb {
                 hue,
                 saturation,
                 brightness,

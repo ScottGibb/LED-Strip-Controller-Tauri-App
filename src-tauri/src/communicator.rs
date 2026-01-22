@@ -1,5 +1,3 @@
-use std::u8;
-
 use crate::communicator::error::CommunicatorError;
 use crate::communicator::{
     serial_communicator::SerialCommunicator, tcp_communicator::TcpCommunicator,

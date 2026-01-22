@@ -1,5 +1,5 @@
 // Buffer sizes for communication messages
-pub const RX_MSG_CNT: usize = 14;
+// pub const RX_MSG_CNT: usize = 14;
 pub const TX_MSG_SIZE: usize = 10;
 
 #[repr(u8)]
@@ -29,14 +29,14 @@ impl From<Colour> for u8 {
 #[repr(u8)]
 #[derive(Clone)]
 pub enum FadeType {
-    FadeNone = 0,
-    FadeSine = 1,
-    FadeSquare = 2,
-    FadeTriangle = 3,
-    FadeSawtooth = 4,
-    FadeColourChange = 5,
-    FadeRgbCtrl = 6,
-    FadeHueCtrl = 7,
+    None = 0,
+    Sine = 1,
+    Square = 2,
+    Triangle = 3,
+    Sawtooth = 4,
+    ColourChange = 5,
+    RgbCtrl = 6,
+    HueCtrl = 7,
 }
 impl From<FadeType> for u8 {
     fn from(fade_type: FadeType) -> Self {

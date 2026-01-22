@@ -4,7 +4,7 @@ pub fn create_constant_colour_message(channel: u8, colour: Colour, brightness: u
     let bytes = vec![
         u8::from(ControlCommandId::LedChange),
         channel,
-        u8::from(FadeType::FadeNone),
+        u8::from(FadeType::None),
         u8::from(colour),
         brightness,
     ];
@@ -34,7 +34,7 @@ pub fn create_rgb_message(channel: u8, red: u8, green: u8, blue: u8) -> Vec<u8> 
     let bytes = vec![
         u8::from(ControlCommandId::LedChange),
         channel,
-        u8::from(FadeType::FadeRgbCtrl),
+        u8::from(FadeType::RgbCtrl),
         red,
         green,
         blue,
@@ -46,7 +46,7 @@ pub fn create_hsb_message(channel: u8, hue: u16, saturation: u8, brightness: u8)
     let mut bytes = vec![
         u8::from(ControlCommandId::LedChange),
         channel,
-        u8::from(FadeType::FadeHueCtrl),
+        u8::from(FadeType::HueCtrl),
     ];
     // Add hue as 2 bytes in big-endian format
     bytes.extend_from_slice(&hue.to_be_bytes());
