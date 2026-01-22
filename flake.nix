@@ -46,7 +46,7 @@
             pkg-config,
             webkitgtk_4_1,
             wrapGAppsHook4,
-            libudev ? null,
+            systemd,
 
             bun,
             bun2nix,
@@ -95,7 +95,7 @@
               glib-networking
               openssl
               webkitgtk_4_1
-              libudev
+              systemd.dev
             ];
 
             postInstall = lib.optionalString stdenv.hostPlatform.isDarwin ''
