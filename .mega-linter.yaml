@@ -46,17 +46,17 @@ JSON_JSONLINT_FILTER_REGEX_EXCLUDE: tsconfig.json
 
 TYPESCRIPT_ES_CONFIG_FILE: eslint.config.js
 TYPESCRIPT_ES_COMMAND_REMOVE_ARGUMENTS: "--no-eslintrc"
-TYPESCRIPT_ES_PRE_COMMANDS:
-  - command: pwd
-    cwd: workspace
-  - command: curl -fsSL https://bun.sh/install | bash && export BUN_INSTALL="$HOME/.bun" && export PATH="$BUN_INSTALL/bin:$PATH" && bun install
-    cwd: workspace
+# TYPESCRIPT_ES_PRE_COMMANDS:
+#   - command: pwd
+#     cwd: workspace
+#   - command: npm install -g bun && bun install
+#     cwd: workspace
 CSS_STYLELINT_FILTER_REGEX_EXCLUDE: "src/styles/tailwind.css"
 
 TSX_ESLINT_CONFIG_FILE: eslint.config.js
 TSX_ESLINT_COMMAND_REMOVE_ARGUMENTS: "--no-eslintrc"
-TSX_ESLINT_PRE_COMMANDS:
-  - command: pwd
-    cwd: workspace
-  - command: curl -fsSL https://bun.sh/install | bash && export BUN_INSTALL="$HOME/.bun" && export PATH="$BUN_INSTALL/bin:$PATH" && bun install
-    cwd: workspace
+# TSX_ESLINT_PRE_COMMANDS:
+#   - command: pwd
+#     cwd: workspace
+#   - command: npm install -g bun && bun install
+#     cwd: workspace
