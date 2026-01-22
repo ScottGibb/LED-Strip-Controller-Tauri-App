@@ -1,7 +1,6 @@
 use tauri::async_runtime::Mutex;
 
 use crate::{
-    communicator::CommunicatorType,
     device::Device,
     tauri_commands::{
         communicator::{disconnect, is_connected},
