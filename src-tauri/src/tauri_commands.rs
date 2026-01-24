@@ -122,14 +122,27 @@ pub mod rgb_control {}
 pub mod hsv_control {}
 pub mod fade_control {}
 pub mod device_info {
-    use crate::{device::DeviceError, AppState};
     use tauri::State;
+
+    use crate::{
+        device::{error::DeviceError, information::DeviceInfo, Device},
+        AppState,
+    };
 
     #[tauri::command]
     pub async fn get_num_channels(state: State<'_, AppState>) -> Result<usize, DeviceError> {
         let mut device = state.device.lock().await;
         match &mut *device {
-            Some(device) => device.get_num_channels().await,
+            Some(device) => device.get_num_channels(),
+            None => Err(DeviceError::InvalidConfiguration),
+        }
+    }
+
+    #[tauri::command]
+    pub async fn get_device_info(state: State<'_, AppState>) -> Result<DeviceInfo, DeviceError> {
+        let device = state.device.lock().await;
+        match &*device {
+            Some(device) => Ok(device.get_device_info()),
             None => Err(DeviceError::InvalidConfiguration),
         }
     }

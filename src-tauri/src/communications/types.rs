@@ -3,7 +3,7 @@
 pub const TX_MSG_SIZE: usize = 10;
 
 #[repr(u8)]
-#[derive(Clone)]
+#[derive(Clone, Debug, serde::Serialize)]
 pub enum Colour {
     Red = 0,
     Green = 1,
@@ -27,7 +27,7 @@ impl From<Colour> for u8 {
 }
 
 #[repr(u8)]
-#[derive(Clone)]
+#[derive(Clone, Debug, serde::Serialize)]
 pub enum FadeType {
     None = 0,
     Sine = 1,

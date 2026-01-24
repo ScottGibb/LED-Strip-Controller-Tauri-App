@@ -1,16 +1,24 @@
 use crate::{
-    communications::{
-        comms_protocol::{
-            create_constant_colour_message, create_fade_message, create_hsb_message,
-            create_rgb_message,
-        },
-        types::{Colour, FadeType},
+    communicator::CommunicatorType,
+    device::{
+        channel::Channel,
+        error::DeviceError,
+        information::DeviceInfo,
+        memory::Memory,
+        sensors::{PowerSensor, TemperatureSensor},
     },
-    communicator::{error::CommunicatorError, CommunicatorType},
 };
 
+mod channel;
+pub mod error;
+pub mod information;
+mod memory;
+mod sensors;
+
+#[derive(Debug)]
 pub struct Device {
-    pub name: String,
+    pub hardware_version: String,
+    pub firmware_version: String,
     pub channels: Vec<Channel>,
     pub memory: Option<Memory>,
     pub power_sensor: Option<PowerSensor>,
@@ -18,16 +26,11 @@ pub struct Device {
     pub communicator: CommunicatorType,
 }
 
-#[derive(Debug, serde::Serialize)]
-pub enum DeviceError {
-    InvalidConfiguration,
-    CommunicationError(CommunicatorError),
-}
-
 impl Device {
     pub fn new(communicator: CommunicatorType) -> Self {
         Device {
-            name: String::new(),
+            hardware_version: "TBD".to_string(),
+            firmware_version: "TBD".to_string(),
             channels: Vec::new(),
             memory: None,
             power_sensor: None,
@@ -52,79 +55,29 @@ impl Device {
             .await
             .map_err(DeviceError::CommunicationError)
     }
-    pub async fn get_channel(&self, channel_index: usize) -> Result<&Channel, DeviceError> {
+    pub fn get_channel(&self, channel_index: usize) -> Result<&Channel, DeviceError> {
         self.channels
             .get(channel_index)
             .ok_or(DeviceError::InvalidConfiguration)
     }
 
-    pub async fn get_num_channels(&mut self) -> Result<usize, DeviceError> {
+    pub fn get_num_channels(&mut self) -> Result<usize, DeviceError> {
         match self.channels.len() {
             0 => Err(DeviceError::InvalidConfiguration),
             n => Ok(n),
         }
     }
-}
-pub struct PowerSensor {
-    pub voltage: f32,
-    pub current: f32,
-    pub power: f32,
-}
 
-pub enum Channel {
-    Colour {
-        colour: Colour,
-        brightness: u8,
-    },
-    Rgb {
-        red: u8,
-        green: u8,
-        blue: u8,
-    },
-    Hsb {
-        hue: u16,
-        saturation: u8,
-        brightness: u8,
-    },
-    Fade {
-        fade_type: FadeType,
-        colour: Colour,
-        brightness: u8,
-        period_ms: u32,
-    },
-}
-
-impl Channel {
-    fn create_message(&self, channel: u8) -> Vec<u8> {
-        match self {
-            Channel::Colour { colour, brightness } => {
-                create_constant_colour_message(channel, colour.clone(), *brightness)
-            }
-            Channel::Rgb { red, green, blue } => create_rgb_message(channel, *red, *green, *blue),
-            Channel::Hsb {
-                hue,
-                saturation,
-                brightness,
-            } => create_hsb_message(channel, *hue, *saturation, *brightness),
-            Channel::Fade {
-                fade_type,
-                colour,
-                brightness,
-                period_ms,
-            } => create_fade_message(
-                channel,
-                fade_type.clone(),
-                colour.clone(),
-                *brightness,
-                *period_ms,
-            ),
+    pub fn get_device_info(&self) -> DeviceInfo {
+        DeviceInfo {
+            hardware_version: self.hardware_version.clone(),
+            firmware_version: self.firmware_version.clone(),
+            channels: self.channels.len(),
+            memory: self.memory.clone().unwrap_or(Memory { total_bytes: 0 }),
+            power_sensor: self.power_sensor.is_some(),
+            temperature_sensor: self.temperature_sensor.is_some(),
+            communicator: serde_json::to_string(&self.communicator)
+                .unwrap_or("UNINITIALISED".to_string()),
         }
     }
-}
-pub struct TemperatureSensor {
-    pub temperature_celsius: f32,
-}
-
-pub struct Memory {
-    pub total_bytes: usize,
 }

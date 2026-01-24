@@ -1,12 +1,18 @@
-export interface SystemSpecifications {
-  hardware_version: string;
-  firmware_version: string;
-  number_of_channels: number;
-  memory_size: number;
+export interface DeviceInfo {
+  hardwareVersion: string;
+  firmwareVersion: string;
+  channels: number;
+  memory: Memory;
+  powerSensor: boolean;
+  temperatureSensor: boolean;
+  communicator: string;
 }
 
 export interface Power {
   voltage: number;
   current: number;
   power: number;
+}
+export interface Memory {
+  totalBytes: number;
 }
