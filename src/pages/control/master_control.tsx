@@ -254,7 +254,7 @@ export function MasterControlPage() {
               })()}
               <div className="flex flex-col justify-center items-center">
                 <h1>Mode</h1>
-                <h1>Fade Type</h1>
+                <h1>Operation</h1>
                 <select
                   className="border rounded p-2 w-full"
                   value={selectedFadeType}
@@ -268,14 +268,19 @@ export function MasterControlPage() {
                     </option>
                   ))}
                 </select>
-                <h1> Fade Time</h1>
-                <input
-                  type="number"
-                  className="border rounded p-2 w-full"
-                  placeholder="Fade Time in ms"
-                  value={fadeTime}
-                  onChange={(e) => setFadeTime(Number(e.target.value))}
-                />
+                {selectedFadeType !== FadeType.RgbControl &&
+                  selectedFadeType !== FadeType.HueControl && (
+                    <div>
+                      <h1> Fade Time</h1>
+                      <input
+                        type="number"
+                        className="border rounded p-2 w-full"
+                        placeholder="Fade Time in ms"
+                        value={fadeTime}
+                        onChange={(e) => setFadeTime(Number(e.target.value))}
+                      />
+                    </div>
+                  )}
                 <button
                   className="btn btn-primary"
                   onClick={() => selectedMode()}
