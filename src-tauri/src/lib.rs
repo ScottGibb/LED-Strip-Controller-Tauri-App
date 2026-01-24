@@ -4,6 +4,7 @@ use crate::{
     device::Device,
     tauri_commands::{
         communicator::{disconnect, is_connected},
+        device_info::get_num_channels,
         serial::{connect_serial_device, scan_serial_devices},
         tcp::connect_tcp_device,
     },
@@ -37,7 +38,8 @@ pub fn run() {
             connect_serial_device,
             connect_tcp_device,
             disconnect,
-            is_connected
+            is_connected,
+            get_num_channels
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

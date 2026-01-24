@@ -6,7 +6,7 @@ use crate::{
         },
         types::{Colour, FadeType},
     },
-    communicator::CommunicatorType,
+    communicator::{error::CommunicatorError, CommunicatorType},
 };
 
 pub struct Device {
@@ -18,9 +18,10 @@ pub struct Device {
     pub communicator: CommunicatorType,
 }
 
+#[derive(Debug, serde::Serialize)]
 pub enum DeviceError {
-    CommunicationError,
     InvalidConfiguration,
+    CommunicationError(CommunicatorError),
 }
 
 impl Device {
@@ -39,22 +40,28 @@ impl Device {
         channel_index: usize,
         channel: Channel,
     ) -> Result<(), DeviceError> {
-        if channel_index < self.channels.len() {
-            self.channels[channel_index] = channel;
-            self.communicator
-                .write(&self.channels[channel_index].create_message(channel_index as u8))
-                .await
-                .map_err(|_| DeviceError::CommunicationError)?;
-            Ok(())
-        } else {
-            Err(DeviceError::InvalidConfiguration)
-        }
+        let channel_ref = self
+            .channels
+            .get_mut(channel_index)
+            .ok_or(DeviceError::InvalidConfiguration)?;
+
+        *channel_ref = channel;
+
+        self.communicator
+            .write(&channel_ref.create_message(channel_index as u8))
+            .await
+            .map_err(DeviceError::CommunicationError)
     }
     pub async fn get_channel(&self, channel_index: usize) -> Result<&Channel, DeviceError> {
-        if channel_index < self.channels.len() {
-            Ok(&self.channels[channel_index])
-        } else {
-            Err(DeviceError::InvalidConfiguration)
+        self.channels
+            .get(channel_index)
+            .ok_or(DeviceError::InvalidConfiguration)
+    }
+
+    pub async fn get_num_channels(&mut self) -> Result<usize, DeviceError> {
+        match self.channels.len() {
+            0 => Err(DeviceError::InvalidConfiguration),
+            n => Ok(n),
         }
     }
 }
@@ -114,7 +121,6 @@ impl Channel {
         }
     }
 }
-
 pub struct TemperatureSensor {
     pub temperature_celsius: f32,
 }

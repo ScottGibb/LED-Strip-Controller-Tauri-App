@@ -6,7 +6,10 @@ import {
 } from "../../services/notifications";
 import { NavLink, useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
-import { disconnectFromDevice, isConnected } from "./functions";
+import {
+  disconnectFromDevice,
+  isConnected,
+} from "../../services/invoke_commands";
 export function SerialConfigurationPage() {
   const [devices, setDevices] = useState<string[]>([]);
   const [selectedPort, setSelectedPort] = useState<string>("");

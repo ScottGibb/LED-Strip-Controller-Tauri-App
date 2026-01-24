@@ -8,7 +8,10 @@ import {
   notifyInfo,
   notifySuccess,
 } from "../../services/notifications";
-import { disconnectFromDevice, isConnected } from "./functions";
+import {
+  disconnectFromDevice,
+  isConnected,
+} from "../../services/invoke_commands";
 import { useNavigate } from "react-router-dom";
 
 export function TcpConfigurationPage() {
