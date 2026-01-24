@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "postinstall": "test -z \"$CI$MEGALINTER\" && bun2nix -o bun.nix || true"
+    "postinstall": "bun2nix -o bun.nix"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
