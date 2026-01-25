@@ -7,7 +7,7 @@ import { SerialConfigurationPage } from "./pages/configuration/serial";
 import AboutPage from "./pages/about";
 import { TcpConfigurationPage } from "./pages/configuration/tcp";
 import { MasterControlPage } from "./pages/control/master_control";
-import { StripControlPage } from "./pages/control/strip_control";
+import { StripControlPage } from "./pages/control/strip_control/strip_control";
 
 type RouteType = {
   title: string;
