@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { DefaultConfiguration } from "./default_control";
 import { Colour, FadeType } from "../../types/modes";
 import { info } from "@tauri-apps/plugin-log";
-import { HsvColorPicker, RgbColorPicker } from "react-colorful";
 import { getNumChannels } from "../../services/invoke_commands";
+import { RgbColourPicker } from "../../components/colour_pickers/rgb_colour_picker";
+import { HsvColourPicker } from "../../components/colour_pickers/hsv_colour_picker";
 
 const fadeTypes = Object.values(FadeType);
 const colours = Object.values(Colour);
@@ -96,133 +97,22 @@ export function MasterControlPage() {
                 switch (selectedFadeType) {
                   case FadeType.RgbControl:
                     return (
-                      <div>
-                        <h1>Choose your own RGB</h1>
-                        <RgbColorPicker
-                          color={selectedRGB}
-                          onChange={setSelectedRGB}
-                        />
-                        <div>
-                          <div className="flex flex-col gap-2 mt-2">
-                            <label className="flex items-center gap-2">
-                              <span>R:</span>
-                              <input
-                                type="number"
-                                min="0"
-                                max="255"
-                                value={selectedRGB.r}
-                                onChange={(e) =>
-                                  setSelectedRGB({
-                                    ...selectedRGB,
-                                    r: Number(e.target.value),
-                                  })
-                                }
-                                className="border rounded p-1 w-20"
-                              />
-                            </label>
-                            <label className="flex items-center gap-2">
-                              <span>G:</span>
-                              <input
-                                type="number"
-                                min="0"
-                                max="255"
-                                value={selectedRGB.g}
-                                onChange={(e) =>
-                                  setSelectedRGB({
-                                    ...selectedRGB,
-                                    g: Number(e.target.value),
-                                  })
-                                }
-                                className="border rounded p-1 w-20"
-                              />
-                            </label>
-                            <label className="flex items-center gap-2">
-                              <span>B:</span>
-                              <input
-                                type="number"
-                                min="0"
-                                max="255"
-                                value={selectedRGB.b}
-                                onChange={(e) =>
-                                  setSelectedRGB({
-                                    ...selectedRGB,
-                                    b: Number(e.target.value),
-                                  })
-                                }
-                                className="border rounded p-1 w-20"
-                              />
-                            </label>
-                          </div>
-                        </div>
-                      </div>
+                      <RgbColourPicker
+                        selectedRGB={selectedRGB}
+                        setSelectedRGB={setSelectedRGB}
+                      />
                     );
                   case FadeType.HueControl:
                     return (
-                      <div>
-                        <h1>Choose your own Hue</h1>
-                        <HsvColorPicker
-                          color={selectedHue}
-                          onChange={setSelectedHue}
-                        />
-                        <div>
-                          <div className="flex flex-col gap-2 mt-2">
-                            <label className="flex items-center gap-2">
-                              <span>H:</span>
-                              <input
-                                type="number"
-                                min="0"
-                                max="360"
-                                value={selectedHue.h}
-                                onChange={(e) =>
-                                  setSelectedHue({
-                                    ...selectedHue,
-                                    h: Number(e.target.value),
-                                  })
-                                }
-                                className="border rounded p-1 w-20"
-                              />
-                            </label>
-                            <label className="flex items-center gap-2">
-                              <span>S:</span>
-                              <input
-                                type="number"
-                                min="0"
-                                max="100"
-                                value={selectedHue.s}
-                                onChange={(e) =>
-                                  setSelectedHue({
-                                    ...selectedHue,
-                                    s: Number(e.target.value),
-                                  })
-                                }
-                                className="border rounded p-1 w-20"
-                              />
-                            </label>
-                            <label className="flex items-center gap-2">
-                              <span>V:</span>
-                              <input
-                                type="number"
-                                min="0"
-                                max="100"
-                                value={selectedHue.v}
-                                onChange={(e) =>
-                                  setSelectedHue({
-                                    ...selectedHue,
-                                    v: Number(e.target.value),
-                                  })
-                                }
-                                className="border rounded p-1 w-20"
-                              />
-                            </label>
-                          </div>
-                        </div>
-                      </div>
+                      <HsvColourPicker
+                        selectedHSV={selectedHue}
+                        setSelectedHSV={setSelectedHue}
+                      />
                     );
                   case FadeType.ColourChange:
                     return (
                       <div>
                         <h1>
-                          {" "}
                           This mode will cycle through some predefined colours
                         </h1>
                       </div>
