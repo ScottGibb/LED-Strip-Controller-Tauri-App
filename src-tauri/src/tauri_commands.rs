@@ -125,7 +125,7 @@ pub mod device_info {
     use tauri::State;
 
     use crate::{
-        device::{error::DeviceError, information::DeviceInfo, Device},
+        device::{error::DeviceError, information::DeviceInfo},
         AppState,
     };
 
