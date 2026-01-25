@@ -1,33 +1,29 @@
 import { useEffect, useState } from "react";
 
-import { DefaultConfiguration } from "./default_control";
 import { Colour, FadeType } from "../../types/modes";
 import { info } from "@tauri-apps/plugin-log";
 import { getNumChannels } from "../../services/invoke_commands";
 import { RgbColourPicker } from "../../components/colour_pickers/rgb_colour_picker";
 import { HsvColourPicker } from "../../components/colour_pickers/hsv_colour_picker";
+import { ControlMenuTemplate } from "./control_menu_template";
+import { HSV, RGB } from "../../types/colours";
+import { ChannelPicker } from "../../components/channel_picker";
+import { FixedColourPicker } from "../../components/colour_pickers/fixed_colour_picker";
 
 const fadeTypes = Object.values(FadeType);
-const colours = Object.values(Colour);
 
 export function MasterControlPage() {
   const [numChannels, setNumChannels] = useState<number>(0);
+  const [selectedChannels, setSelectedChannels] = useState<number[]>([]);
+
   const [selectedFadeType, setSelectedFadeType] = useState<FadeType>(
     FadeType.None,
   );
   const [fadeTime, setFadeTime] = useState<number>(0);
   const [selectedColour, setSelectedColour] = useState<Colour>(Colour.Red);
-  const [selectedChannels, setSelectedChannels] = useState<number[]>([]);
-  const [selectedRGB, setSelectedRGB] = useState<{
-    r: number;
-    g: number;
-    b: number;
-  }>({ r: 0, g: 0, b: 0 });
-  const [selectedHue, setSelectedHue] = useState<{
-    h: number;
-    s: number;
-    v: number;
-  }>({ h: 0, s: 0, v: 0 });
+
+  const [selectedRGB, setSelectedRGB] = useState<RGB>({ r: 0, g: 0, b: 0 });
+  const [selectedHSV, setSelectedHSV] = useState<HSV>({ h: 0, s: 0, v: 0 });
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -47,52 +43,22 @@ export function MasterControlPage() {
         selectedColour,
         selectedChannels,
         selectedRGB,
-        selectedHue,
+        selectedHSV,
       })}`,
     );
   }
   useEffect(() => {}, []);
   return (
     <div className="">
-      <DefaultConfiguration
+      <ControlMenuTemplate
         element={
           <div className="p-4 bg-centered-800 rounded-lg">
             <div className="grid grid-cols-3 gap-4">
-              <div>
-                <div className="flex flex-col items-center justify-center">
-                  <h1>Led Channel</h1>
-                  <div>
-                    <div className="overflow-y-auto max-h-64 border rounded p-2">
-                      {channels.length === 0 && (
-                        <div>No channels available</div>
-                      )}
-                      {channels.map((index) => (
-                        <label
-                          key={index}
-                          className="flex items-center gap-2 mb-2"
-                        >
-                          <input
-                            type="checkbox"
-                            onChange={() => {
-                              if (selectedChannels.includes(index)) {
-                                setSelectedChannels(
-                                  selectedChannels.filter((i) => i !== index),
-                                );
-                              } else {
-                                setSelectedChannels([
-                                  ...selectedChannels,
-                                  index,
-                                ]);
-                              }
-                            }}
-                          />
-                          <span>Channel {index}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ChannelPicker
+                channels={channels}
+                selectedChannels={selectedChannels}
+                setSelectedChannels={setSelectedChannels}
+              />
               {(() => {
                 switch (selectedFadeType) {
                   case FadeType.RgbControl:
@@ -105,8 +71,8 @@ export function MasterControlPage() {
                   case FadeType.HueControl:
                     return (
                       <HsvColourPicker
-                        selectedHSV={selectedHue}
-                        setSelectedHSV={setSelectedHue}
+                        selectedHSV={selectedHSV}
+                        setSelectedHSV={setSelectedHSV}
                       />
                     );
                   case FadeType.ColourChange:
@@ -125,28 +91,18 @@ export function MasterControlPage() {
                     );
                   default:
                     return (
-                      <div className="flex-row justify-center items-center bg-center">
-                        <h1> Choose your Colour</h1>
-                        <select
-                          onChange={(e) =>
-                            setSelectedColour(e.target.value as Colour)
-                          }
-                        >
-                          {colours.map((colour) => (
-                            <option key={colour} value={colour}>
-                              {colour}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                      <FixedColourPicker
+                        selectedColour={selectedColour}
+                        setSelectedColour={setSelectedColour}
+                      />
                     );
                 }
               })()}
-              <div className="flex flex-col justify-center items-center">
-                <h1>Mode</h1>
-                <h1>Operation</h1>
+              <div className="flex flex-col gap-4 justify-center items-center">
+                <h1 className="text-lg font-semibold">Mode</h1>
+                <h1 className="text-md">Operation</h1>
                 <select
-                  className="border rounded p-2 w-full"
+                  className="border rounded p-2 w-full max-w-xs"
                   value={selectedFadeType}
                   onChange={(e) =>
                     setSelectedFadeType(e.target.value as FadeType)
@@ -160,11 +116,11 @@ export function MasterControlPage() {
                 </select>
                 {selectedFadeType !== FadeType.RgbControl &&
                   selectedFadeType !== FadeType.HueControl && (
-                    <div>
-                      <h1> Fade Time</h1>
+                    <div className="flex flex-col items-center justify-center w-full gap-2">
+                      <h1 className="text-md">Fade Time</h1>
                       <input
                         type="number"
-                        className="border rounded p-2 w-full"
+                        className="border rounded p-2 w-full max-w-xs text-center"
                         placeholder="Fade Time in ms"
                         value={fadeTime}
                         onChange={(e) => setFadeTime(Number(e.target.value))}
@@ -172,7 +128,7 @@ export function MasterControlPage() {
                     </div>
                   )}
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary w-full max-w-xs mt-2"
                   onClick={() => selectedMode()}
                 >
                   Apply

@@ -1,7 +1,5 @@
 import { RgbColorPicker } from "react-colorful";
-
-type RGB = { r: number; g: number; b: number };
-
+import { RGB, RGBColourComponent } from "../../types/colours";
 interface RgbColourPickerProps {
   selectedRGB: RGB;
   setSelectedRGB: (rgb: RGB) => void;
@@ -10,13 +8,7 @@ interface RgbColourPickerProps {
 interface ComponentProps {
   selectedRGB: RGB;
   setSelectedRGB: (rgb: RGB) => void;
-  chosenComponent: ColourComponent;
-}
-
-enum ColourComponent {
-  R = "r",
-  G = "g",
-  B = "b",
+  chosenComponent: RGBColourComponent;
 }
 
 export function RgbColourPicker({
@@ -32,17 +24,17 @@ export function RgbColourPicker({
           <ComponentInput
             selectedRGB={selectedRGB}
             setSelectedRGB={setSelectedRGB}
-            chosenComponent={ColourComponent.R}
+            chosenComponent={RGBColourComponent.R}
           />
           <ComponentInput
             selectedRGB={selectedRGB}
             setSelectedRGB={setSelectedRGB}
-            chosenComponent={ColourComponent.G}
+            chosenComponent={RGBColourComponent.G}
           />
           <ComponentInput
             selectedRGB={selectedRGB}
             setSelectedRGB={setSelectedRGB}
-            chosenComponent={ColourComponent.B}
+            chosenComponent={RGBColourComponent.B}
           />
         </div>
       </div>

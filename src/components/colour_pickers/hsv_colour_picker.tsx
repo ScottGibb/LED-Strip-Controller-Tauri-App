@@ -1,6 +1,5 @@
 import { HsvColorPicker } from "react-colorful";
-
-type HSV = { h: number; s: number; v: number };
+import { HSV, HSVColourComponent } from "../../types/colours";
 
 interface HsvColourPickerProps {
   selectedHSV: HSV;
@@ -10,13 +9,7 @@ interface HsvColourPickerProps {
 interface ComponentProps {
   selectedHSV: HSV;
   setSelectedHSV: (hsv: HSV) => void;
-  chosenComponent: ColourComponent;
-}
-
-enum ColourComponent {
-  h = "h",
-  s = "s",
-  v = "v",
+  chosenComponent: HSVColourComponent;
 }
 
 export function HsvColourPicker({
@@ -32,17 +25,17 @@ export function HsvColourPicker({
           <ComponentInput
             selectedHSV={selectedHSV}
             setSelectedHSV={setSelectedHSV}
-            chosenComponent={ColourComponent.h}
+            chosenComponent={HSVColourComponent.H}
           />
           <ComponentInput
             selectedHSV={selectedHSV}
             setSelectedHSV={setSelectedHSV}
-            chosenComponent={ColourComponent.s}
+            chosenComponent={HSVColourComponent.S}
           />
           <ComponentInput
             selectedHSV={selectedHSV}
             setSelectedHSV={setSelectedHSV}
-            chosenComponent={ColourComponent.v}
+            chosenComponent={HSVColourComponent.V}
           />
         </div>
       </div>
@@ -56,7 +49,7 @@ function ComponentInput({
   chosenComponent,
 }: ComponentProps) {
   const minValue: number = 0;
-  const maxValue: number = chosenComponent === ColourComponent.h ? 360 : 100;
+  const maxValue: number = chosenComponent === HSVColourComponent.H ? 360 : 100;
   return (
     <label className="flex items-center gap-2">
       <span>{chosenComponent.toUpperCase()}:</span>

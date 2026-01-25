@@ -1,14 +1,14 @@
 /** Settings for the game.  This page is loaded once before a game starts to determine rules and player count. */
 
 import { useEffect, useState } from "react";
-import { DefaultConfiguration } from "./default_control";
+import { ControlMenuTemplate } from "./control_menu_template";
 import { DeviceInfo } from "../../types/system_specifications";
 import { getSystemSpecifications } from "../../services/invoke_commands";
 import { notify } from "../../services/notifications";
 
 export function SettingsPage() {
   return (
-    <DefaultConfiguration
+    <ControlMenuTemplate
       element={
         <div className="flex col gap-4 mb-4">
           <div className="flex flex-col gap-2">
@@ -19,7 +19,7 @@ export function SettingsPage() {
           </div>
         </div>
       }
-    ></DefaultConfiguration>
+    />
   );
 }
 
