@@ -1,0 +1,105 @@
+import { useEffect, useState } from "react";
+import {
+  notifyError,
+  notifyInfo,
+  notifySuccess,
+} from "../../services/notifications";
+import { NavLink, useNavigate } from "react-router-dom";
+import { invoke } from "@tauri-apps/api/core";
+import {
+  disconnectFromDevice,
+  isConnected,
+} from "../../services/invoke_commands";
+export function SerialConfigurationPage() {
+  const [devices, setDevices] = useState<string[]>([]);
+  const [selectedPort, setSelectedPort] = useState<string>("");
+  const [selectedBaudRate, setSelectedBaudRate] = useState<number>(9600);
+  const navigate = useNavigate();
+
+  useEffect(() => {}, []);
+
+  const scanDevices = () => {
+    invoke("scan_serial_devices", []).then((scannedDevices) => {
+      setDevices(scannedDevices as string[]);
+      notifyInfo(`Found devices: ${(scannedDevices as string[]).join(", ")}`);
+    });
+  };
+  const connectToDevice = () => {
+    invoke("connect_serial_device", {
+      portName: selectedPort,
+      baudRate: selectedBaudRate,
+    })
+      .then(() => {
+        notifySuccess("Connected to device!");
+      })
+      .catch((err) => {
+        notifyError(`Failed to connect to device: ${err}`);
+      });
+  };
+
+  const goToControlPage = async () => {
+    var connected = await isConnected();
+    if (!connected) {
+      notifyError("Not connected to a device!");
+    } else {
+      notifySuccess("Connected to a device!");
+      navigate("/control/master_control");
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold mb-4">Serial Configuration</h1>
+        <button className="btn btn-primary" onClick={scanDevices}>
+          Scan for Devices
+        </button>
+        <div className="flex flex-col gap-2">
+          <select
+            className="select select-bordered w-full"
+            value={selectedPort}
+            onChange={(e) => setSelectedPort(e.target.value)}
+          >
+            <option value="">Select a device</option>
+            {devices.map((device) => (
+              <option key={device} value={device}>
+                {device}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            placeholder="Baud Rate"
+            className="input input-bordered w-full"
+            value={selectedBaudRate}
+            onChange={(e) => setSelectedBaudRate(Number(e.target.value))}
+          />
+        </div>
+        <div className="flex gap-2 flex-row w-full">
+          <button className="btn btn-primary flex-1" onClick={connectToDevice}>
+            Connect
+          </button>
+          <button
+            className="btn btn-primary flex-1"
+            onClick={disconnectFromDevice}
+          >
+            Disconnect
+          </button>
+        </div>
+        <div className="flex gap-2 flex-col w-full">
+          <button
+            className="btn btn-secondary"
+            onClick={async () => {
+              goToControlPage();
+            }}
+          >
+            Continue
+          </button>
+          <NavLink className="btn btn-secondary" to="/">
+            Back
+          </NavLink>
+        </div>
+      </div>
+    </div>
+  );
+}
