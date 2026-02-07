@@ -2,7 +2,6 @@
 
 ## [1.1.1](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.0...v1.1.1) (2026-02-07)
 
-
 ### Bug Fixes
 
 * **deps:** force update ([84b763e](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/84b763e2ee6c85e077fdd6758272f9a2751842a6))
