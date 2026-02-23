@@ -1,26 +1,35 @@
-# Tauri + React + Typescript
+# LED Strip Controller Tauri App
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+[![MegaLinter](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/mega-linter.yaml/badge.svg)](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/mega-linter.yaml) [![Continuous Build](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/continuous-build.yaml/badge.svg)](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/continuous-build.yaml) [![publish](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/publish.yaml/badge.svg)](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/publish.yaml)
 
-## Recommended IDE Setup
+See my initial [Concepts](./docs/INITIAL_CONCEPTS.md) for more diagrams regarding what the App could look like.
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## Demo
+
+todo: Video goes here!
 
 ## Dev Environments
 
-Template created! To get started run:
+```bash
   cd led-strip-controller-tauri-app
   bun install
-  bun run tauri android init
-  bun run tauri ios init
+```
 
 For Desktop development, run:
+
+```bash
   bun run tauri dev
+```
 
 For Android development, run:
+
+```bash
   bun run tauri android dev
+```
 
 For iOS development, run:
+
+```bash
   bun run tauri ios dev
 
 ## Nix Setup

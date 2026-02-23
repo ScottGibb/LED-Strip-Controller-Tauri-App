@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import { Layout } from "./layouts";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes";
+import "./styles/tailwind.css";
 
 const rootElement = document.getElementById("root");
 if (rootElement == null) {
@@ -9,6 +12,10 @@ if (rootElement == null) {
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Layout>
+        <AppRoutes />
+      </Layout>
+    </BrowserRouter>
   </React.StrictMode>,
 );

@@ -33,7 +33,7 @@ export default [
       globals: browserGlobals
     },
     rules: {
-      'no-console': 'error'
+      'no-console': 'off'
     }
   },
   {
@@ -55,8 +55,8 @@ export default [
     },
     rules: {
       ...tseslint.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error'], '@typescript-eslint/no-explicit-any': 'warn',
       'react/prop-types': 'off',
       'react/display-name': 'off',
       'prettier/prettier': 'error'

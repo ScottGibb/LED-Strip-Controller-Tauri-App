@@ -46,11 +46,10 @@
             pkg-config,
             webkitgtk_4_1,
             wrapGAppsHook4,
+            systemd,
 
             bun,
             bun2nix,
-            nodejs,
-            typescript,
           }:
 
           let
@@ -96,6 +95,7 @@
               glib-networking
               openssl
               webkitgtk_4_1
+              systemd.dev
             ];
 
             postInstall = lib.optionalString stdenv.hostPlatform.isDarwin ''
