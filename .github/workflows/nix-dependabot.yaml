@@ -1,5 +1,8 @@
 name: Update Nix files after Dependabot
 
+permissions:
+  contents: write
+
 on:
   pull_request:
     paths:
@@ -16,7 +19,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -34,4 +37,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add bun.nix
           git diff --staged --quiet || git commit -m "chore: update bun.nix after dependency changes"
-          git push
+          git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git HEAD:${{ github.head_ref }}
