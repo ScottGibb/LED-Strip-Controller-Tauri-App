@@ -32,9 +32,13 @@ jobs:
         run: bun run postinstall
 
       - name: Commit bun.nix changes
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          REPOSITORY: ${{ github.repository }}
+          PAT: ${{ secrets.PAT }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add bun.nix
           git diff --staged --quiet || git commit -m "chore: update bun.nix after dependency changes"
-          git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git HEAD:${{ github.head_ref }}
+          git push "https://x-access-token:${PAT}@github.com/${REPOSITORY}.git" "HEAD:${HEAD_REF}"
