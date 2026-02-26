@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.2](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.1...v1.1.2) (2026-02-26)
+
+
+### Bug Fixes
+
+* bun.nix ([56d940b](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/56d940b815bfea315fb40d0df92f2a05ee325fe3))
+* **ci:** dependabot not running ([9420186](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/9420186aceb099185a675cd39310f3fc4cb9dd17))
+* **ci:** dependabot permission issues and workflow issues ([28a27a7](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/28a27a78d6a64cfc02567ff49771de970f73d178))
+* **ci:** dependabot script warnings ([a9b5897](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/a9b589766cc9fb8cfed6af71d9647c6f7bb676eb))
+* **ci:** dependabot status checks ([d2564a2](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/d2564a226f3bf1e6a6dee12b29f480f3d523bad5))
+* **ci:** ignore tsx linter errors ([57a04fc](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/57a04fc2e875b84a813288fa358ae05627f15457))
+* **ci:** nix dependency issues ([8ec63fb](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/8ec63fbcb277d48537024504c22b14d2d42073a7))
+
 ## [1.1.1](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.0...v1.1.1) (2026-02-07)
 
 ### Bug Fixes
