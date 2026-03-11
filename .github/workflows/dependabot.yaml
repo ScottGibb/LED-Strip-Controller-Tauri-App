@@ -23,7 +23,7 @@ jobs:
         with:
           github-token: ${{ secrets.dependabot }}
           merge-method: rebase
-          use-github-auto-merge: false # Forces the action to wait for CI itself
+          use-github-auto-merge: true
           # No target: this avoids semver parsing → GH Actions merge cleanly
 
   # ---------------------------------------------------
@@ -39,5 +39,5 @@ jobs:
         with:
           github-token: ${{ secrets.dependabot }}
           merge-method: rebase
-          use-github-auto-merge: false # Forces the action to wait for CI itself
+          use-github-auto-merge: true
           target: minor # Let Fastify enforce SemVer filtering
