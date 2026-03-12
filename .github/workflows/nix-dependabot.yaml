@@ -3,7 +3,6 @@ name: Update Nix files after Dependabot
 permissions:
   contents: write
 
-# Prevent overlapping runs on the same PR
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -15,23 +14,26 @@ on:
 
 jobs:
   update-nix:
-    # We only care about Dependabot PRs for this logic
     if: startsWith(github.head_ref, 'dependabot/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          # Use PAT to ensure the push triggers the NEXT CI run
           token: ${{ secrets.PAT }}
           ref: ${{ github.head_ref }}
+          # IMPORTANT: Fetch 2 commits so we can compare HEAD to HEAD^
+          fetch-depth: 2
 
       - name: Check for relevant file changes
         id: filter
         run: |
-          if git diff-tree --no-commit-id --name-only -r HEAD | grep -Eq '^(bun\.lock|package\.json|bun\.nix)$'; then
+          # Use diff instead of diff-tree for better shallow clone compatibility
+          if git diff --name-only HEAD^ HEAD | grep -Eq '^(bun\.lock|package\.json|bun\.nix)$'; then
             echo "relevant_changed=true" >> "$GITHUB_OUTPUT"
+            echo "Detected changes in: $(git diff --name-only HEAD^ HEAD | grep -E '^(bun\.lock|package\.json|bun\.nix)$')"
           else
             echo "relevant_changed=false" >> "$GITHUB_OUTPUT"
+            echo "No relevant changes found in this commit."
           fi
 
       - uses: oven-sh/setup-bun@v2
@@ -47,8 +49,6 @@ jobs:
 
       - name: Commit and Push bun.nix
         if: steps.filter.outputs.relevant_changed == 'true'
-        env:
-          PR_HEAD_REF: ${{ github.head_ref }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -56,9 +56,9 @@ jobs:
 
           if ! git diff --staged --quiet; then
             git commit -m "chore: update bun.nix after dependency changes"
-            git push origin "HEAD:${PR_HEAD_REF}"
+            git push origin HEAD:${{ github.head_ref }}
           else
-            echo "No changes to bun.nix detected after install."
+            echo "bun.nix is already up to date."
           fi
 
       - name: Final Status
