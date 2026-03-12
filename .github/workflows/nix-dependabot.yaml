@@ -3,46 +3,61 @@ name: Update Nix files after Dependabot
 permissions:
   contents: write
 
+# Prevent overlapping runs on the same PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   pull_request:
-    paths:
-      - "package.json"
-      - "bun.lock"
     branches:
-      - "main"
+      - main
 
 jobs:
   update-nix:
+    # We only care about Dependabot PRs for this logic
     if: startsWith(github.head_ref, 'dependabot/')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with:
-          # Use your PAT here so the push triggers CI
+          # Use PAT to ensure the push triggers the NEXT CI run
           token: ${{ secrets.PAT }}
           ref: ${{ github.head_ref }}
 
+      - name: Check for relevant file changes
+        id: filter
+        run: |
+          if git diff-tree --no-commit-id --name-only -r HEAD | grep -Eq '^(bun\.lock|package\.json|bun\.nix)$'; then
+            echo "relevant_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "relevant_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: oven-sh/setup-bun@v2
+        if: steps.filter.outputs.relevant_changed == 'true'
         with:
           bun-version: latest
 
-      - name: Install dependencies
-        run: bun install
+      - name: Install and Postinstall
+        if: steps.filter.outputs.relevant_changed == 'true'
+        run: |
+          bun install
+          bun run postinstall
 
-      - name: Run postinstall
-        run: bun run postinstall
-
-      - name: Commit bun.nix changes
+      - name: Commit and Push bun.nix
+        if: steps.filter.outputs.relevant_changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add bun.nix
 
-          # Only commit/push if there are actual changes
           if ! git diff --staged --quiet; then
             git commit -m "chore: update bun.nix after dependency changes"
-            # Push directly to the PR branch
             git push origin HEAD:${{ github.head_ref }}
           else
-            echo "No changes to bun.nix"
+            echo "No changes to bun.nix detected after install."
           fi
+
+      - name: Final Status
+        run: echo "Workflow finished. Check is now green."
