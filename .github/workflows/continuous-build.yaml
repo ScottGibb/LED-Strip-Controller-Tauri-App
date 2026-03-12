@@ -11,10 +11,10 @@ on:
   pull_request:
     branches:
       - main
-# This workflow will build your tauri app without uploading it anywhere.
 
 jobs:
   test-tauri:
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
