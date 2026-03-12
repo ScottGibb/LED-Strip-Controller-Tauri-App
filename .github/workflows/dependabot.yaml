@@ -24,8 +24,7 @@ jobs:
           github-token: ${{ secrets.dependabot }}
           merge-method: rebase
           use-github-auto-merge: true
-          # No target: this avoids semver parsing → GH Actions merge cleanly
-
+          skip-verification: true
   # ---------------------------------------------------
   # Auto-merge minor (and patch) updates for all other ecosystems
   # ---------------------------------------------------
@@ -41,3 +40,4 @@ jobs:
           merge-method: rebase
           use-github-auto-merge: true
           target: minor # Let Fastify enforce SemVer filtering
+          skip-verification: true
