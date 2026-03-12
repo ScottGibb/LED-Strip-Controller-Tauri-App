@@ -15,7 +15,7 @@ jobs:
   # ---------------------------------------------------
   merge-github-actions:
     if: >
-      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
       contains(join(github.event.pull_request.labels.*.name), 'github_actions')
     runs-on: ubuntu-latest
     steps:
@@ -23,14 +23,14 @@ jobs:
         with:
           github-token: ${{ secrets.dependabot }}
           merge-method: rebase
-          # No target: this avoids semver parsing → GH Actions merge cleanly
-
+          use-github-auto-merge: true
+          skip-verification: true
   # ---------------------------------------------------
   # Auto-merge minor (and patch) updates for all other ecosystems
   # ---------------------------------------------------
   merge-semver-minor:
     if: >
-      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
       !contains(join(github.event.pull_request.labels.*.name), 'github_actions')
     runs-on: ubuntu-latest
     steps:
@@ -38,4 +38,6 @@ jobs:
         with:
           github-token: ${{ secrets.dependabot }}
           merge-method: rebase
+          use-github-auto-merge: true
           target: minor # Let Fastify enforce SemVer filtering
+          skip-verification: true

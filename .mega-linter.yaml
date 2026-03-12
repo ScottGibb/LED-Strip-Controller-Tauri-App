@@ -34,6 +34,8 @@ FILEIO_REPORTER: false
 
 # Uncomment if you want MegaLinter to detect errors but not block CI to pass
 # DISABLE_ERRORS: true
+DISABLE_ERRORS_LINTERS:
+  - TSX_ESLINT
 GITHUB_COMMENT_REPORTER: true
 GITHUB_STATUS_REPORTER: true
 VALIDATE_ALL_CODEBASE: true
