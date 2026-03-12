@@ -18,8 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          # Use your PAT here so the push triggers CI
+          token: ${{ secrets.PAT }}
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -32,13 +33,16 @@ jobs:
         run: bun run postinstall
 
       - name: Commit bun.nix changes
-        env:
-          HEAD_REF: ${{ github.head_ref }}
-          REPOSITORY: ${{ github.repository }}
-          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add bun.nix
-          git diff --staged --quiet || git commit -m "chore: update bun.nix after dependency changes"
-          git push "https://x-access-token:${PAT}@github.com/${REPOSITORY}.git" "HEAD:${HEAD_REF}"
+
+          # Only commit/push if there are actual changes
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: update bun.nix after dependency changes"
+            # Push directly to the PR branch
+            git push origin HEAD:${{ github.head_ref }}
+          else
+            echo "No changes to bun.nix"
+          fi
