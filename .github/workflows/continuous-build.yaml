@@ -42,6 +42,7 @@ jobs:
         uses: swatinem/rust-cache@v2
         with:
           # This ensures that each platform in your matrix has its own cache
+          workspaces: "src-tauri -> target"
           key: ${{ matrix.platform }}-${{ matrix.args }}
 
       - name: install dependencies (ubuntu only)
