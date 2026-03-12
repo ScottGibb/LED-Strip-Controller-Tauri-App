@@ -15,7 +15,7 @@ jobs:
   # ---------------------------------------------------
   merge-github-actions:
     if: >
-      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
       contains(join(github.event.pull_request.labels.*.name), 'github_actions')
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +31,7 @@ jobs:
   # ---------------------------------------------------
   merge-semver-minor:
     if: >
-      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
       !contains(join(github.event.pull_request.labels.*.name), 'github_actions')
     runs-on: ubuntu-latest
     steps:
