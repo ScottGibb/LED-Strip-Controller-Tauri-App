@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.1.2](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.1...v1.1.2) (2026-03-12)
+
+
+### Bug Fixes
+
+* bun nix dependencies ([2b3bb0b](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/2b3bb0b4df82f4b3f1d45db39e9d27d68e19b3e2))
+* bun.nix ([56d940b](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/56d940b815bfea315fb40d0df92f2a05ee325fe3))
+* **ci:** actionlint warnings ([47793c0](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/47793c0085c60b7e32c9a3f8efaee68d9728853e))
+* **ci:** change actor to pull request owner ([8ddee57](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/8ddee57cffd993fff381ae491d2ee59e497e2644))
+* **ci:** concurrency workflows ([9cdbfd0](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/9cdbfd08e3bb2fa4ec1d4603338743c51a77b04b))
+* **ci:** dependabot auto merge i ([7a5fbd0](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/7a5fbd066f6127d8f9dc25a6bd45acd6f00a48cc))
+* **ci:** dependabot auto merges regardless of ci checks ([3f4c02f](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/3f4c02f90b38ec6d070757fd114d6c8071d40a88))
+* **ci:** dependabot not running ([9420186](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/9420186aceb099185a675cd39310f3fc4cb9dd17))
+* **ci:** dependabot permission issues and workflow issues ([28a27a7](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/28a27a78d6a64cfc02567ff49771de970f73d178))
+* **ci:** dependabot script warnings ([a9b5897](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/a9b589766cc9fb8cfed6af71d9647c6f7bb676eb))
+* **ci:** dependabot status checks ([d2564a2](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/d2564a226f3bf1e6a6dee12b29f480f3d523bad5))
+* **ci:** ignore tsx linter errors ([57a04fc](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/57a04fc2e875b84a813288fa358ae05627f15457))
+* **ci:** lockfile ([001ae81](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/001ae812d160c0f3571db4f9bceefac16827f537))
+* **ci:** nix dependabot permission errors ([b930124](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/b930124c36147abda4bb940b527ffed011f6a651))
+* **ci:** nix dependency issues ([8ec63fb](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/8ec63fbcb277d48537024504c22b14d2d42073a7))
+* **ci:** nix-dependabot not checking nix files ([4ace115](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/4ace1152ceda51054205eddcdd187c8c8d4625c8))
+* **ci:** remove flakehub warning ([f18e922](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/f18e9227ae33ec3d0fd6e58f12c2262f42cc9e02))
+* **ci:** rust cache ([cbbb79b](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/cbbb79b630a1c7ec00e98044a8be6992f2b13daf))
+* **ci:** status check relies on nix-dependabot ([01e586a](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/01e586a713c8047aa2446f4b83251a35de7cd4b0))
+* **ci:** token ([ae603db](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/ae603dbfce5f69a9a24808cec18686a00f344d5e))
+* remove dependabot auto merge ([95a1707](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/95a17078119d61adab2f45092818d1dee3d20579))
+
 ## [1.1.1](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.0...v1.1.1) (2026-02-07)
 
 ### Bug Fixes
