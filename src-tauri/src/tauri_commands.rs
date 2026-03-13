@@ -120,6 +120,7 @@ pub mod communicator {
 
 pub mod control {
     use crate::{
+        communications::types::Colour,
         device::{
             channel::Channel,
             error::DeviceError,
@@ -200,6 +201,32 @@ pub mod control {
             }
 
             None => return Err(DeviceError::InvalidConfiguration),
+        }
+    }
+    #[tauri::command]
+    pub async fn set_constant_colour_mode(
+        state: State<'_, AppState>,
+        channel_indexes: Vec<usize>,
+        colour: Colour,
+        brightness: u8,
+    ) -> Result<(), DeviceError> {
+        let mut device = state.device.lock().await;
+        match &mut *device {
+            Some(device) => {
+                for channel_index in channel_indexes {
+                    device
+                        .set_channel(
+                            channel_index,
+                            Channel::Colour {
+                                colour: colour.clone(),
+                                brightness,
+                            },
+                        )
+                        .await?;
+                }
+                Ok(())
+            }
+            None => Err(DeviceError::InvalidConfiguration),
         }
     }
 }

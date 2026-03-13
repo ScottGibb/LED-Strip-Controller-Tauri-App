@@ -95,6 +95,21 @@ export function MasterControlPage() {
           });
         }
         break;
+      case FadeType.None:
+        {
+          toast.info(
+            `Applying None mode (instant change) with Colour: ${selectedColour} on channels ${selectedChannels.join(", ")}`,
+          );
+          invoke("set_constant_colour_mode", {
+            channelIndexes: selectedChannels,
+            colour: selectedColour,
+            brightness: brightness,
+          }).catch((error) => {
+            warn(`Error invoking set_constant_colour_mode: ${error}`);
+            toast.error(`Failed to apply None mode: ${error.message || error}`);
+          });
+        }
+        break;
       default: {
         let fade: Fade = {
           fadeType: selectedFadeType,
@@ -151,12 +166,6 @@ export function MasterControlPage() {
                         </h1>
                       </div>
                     );
-                  case FadeType.None:
-                    return (
-                      <div className="flex justify-center items-center">
-                        Choose a Mode to get started
-                      </div>
-                    );
                   default:
                     return (
                       <FixedColourPicker
@@ -185,14 +194,20 @@ export function MasterControlPage() {
                 {selectedFadeType !== FadeType.RgbControl &&
                   selectedFadeType !== FadeType.HueControl && (
                     <div className="flex flex-col items-center justify-center w-full gap-2">
-                      <h1 className="text-md">Fade Time</h1>
-                      <input
-                        type="number"
-                        className="border rounded p-2 w-full max-w-xs text-center"
-                        placeholder="Fade Time in ms"
-                        value={fadeTime}
-                        onChange={(e) => setFadeTime(Number(e.target.value))}
-                      />
+                      {selectedFadeType !== FadeType.None && (
+                        <>
+                          <h1 className="text-md">Fade Time</h1>
+                          <input
+                            type="number"
+                            className="border rounded p-2 w-full max-w-xs text-center"
+                            placeholder="Fade Time in ms"
+                            value={fadeTime}
+                            onChange={(e) =>
+                              setFadeTime(Number(e.target.value))
+                            }
+                          />
+                        </>
+                      )}
                       <h1 className="text-md">Brightness (%)</h1>
                       <input
                         type="number"

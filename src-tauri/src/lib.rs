@@ -4,7 +4,7 @@ use crate::{
     device::Device,
     tauri_commands::{
         communicator::{disconnect, is_connected},
-        control::{set_fade_mode, set_hsv_mode, set_rgb_mode},
+        control::{set_constant_colour_mode, set_fade_mode, set_hsv_mode, set_rgb_mode},
         device_info::{get_device_info, get_num_channels},
         serial::{connect_serial_device, scan_serial_devices},
         tcp::connect_tcp_device,
@@ -45,6 +45,7 @@ pub fn run() {
             set_fade_mode,
             set_rgb_mode,
             set_hsv_mode,
+            set_constant_colour_mode,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
