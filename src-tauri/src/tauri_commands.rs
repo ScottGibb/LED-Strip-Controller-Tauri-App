@@ -120,9 +120,8 @@ pub mod communicator {
 
 pub mod control {
     use crate::{
-        communicator::error::CommunicatorError,
         device::{
-            channel,
+            channel::Channel,
             error::DeviceError,
             types::{Fade, Hsv, Rgb},
         },
@@ -141,7 +140,7 @@ pub mod control {
             Some(device) => {
                 for channel_index in channel_indexes {
                     device
-                        .set_channel(channel_index, channel::Channel::Fade(fade.clone()))
+                        .set_channel(channel_index, Channel::Fade(fade.clone()))
                         .await?;
                 }
                 Ok(())
@@ -163,7 +162,7 @@ pub mod control {
                     device
                         .set_channel(
                             channel_index,
-                            channel::Channel::Rgb(Rgb {
+                            Channel::Rgb(Rgb {
                                 red: colour.red,
                                 green: colour.green,
                                 blue: colour.blue,
@@ -179,10 +178,29 @@ pub mod control {
 
     #[tauri::command]
     pub async fn set_hsv_mode(
-        _state: tauri::State<'_, AppState>,
-        _colour: Hsv,
-    ) -> Result<(), CommunicatorError> {
-        Ok(())
+        state: tauri::State<'_, AppState>,
+        colour: Hsv,
+    ) -> Result<(), DeviceError> {
+        let mut device = state.device.lock().await;
+        match &mut *device {
+            Some(device) => {
+                for channel_index in 0..device.get_num_channels()? {
+                    device
+                        .set_channel(
+                            channel_index,
+                            Channel::Hsv(Hsv {
+                                hue: colour.hue,
+                                saturation: colour.saturation,
+                                brightness: colour.brightness,
+                            }),
+                        )
+                        .await?;
+                }
+                Ok(())
+            }
+
+            None => return Err(DeviceError::InvalidConfiguration),
+        }
     }
 }
 pub mod device_info {

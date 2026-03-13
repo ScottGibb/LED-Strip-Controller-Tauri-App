@@ -48,13 +48,16 @@ export function MasterControlPage() {
         selectedHSV,
       })}`,
     );
+    if (selectedChannels.length === 0) {
+      toast.warn("Please select at least one channel to apply the mode.");
+      return;
+    }
 
     switch (selectedFadeType) {
       case FadeType.RgbControl:
         {
-          info(`Applying RGB Control with RGB: ${JSON.stringify(selectedRGB)}`);
           toast.info(
-            `Applying RGB Control mode with RGB: ${JSON.stringify(selectedRGB)}`,
+            `Applying RGB Control mode with RGB: ${JSON.stringify(selectedRGB)} on channels ${selectedChannels.join(", ")}`,
           );
           invoke("set_rgb_mode", {
             channelIndexes: selectedChannels,
@@ -72,20 +75,35 @@ export function MasterControlPage() {
         }
         break;
       case FadeType.HueControl:
-        info(`Applying Hue Control with HSV: ${JSON.stringify(selectedHSV)}`);
+        {
+          toast.info(
+            `Applying Hue Control mode with HSV: ${JSON.stringify(selectedHSV)} on channels ${selectedChannels.join(", ")}`,
+          );
+          invoke("set_hsv_mode", {
+            channelIndexes: selectedChannels,
+            colour: {
+              hue: selectedHSV.h,
+              saturation: selectedHSV.s,
+              brightness: selectedHSV.v,
+            },
+          }).catch((error) => {
+            warn(`Error invoking set_hsv_mode: ${error}`);
+            toast.error(
+              `Failed to apply Hue Control mode: ${error.message || error}`,
+            );
+          });
+        }
         break;
       default: {
-        info(
-          `Applying ${selectedFadeType} with Colour: ${selectedColour} and Fade Time: ${fadeTime}ms`,
-        );
-
         let fade: Fade = {
           fadeType: selectedFadeType,
           colour: selectedColour,
           brightness: 100,
           periodMs: fadeTime,
         };
-        toast.info(`Applying ${selectedFadeType} mode...`);
+        toast.info(
+          `Applying ${selectedFadeType} mode with Colour: ${selectedColour} and Fade Time: ${fadeTime}ms on channels ${selectedChannels.join(", ")}`,
+        );
         invoke("set_fade_mode", {
           channelIndexes: selectedChannels,
           fade: fade,

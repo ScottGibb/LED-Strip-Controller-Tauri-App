@@ -4,7 +4,7 @@ use crate::{
             create_constant_colour_message, create_fade_message, create_hsb_message,
             create_rgb_message,
         },
-        types::{Colour, FadeType},
+        types::Colour,
     },
     device::types::{Fade, Hsv, Rgb},
 };
@@ -13,7 +13,7 @@ use crate::{
 pub enum Channel {
     Colour { colour: Colour, brightness: u8 },
     Rgb(Rgb),
-    Hsb(Hsv),
+    Hsv(Hsv),
     Fade(Fade),
 }
 impl Channel {
@@ -23,7 +23,7 @@ impl Channel {
                 create_constant_colour_message(channel, colour.clone(), *brightness)
             }
             Channel::Rgb(rgb) => create_rgb_message(channel, rgb.red, rgb.green, rgb.blue),
-            Channel::Hsb(hsv) => {
+            Channel::Hsv(hsv) => {
                 create_hsb_message(channel, hsv.hue, hsv.saturation, hsv.brightness)
             }
             Channel::Fade(Fade {
