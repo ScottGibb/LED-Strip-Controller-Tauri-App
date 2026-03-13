@@ -22,6 +22,7 @@ export function MasterControlPage() {
     FadeType.None,
   );
   const [fadeTime, setFadeTime] = useState<number>(0);
+  const [brightness, setBrightness] = useState<number>(100);
   const [selectedColour, setSelectedColour] = useState<Colour>(Colour.Red);
 
   const [selectedRGB, setSelectedRGB] = useState<RGB>({ r: 0, g: 0, b: 0 });
@@ -98,11 +99,11 @@ export function MasterControlPage() {
         let fade: Fade = {
           fadeType: selectedFadeType,
           colour: selectedColour,
-          brightness: 100,
+          brightness: brightness,
           periodMs: fadeTime,
         };
         toast.info(
-          `Applying ${selectedFadeType} mode with Colour: ${selectedColour} and Fade Time: ${fadeTime}ms on channels ${selectedChannels.join(", ")}`,
+          `Applying ${selectedFadeType} mode with Colour: ${selectedColour} and Brightness: ${brightness}% on channels ${selectedChannels.join(", ")}`,
         );
         invoke("set_fade_mode", {
           channelIndexes: selectedChannels,
@@ -191,6 +192,14 @@ export function MasterControlPage() {
                         placeholder="Fade Time in ms"
                         value={fadeTime}
                         onChange={(e) => setFadeTime(Number(e.target.value))}
+                      />
+                      <h1 className="text-md">Brightness (%)</h1>
+                      <input
+                        type="number"
+                        className="border rounded p-2 w-full max-w-xs text-center"
+                        placeholder="Fade Time in ms"
+                        value={brightness}
+                        onChange={(e) => setBrightness(Number(e.target.value))}
                       />
                     </div>
                   )}
