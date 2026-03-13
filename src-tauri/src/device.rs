@@ -69,7 +69,7 @@ impl Device {
         let channel_ref = self
             .channels
             .get_mut(channel_index)
-            .ok_or(DeviceError::InvalidConfiguration)?;
+            .ok_or(DeviceError::InvalidChannelIndex)?;
 
         *channel_ref = channel;
 
@@ -81,7 +81,7 @@ impl Device {
     pub fn get_channel(&self, channel_index: usize) -> Result<&Channel, DeviceError> {
         self.channels
             .get(channel_index)
-            .ok_or(DeviceError::InvalidConfiguration)
+            .ok_or(DeviceError::InvalidChannelIndex)
     }
 
     pub fn get_num_channels(&mut self) -> Result<usize, DeviceError> {
