@@ -200,7 +200,7 @@ pub mod control {
                 Ok(())
             }
 
-            None => return Err(DeviceError::InvalidConfiguration),
+            None => Err(DeviceError::InvalidConfiguration),
         }
     }
     #[tauri::command]
