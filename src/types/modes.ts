@@ -24,3 +24,10 @@ export enum Colour {
   Yellow = "Yellow",
   Orange = "Orange",
 }
+
+export type Fade = {
+  fadeType: FadeType;
+  colour: Colour;
+  brightness: number;
+  periodMs: number;
+};

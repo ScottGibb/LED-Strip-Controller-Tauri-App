@@ -3,7 +3,7 @@
 pub const TX_MSG_SIZE: usize = 10;
 
 #[repr(u8)]
-#[derive(Clone, Debug, serde::Serialize)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub enum Colour {
     Red = 0,
     Green = 1,
@@ -27,7 +27,7 @@ impl From<Colour> for u8 {
 }
 
 #[repr(u8)]
-#[derive(Clone, Debug, serde::Serialize)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub enum FadeType {
     None = 0,
     Sine = 1,
@@ -35,8 +35,8 @@ pub enum FadeType {
     Triangle = 3,
     Sawtooth = 4,
     ColourChange = 5,
-    RgbCtrl = 6,
-    HueCtrl = 7,
+    RgbControl = 6,
+    HueControl = 7,
 }
 impl From<FadeType> for u8 {
     fn from(fade_type: FadeType) -> Self {

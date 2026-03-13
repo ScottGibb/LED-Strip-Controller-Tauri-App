@@ -9,11 +9,12 @@ use crate::{
     },
 };
 
-mod channel;
+pub mod channel;
 pub mod error;
 pub mod information;
 mod memory;
 mod sensors;
+pub mod types;
 
 #[derive(Debug)]
 pub struct Device {
@@ -28,13 +29,35 @@ pub struct Device {
 
 impl Device {
     pub fn new(communicator: CommunicatorType) -> Self {
+        // Device {
+        //     hardware_version: "TBD".to_string(),
+        //     firmware_version: "TBD".to_string(),
+        //     channels: Vec::new(),
+        //     memory: None,
+        //     power_sensor: None,
+        //     temperature_sensor: None,
+        //     communicator,
+        // }
+
         Device {
             hardware_version: "TBD".to_string(),
             firmware_version: "TBD".to_string(),
-            channels: Vec::new(),
-            memory: None,
-            power_sensor: None,
-            temperature_sensor: None,
+            channels: vec![
+                Channel::Colour {
+                    colour: crate::communications::types::Colour::Red,
+                    brightness: 255,
+                };
+                3
+            ],
+            memory: Some(Memory { total_bytes: 1024 }),
+            power_sensor: Some(PowerSensor {
+                voltage: 5.0,
+                current: 0.5,
+                power: 2.5,
+            }),
+            temperature_sensor: Some(TemperatureSensor {
+                temperature_celsius: 24.0,
+            }),
             communicator,
         }
     }

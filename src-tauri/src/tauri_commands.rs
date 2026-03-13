@@ -118,9 +118,54 @@ pub mod communicator {
     }
 }
 
-pub mod rgb_control {}
-pub mod hsv_control {}
-pub mod fade_control {}
+pub mod control {
+    use crate::{
+        communicator::error::CommunicatorError,
+        device::{
+            channel,
+            error::DeviceError,
+            types::{Fade, Hsv, Rgb},
+        },
+        AppState,
+    };
+    use tauri::State;
+
+    #[tauri::command]
+    pub async fn set_fade_mode(
+        state: State<'_, AppState>,
+        channel_indexes: Vec<usize>,
+        fade: Fade,
+    ) -> Result<(), DeviceError> {
+        let mut device = state.device.lock().await;
+        match &mut *device {
+            Some(device) => {
+                for channel_index in channel_indexes {
+                    device
+                        .set_channel(channel_index, channel::Channel::Fade(fade.clone()))
+                        .await?;
+                }
+                Ok(())
+            }
+            None => Err(DeviceError::InvalidConfiguration),
+        }
+    }
+
+    #[tauri::command]
+    pub async fn set_rgb_mode(
+        _state: tauri::State<'_, AppState>,
+        _colour: Rgb,
+    ) -> Result<(), CommunicatorError> {
+        Ok(())
+    }
+
+    #[tauri::command]
+    pub async fn set_hsv_mode(
+        _state: tauri::State<'_, AppState>,
+        _colour: Hsv,
+    ) -> Result<(), CommunicatorError> {
+        Ok(())
+    }
+}
 pub mod device_info {
     use tauri::State;
 

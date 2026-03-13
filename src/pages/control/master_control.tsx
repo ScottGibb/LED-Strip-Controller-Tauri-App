@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { Colour, FadeType } from "../../types/modes";
-import { info } from "@tauri-apps/plugin-log";
+import { Colour, Fade, FadeType } from "../../types/modes";
+import { info, warn } from "@tauri-apps/plugin-log";
 import { getNumChannels } from "../../services/invoke_commands";
 import { RgbColourPicker } from "../../components/colour_pickers/rgb_colour_picker";
 import { HsvColourPicker } from "../../components/colour_pickers/hsv_colour_picker";
@@ -9,6 +9,8 @@ import { ControlMenuTemplate } from "./control_menu_template";
 import { HSV, RGB } from "../../types/colours";
 import { ChannelPicker } from "../../components/channel_picker";
 import { FixedColourPicker } from "../../components/colour_pickers/fixed_colour_picker";
+import { invoke } from "@tauri-apps/api/core";
+import { toast } from "react-toastify";
 
 const fadeTypes = Object.values(FadeType);
 
@@ -46,6 +48,36 @@ export function MasterControlPage() {
         selectedHSV,
       })}`,
     );
+
+    switch (selectedFadeType) {
+      case FadeType.RgbControl:
+        info(`Applying RGB Control with RGB: ${JSON.stringify(selectedRGB)}`);
+
+        break;
+      case FadeType.HueControl:
+        info(`Applying Hue Control with HSV: ${JSON.stringify(selectedHSV)}`);
+        break;
+      default: {
+        info(
+          `Applying ${selectedFadeType} with Colour: ${selectedColour} and Fade Time: ${fadeTime}ms`,
+        );
+
+        let fade: Fade = {
+          fadeType: selectedFadeType,
+          colour: selectedColour,
+          brightness: 100,
+          periodMs: fadeTime,
+        };
+        toast.info(`Applying ${selectedFadeType} mode...`);
+        invoke("set_fade_mode", {
+          channelIndexes: selectedChannels,
+          fade: fade,
+        }).catch((error) => {
+          warn(`Error invoking set_fade_mode: ${error}`);
+          toast.error(`Failed to apply mode: ${error.message || error}`);
+        });
+      }
+    }
   }
   useEffect(() => {}, []);
   return (
