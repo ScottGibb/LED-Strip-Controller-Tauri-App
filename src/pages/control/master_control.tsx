@@ -51,8 +51,25 @@ export function MasterControlPage() {
 
     switch (selectedFadeType) {
       case FadeType.RgbControl:
-        info(`Applying RGB Control with RGB: ${JSON.stringify(selectedRGB)}`);
-
+        {
+          info(`Applying RGB Control with RGB: ${JSON.stringify(selectedRGB)}`);
+          toast.info(
+            `Applying RGB Control mode with RGB: ${JSON.stringify(selectedRGB)}`,
+          );
+          invoke("set_rgb_mode", {
+            channelIndexes: selectedChannels,
+            colour: {
+              red: selectedRGB.r,
+              green: selectedRGB.g,
+              blue: selectedRGB.b,
+            },
+          }).catch((error) => {
+            warn(`Error invoking set_rgb_mode: ${error}`);
+            toast.error(
+              `Failed to apply RGB Control mode: ${error.message || error}`,
+            );
+          });
+        }
         break;
       case FadeType.HueControl:
         info(`Applying Hue Control with HSV: ${JSON.stringify(selectedHSV)}`);

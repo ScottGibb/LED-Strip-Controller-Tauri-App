@@ -152,10 +152,29 @@ pub mod control {
 
     #[tauri::command]
     pub async fn set_rgb_mode(
-        _state: tauri::State<'_, AppState>,
-        _colour: Rgb,
-    ) -> Result<(), CommunicatorError> {
-        Ok(())
+        state: tauri::State<'_, AppState>,
+        channel_indexes: Vec<usize>,
+        colour: Rgb,
+    ) -> Result<(), DeviceError> {
+        let mut device = state.device.lock().await;
+        match &mut *device {
+            Some(device) => {
+                for channel_index in channel_indexes {
+                    device
+                        .set_channel(
+                            channel_index,
+                            channel::Channel::Rgb(Rgb {
+                                red: colour.red,
+                                green: colour.green,
+                                blue: colour.blue,
+                            }),
+                        )
+                        .await?;
+                }
+                Ok(())
+            }
+            None => Err(DeviceError::InvalidConfiguration),
+        }
     }
 
     #[tauri::command]
