@@ -68,19 +68,21 @@ impl Device {
     ) -> Result<(), DeviceError> {
         let channel_ref = self
             .channels
-            .get_mut(channel_index)
+            .get_mut(channel_index - 1)
             .ok_or(DeviceError::InvalidChannelIndex)?;
 
         *channel_ref = channel;
 
         self.communicator
-            .write(&channel_ref.create_message(channel_index as u8))
+            .write(&channel_ref.create_message(
+                u8::try_from(channel_index).map_err(|_| DeviceError::InvalidChannelIndex)?,
+            ))
             .await
             .map_err(DeviceError::CommunicationError)
     }
     pub fn get_channel(&self, channel_index: usize) -> Result<&Channel, DeviceError> {
         self.channels
-            .get(channel_index)
+            .get(channel_index - 1)
             .ok_or(DeviceError::InvalidChannelIndex)
     }
 
