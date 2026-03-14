@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-import { Colour, Fade, FadeType } from "../../types/modes";
-import { info, warn } from "@tauri-apps/plugin-log";
-import { getNumChannels } from "../../services/invoke_commands";
+import { Colour, FadeType } from "../../types/modes";
+import {
+  applySelectedMode,
+  getNumChannels,
+} from "../../services/invoke_commands";
 import { RgbColourPicker } from "../../components/colour_pickers/rgb_colour_picker";
 import { HsvColourPicker } from "../../components/colour_pickers/hsv_colour_picker";
 import { ControlMenuTemplate } from "./control_menu_template";
 import { HSV, RGB } from "../../types/colours";
 import { ChannelPicker } from "../../components/channel_picker";
 import { FixedColourPicker } from "../../components/colour_pickers/fixed_colour_picker";
-import { invoke } from "@tauri-apps/api/core";
-import { toast } from "react-toastify";
 
 const fadeTypes = Object.values(FadeType);
 
@@ -39,96 +39,15 @@ export function MasterControlPage() {
   const channels = Array.from({ length: numChannels }, (_, i) => i + 1);
 
   function selectedMode() {
-    info(
-      `Master Control - Selected Mode: ${JSON.stringify({
-        selectedFadeType,
-        fadeTime,
-        selectedColour,
-        selectedChannels,
-        selectedRGB,
-        selectedHSV,
-      })}`,
-    );
-    if (selectedChannels.length === 0) {
-      toast.warn("Please select at least one channel to apply the mode.");
-      return;
-    }
-
-    switch (selectedFadeType) {
-      case FadeType.RgbControl:
-        {
-          toast.info(
-            `Applying RGB Control mode with RGB: ${JSON.stringify(selectedRGB)} on channels ${selectedChannels.join(", ")}`,
-          );
-          invoke("set_rgb_mode", {
-            channelIndexes: selectedChannels,
-            colour: {
-              red: selectedRGB.r,
-              green: selectedRGB.g,
-              blue: selectedRGB.b,
-            },
-          }).catch((error) => {
-            warn(`Error invoking set_rgb_mode: ${error}`);
-            toast.error(
-              `Failed to apply RGB Control mode: ${error.message || error}`,
-            );
-          });
-        }
-        break;
-      case FadeType.HueControl:
-        {
-          toast.info(
-            `Applying Hue Control mode with HSV: ${JSON.stringify(selectedHSV)} on channels ${selectedChannels.join(", ")}`,
-          );
-          invoke("set_hsv_mode", {
-            channelIndexes: selectedChannels,
-            colour: {
-              hue: selectedHSV.h,
-              saturation: selectedHSV.s,
-              brightness: selectedHSV.v,
-            },
-          }).catch((error) => {
-            warn(`Error invoking set_hsv_mode: ${error}`);
-            toast.error(
-              `Failed to apply Hue Control mode: ${error.message || error}`,
-            );
-          });
-        }
-        break;
-      case FadeType.None:
-        {
-          toast.info(
-            `Applying None mode (instant change) with Colour: ${selectedColour} on channels ${selectedChannels.join(", ")}`,
-          );
-          invoke("set_constant_colour_mode", {
-            channelIndexes: selectedChannels,
-            colour: selectedColour,
-            brightness: brightness,
-          }).catch((error) => {
-            warn(`Error invoking set_constant_colour_mode: ${error}`);
-            toast.error(`Failed to apply None mode: ${error.message || error}`);
-          });
-        }
-        break;
-      default: {
-        let fade: Fade = {
-          fadeType: selectedFadeType,
-          colour: selectedColour,
-          brightness: brightness,
-          periodMs: fadeTime,
-        };
-        toast.info(
-          `Applying ${selectedFadeType} mode with Colour: ${selectedColour} and Brightness: ${brightness}% on channels ${selectedChannels.join(", ")}`,
-        );
-        invoke("set_fade_mode", {
-          channelIndexes: selectedChannels,
-          fade: fade,
-        }).catch((error) => {
-          warn(`Error invoking set_fade_mode: ${error}`);
-          toast.error(`Failed to apply mode: ${error.message || error}`);
-        });
-      }
-    }
+    void applySelectedMode({
+      selectedFadeType,
+      fadeTime,
+      brightness,
+      selectedColour,
+      selectedChannels,
+      selectedRGB,
+      selectedHSV,
+    });
   }
   useEffect(() => {}, []);
   return (
