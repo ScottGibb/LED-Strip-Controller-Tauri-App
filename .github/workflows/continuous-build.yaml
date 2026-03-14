@@ -32,6 +32,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: install udev (linux only)
+        if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
+        run: sudo apt-get install -y libudev-dev pkg-config
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
