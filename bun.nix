@@ -117,13 +117,9 @@
     url = "https://registry.npmjs.org/@eslint/config-array/-/config-array-0.23.3.tgz";
     hash = "sha512-j+eEWmB6YYLwcNOdlwQ6L2OsptI/LO6lNBuLIqe5R7RetD658HLoF+Mn7LzYmAWWNNzdC6cqP+L6r8ujeYXWLw==";
   };
-  "@eslint/config-helpers@0.5.2" = fetchurl {
-    url = "https://registry.npmjs.org/@eslint/config-helpers/-/config-helpers-0.5.2.tgz";
-    hash = "sha512-a5MxrdDXEvqnIq+LisyCX6tQMPF/dSJpCfBgBauY+pNZ28yCtSsTvyTYrMhaI+LK26bVyCJfJkT0u8KIj2i1dQ==";
-  };
-  "@eslint/core@1.1.0" = fetchurl {
-    url = "https://registry.npmjs.org/@eslint/core/-/core-1.1.0.tgz";
-    hash = "sha512-/nr9K9wkr3P1EzFTdFdMoLuo1PmIxjmwvPozwoSodjNBdefGujXQUF93u1DDZpEaTuDvMsIQddsd35BwtrW9Xw==";
+  "@eslint/config-helpers@0.5.3" = fetchurl {
+    url = "https://registry.npmjs.org/@eslint/config-helpers/-/config-helpers-0.5.3.tgz";
+    hash = "sha512-lzGN0onllOZCGroKJmRwY6QcEHxbjBw1gwB8SgRSqK8YbbtEXMvKynsXc3553ckIEBxsbMBU7oOZXKIPGZNeZw==";
   };
   "@eslint/core@1.1.1" = fetchurl {
     url = "https://registry.npmjs.org/@eslint/core/-/core-1.1.1.tgz";
@@ -945,17 +941,17 @@
     url = "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-5.0.1.tgz";
     hash = "sha512-tD40eHxA35h0PEIZNeIjkHoDR4YjjJp34biM0mDvplBe//mB+IHCqHDGV7pxF+7MklTvighcCPPZC7ynWyjdTA==";
   };
-  "eslint@10.0.3" = fetchurl {
-    url = "https://registry.npmjs.org/eslint/-/eslint-10.0.3.tgz";
-    hash = "sha512-COV33RzXZkqhG9P2rZCFl9ZmJ7WL+gQSCRzE7RhkbclbQPtLAWReL7ysA0Sh4c8Im2U9ynybdR56PV0XcKvqaQ==";
+  "eslint@10.1.0" = fetchurl {
+    url = "https://registry.npmjs.org/eslint/-/eslint-10.1.0.tgz";
+    hash = "sha512-S9jlY/ELKEUwwQnqWDO+f+m6sercqOPSqXM5Go94l7DOmxHVDgmSFGWEzeE/gwgTAr0W103BWt0QLe/7mabIvA==";
   };
   "eslint@8.57.1" = fetchurl {
     url = "https://registry.npmjs.org/eslint/-/eslint-8.57.1.tgz";
     hash = "sha512-ypowyDxpVSYpkXr9WPv2PAZCtNip1Mv5KTW0SCurXv/9iOpcrH9PaqUElksqEB6pChqHGDRCFTyrZlGhnLNGiA==";
   };
-  "espree@11.1.1" = fetchurl {
-    url = "https://registry.npmjs.org/espree/-/espree-11.1.1.tgz";
-    hash = "sha512-AVHPqQoZYc+RUM4/3Ly5udlZY/U4LS8pIG05jEjWM2lQMU/oaZ7qshzAl2YP1tfNmXfftH3ohurfwNAug+MnsQ==";
+  "espree@11.2.0" = fetchurl {
+    url = "https://registry.npmjs.org/espree/-/espree-11.2.0.tgz";
+    hash = "sha512-7p3DrVEIopW1B1avAGLuCSh1jubc01H2JHc8B4qqGblmg5gI9yumBgACjWo4JlIc04ufug4xJ3SQI8HkS/Rgzw==";
   };
   "espree@9.6.1" = fetchurl {
     url = "https://registry.npmjs.org/espree/-/espree-9.6.1.tgz";
