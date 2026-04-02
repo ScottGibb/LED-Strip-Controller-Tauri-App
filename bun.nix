@@ -1917,6 +1917,10 @@
     url = "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz";
     hash = "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==";
   };
+  "typescript@6.0.2" = fetchurl {
+    url = "https://registry.npmjs.org/typescript/-/typescript-6.0.2.tgz";
+    hash = "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==";
+  };
   "unbox-primitive@1.1.0" = fetchurl {
     url = "https://registry.npmjs.org/unbox-primitive/-/unbox-primitive-1.1.0.tgz";
     hash = "sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==";
