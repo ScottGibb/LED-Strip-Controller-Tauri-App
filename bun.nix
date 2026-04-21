@@ -805,9 +805,9 @@
     url = "https://registry.npmjs.org/eslint-plugin-jest-dom/-/eslint-plugin-jest-dom-5.5.0.tgz";
     hash = "sha512-CRlXfchTr7EgC3tDI7MGHY6QjdJU5Vv2RPaeeGtkXUHnKZf04kgzMPIJUXt4qKCvYWVVIEo9ut9Oq1vgXAykEA==";
   };
-  "eslint-plugin-jest@29.15.1" = fetchurl {
-    url = "https://registry.npmjs.org/eslint-plugin-jest/-/eslint-plugin-jest-29.15.1.tgz";
-    hash = "sha512-6BjyErCQauz3zfJvzLw/kAez2lf4LEpbHLvWBfEcG4EI0ZiRSwjoH2uZulMouU8kRkBH+S0rhqn11IhTvxKgKw==";
+  "eslint-plugin-jest@29.15.2" = fetchurl {
+    url = "https://registry.npmjs.org/eslint-plugin-jest/-/eslint-plugin-jest-29.15.2.tgz";
+    hash = "sha512-kEN4r9RZl1xcsb4arGq89LrcVdOUFII/JSCwtTPJyv16mDwmPrcuEQwpxqZHeINvcsd7oK5O/rhdGlxFRaZwvQ==";
   };
   "eslint-plugin-jsx-a11y@6.10.2" = fetchurl {
     url = "https://registry.npmjs.org/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.10.2.tgz";
