@@ -857,9 +857,9 @@
     url = "https://registry.npmjs.org/eslint-plugin-promise/-/eslint-plugin-promise-6.6.0.tgz";
     hash = "sha512-57Zzfw8G6+Gq7axm2Pdo3gW/Rx3h9Yywgn61uE/3elTCOePEHVrn2i5CdfBwA1BLK0Q0WqctICIUSqXZW/VprQ==";
   };
-  "eslint-plugin-react-hooks@7.0.1" = fetchurl {
-    url = "https://registry.npmjs.org/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-7.0.1.tgz";
-    hash = "sha512-O0d0m04evaNzEPoSW+59Mezf8Qt0InfgGIBJnpC0h3NH/WjUAR7BIKUfysC6todmtiZ/A0oUVS8Gce0WhBrHsA==";
+  "eslint-plugin-react-hooks@7.1.1" = fetchurl {
+    url = "https://registry.npmjs.org/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-7.1.1.tgz";
+    hash = "sha512-f2I7Gw6JbvCexzIInuSbZpfdQ44D7iqdWX01FKLvrPgqxoE7oMj8clOfto8U6vYiz4yd5oKu39rRSVOe1zRu0g==";
   };
   "eslint-plugin-react@7.37.5" = fetchurl {
     url = "https://registry.npmjs.org/eslint-plugin-react/-/eslint-plugin-react-7.37.5.tgz";
