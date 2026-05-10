@@ -1,4 +1,3 @@
-/** About page displaying application information, version details, and developer links. */
 import { useEffect, useState } from "react";
 import { getName, getTauriVersion, getVersion } from "@tauri-apps/api/app";
 import LinkedinIcon from "../assets/linkedin.svg?react";
