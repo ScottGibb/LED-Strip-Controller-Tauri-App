@@ -186,6 +186,7 @@ jobs:
             libxdo-dev \
             libssl-dev \
             libayatana-appindicator3-dev \
-            librsvg2-dev
+            librsvg2-dev \
+            libudev-dev
       - name: Run Clippy on src
         run: cargo clippy --manifest-path ./src-tauri/Cargo.toml -- -D warnings
