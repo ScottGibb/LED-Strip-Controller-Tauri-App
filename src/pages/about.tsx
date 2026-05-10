@@ -1,4 +1,4 @@
-/** Settings for the game.  This page is loaded once before a game starts to determine rules and player count. */
+/** About page displaying application information, version details, and developer links. */
 import { useEffect, useState } from "react";
 import { getName, getTauriVersion, getVersion } from "@tauri-apps/api/app";
 import LinkedinIcon from "../assets/linkedin.svg?react";
@@ -27,12 +27,13 @@ export default function AboutPage() {
         <h1 className="text-3xl font-bold text-white text-center">{appName}</h1>
 
         <div className="space-y-4">
-          <div className="flex items-center justify-between bg-slate-600 rounded-lg p-4">
-            <span className="text-slate-300">About </span>
-            <span className="text-white font-semibold">
-              {" "}
-              Some good example text can go here Lorem ipsum dolor sit amet
-              cuptatibus et porro cum adipisci excepturi itaque obcaecati.
+          <div className="bg-slate-600 rounded-lg p-4">
+            <span className="text-slate-300 block mb-2 font-medium">About</span>
+            <span className="text-white text-sm leading-relaxed">
+              A cross-platform desktop application for controlling LED strips
+              over Serial/USB or TCP/IP connections. Configure colours, effects,
+              and brightness from a single interface — built with Tauri and
+              React.
             </span>
           </div>
           <div className="flex items-center justify-between bg-slate-600 rounded-lg p-4">
