@@ -2,35 +2,50 @@
 
 [![MegaLinter](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/mega-linter.yaml/badge.svg)](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/mega-linter.yaml) [![Continuous Build](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/continuous-build.yaml/badge.svg)](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/continuous-build.yaml) [![publish](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/publish.yaml/badge.svg)](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/actions/workflows/publish.yaml)
 
-See my initial [Concepts](./docs/INITIAL_CONCEPTS.md) for more diagrams regarding what the App could look like.
+This app is the desktop/mobile UI for controlling the LED Strip Controller hardware.  
+It is built with Tauri, React, and TypeScript and provides:
+
+- connection setup over **Serial/USB** or **TCP/IP**
+- control pages for **master** settings and **per-strip** settings
+- configurable colour and mode controls
+
+See [INITIAL_CONCEPTS.md](./docs/INITIAL_CONCEPTS.md) for early design notes and diagrams.
+
+## LED Strip Controller Project
+
+This repository is part of a wider project:
+
+- **App (this repo):** https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App
+- **Project manifest / hub:** https://github.com/ScottGibb/LED-Strip-Controller-Manifest
 
 ## Demo
 
 todo: Video goes here!
 
-## Dev Environments
+## Development
 
 ```bash
-  cd led-strip-controller-tauri-app
-  bun install
+cd led-strip-controller-tauri-app
+bun install
 ```
 
-For Desktop development, run:
+Run desktop development:
 
 ```bash
-  bun run tauri dev
+bun run tauri dev
 ```
 
-For Android development, run:
+Run Android development:
 
 ```bash
-  bun run tauri android dev
+bun run tauri android dev
 ```
 
-For iOS development, run:
+Run iOS development:
 
 ```bash
-  bun run tauri ios dev
+bun run tauri ios dev
+```
 
 ## Nix Setup
 
