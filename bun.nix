@@ -2069,9 +2069,9 @@
     url = "https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz";
     hash = "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==";
   };
-  "vite-plugin-svgr@4.5.0" = fetchurl {
-    url = "https://registry.npmjs.org/vite-plugin-svgr/-/vite-plugin-svgr-4.5.0.tgz";
-    hash = "sha512-W+uoSpmVkSmNOGPSsDCWVW/DDAyv+9fap9AZXBvWiQqrboJ08j2vh0tFxTD/LjwqwAd3yYSVJgm54S/1GhbdnA==";
+  "vite-plugin-svgr@5.2.0" = fetchurl {
+    url = "https://registry.npmjs.org/vite-plugin-svgr/-/vite-plugin-svgr-5.2.0.tgz";
+    hash = "sha512-qj2eAKF8C6PZWemVTvQA0xgQIcP1hHU6Buh7fl6BhvayWwnuxE+z417miKxeDvRWbDrupQ1oK99hfxElopJ3sQ==";
   };
   "vite@8.0.11" = fetchurl {
     url = "https://registry.npmjs.org/vite/-/vite-8.0.11.tgz";
