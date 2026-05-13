@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.2.0](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.2...v1.2.0) (2026-05-13)
+
+
+### Features
+
+* add brightness menu ([3f47f68](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/3f47f6872bfd49fa97ce404bf377e46a18c36915))
+* add constant colour mode ([fbcc101](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/fbcc101853d3547f97d462534acaf5a64d51b32c))
+* add hsv support ([a675f83](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/a675f836554f8df5344a2d446ca887dd1366f80e))
+* add Invalid Channel index error ([e6585b3](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/e6585b3f63f9073d3a8acbd06e06602989edbb7a))
+* add rgb control ([51557ca](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/51557ca8d39877af1df106b98e6eeb10a36ce943))
+* add svg logos ([66d9a9f](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/66d9a9f9b4d1d0e8fca40d5d8672fbefd19c3ce6))
+* added first communication over TCP-IP ([db38bea](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/db38bea4c133051f53cffc18acc72b7f470692e2))
+
+
+### Bug Fixes
+
+* bun lock issues ([59de7db](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/59de7dbc109f363d3adcb3bedcf014db6f324fd4))
+* channel indexing ([213113d](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/213113d7e49ccf36a8b26017f27019126cfacd47))
+* remove lock files ([2507517](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/25075174c5751674cbb628d95fbfef85508cf18a))
+
 ## [1.1.2](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.1...v1.1.2) (2026-03-12)
 
 ### Bug Fixes
