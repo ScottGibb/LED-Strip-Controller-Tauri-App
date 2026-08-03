@@ -201,9 +201,9 @@
     url = "https://registry.npmjs.org/@oxc-project/types/-/types-0.133.0.tgz";
     hash = "sha512-KzkdCd6Uxqnf6l3HOw1xfatAlUURA0g14cvBYFyJ5SaNOQbOUvBr9PKArcPcrNIeRsBdgcUzOGrhKveVpvOIGA==";
   };
-  "@pkgr/core@0.2.9" = fetchurl {
-    url = "https://registry.npmjs.org/@pkgr/core/-/core-0.2.9.tgz";
-    hash = "sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==";
+  "@pkgr/core@0.3.6" = fetchurl {
+    url = "https://registry.npmjs.org/@pkgr/core/-/core-0.3.6.tgz";
+    hash = "sha512-SEeaJLb3qBNF/OaXnaR1NmmBbFYk1zC0ZH/52fATcRPLFg/p791YrcyFFy44Bo9sLaGuSuLp5Q6axbb/O+v/RA==";
   };
   "@rolldown/binding-android-arm64@1.0.3" = fetchurl {
     url = "https://registry.npmjs.org/@rolldown/binding-android-arm64/-/binding-android-arm64-1.0.3.tgz";
@@ -953,9 +953,9 @@
     url = "https://registry.npmjs.org/eslint-plugin-n/-/eslint-plugin-n-15.7.0.tgz";
     hash = "sha512-jDex9s7D/Qial8AGVIHq4W7NswpUD5DPDL2RH8Lzd9EloWUuvUkHfv4FRLMipH5q2UtyurorBkPeNi1wVWNh3Q==";
   };
-  "eslint-plugin-prettier@5.5.5" = fetchurl {
-    url = "https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-5.5.5.tgz";
-    hash = "sha512-hscXkbqUZ2sPithAuLm5MXL+Wph+U7wHngPBv9OMWwlP8iaflyxpjTYZkmdgB4/vPIhemRlBEoLrH7UC1n7aUw==";
+  "eslint-plugin-prettier@5.5.6" = fetchurl {
+    url = "https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-5.5.6.tgz";
+    hash = "sha512-ifetmTcxWfz+4qRW3pH/ujdTq2jQIj59AxJMIN26K5avYgU8dxycUETQonWiW+wPrYXA0j3Try0l1CnwVQtDqQ==";
   };
   "eslint-plugin-promise@6.6.0" = fetchurl {
     url = "https://registry.npmjs.org/eslint-plugin-promise/-/eslint-plugin-promise-6.6.0.tgz";
@@ -2001,9 +2001,9 @@
     url = "https://registry.npmjs.org/svg-parser/-/svg-parser-2.0.4.tgz";
     hash = "sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==";
   };
-  "synckit@0.11.12" = fetchurl {
-    url = "https://registry.npmjs.org/synckit/-/synckit-0.11.12.tgz";
-    hash = "sha512-Bh7QjT8/SuKUIfObSXNHNSK6WHo6J1tHCqJsuaFDP7gP0fkzSfTxI8y85JrppZ0h8l0maIgc2tfuZQ6/t3GtnQ==";
+  "synckit@0.11.13" = fetchurl {
+    url = "https://registry.npmjs.org/synckit/-/synckit-0.11.13.tgz";
+    hash = "sha512-eNRKgb3z66Yp3D2CixVujOUvXLFUTij/zVnV8KRyvFdQwpz7I5DS8UfRkTeLzb64u+dkzDSdelE24izu+zSSUg==";
   };
   "tailwindcss@4.3.0" = fetchurl {
     url = "https://registry.npmjs.org/tailwindcss/-/tailwindcss-4.3.0.tgz";
