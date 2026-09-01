@@ -1813,9 +1813,9 @@
     url = "https://registry.npmjs.org/react-dom/-/react-dom-19.2.6.tgz";
     hash = "sha512-0prMI+hvBbPjsWnxDLxlCGyM8PN6UuWjEUCYmZhO67xIV9Xasa/r/vDnq+Xyq4Lo27g8QSbO5YzARu0D1Sps3g==";
   };
-  "react-icons@5.6.0" = fetchurl {
-    url = "https://registry.npmjs.org/react-icons/-/react-icons-5.6.0.tgz";
-    hash = "sha512-RH93p5ki6LfOiIt0UtDyNg/cee+HLVR6cHHtW3wALfo+eOHTp8RnU2kRkI6E+H19zMIs03DyxUG/GfZMOGvmiA==";
+  "react-icons@5.7.0" = fetchurl {
+    url = "https://registry.npmjs.org/react-icons/-/react-icons-5.7.0.tgz";
+    hash = "sha512-LBLy340Rzqy6+/yVhZKT3B/QpP1BZaesGqasf09HPOBzRarcDIFH0WwXlXQfE7q7ipxK4MSiC5DIBWURCny6fw==";
   };
   "react-is@16.13.1" = fetchurl {
     url = "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz";
