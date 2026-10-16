@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.2.0...v1.2.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **ci:** remove obsolete MegaLinter ESLint arguments ([7c98f9b](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/7c98f9b6f1a3eaafa0f8824df4c45bbd68735188))
+
 ## [1.2.0](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.2...v1.2.0) (2026-10-16)
 
 
