@@ -2,13 +2,11 @@
 
 ## [1.2.1](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.2.0...v1.2.1) (2026-10-16)
 
-
 ### Bug Fixes
 
 * **ci:** remove obsolete MegaLinter ESLint arguments ([7c98f9b](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/7c98f9b6f1a3eaafa0f8824df4c45bbd68735188))
 
 ## [1.2.0](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/compare/v1.1.2...v1.2.0) (2026-10-16)
-
 
 ### Features
 
@@ -20,7 +18,6 @@
 * add svg logos ([66d9a9f](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/66d9a9f9b4d1d0e8fca40d5d8672fbefd19c3ce6))
 * added first communication over TCP-IP ([db38bea](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/db38bea4c133051f53cffc18acc72b7f470692e2))
 * Update Dependabot schedule to monthly ([9c1917f](https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App/commit/9c1917f65f6d6ffbd714532ed02fbce08266450d))
-
 
 ### Bug Fixes
 

@@ -15,8 +15,8 @@ See [INITIAL_CONCEPTS.md](./docs/INITIAL_CONCEPTS.md) for early design notes and
 
 This repository is part of a wider project:
 
-- **App (this repo):** https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App
-- **Project manifest / hub:** https://github.com/ScottGibb/LED-Strip-Controller-Manifest
+- **App (this repo):** <https://github.com/ScottGibb/LED-Strip-Controller-Tauri-App>
+- **Project manifest / hub:** <https://github.com/ScottGibb/LED-Strip-Controller-Manifest>
 
 ## Demo
 
