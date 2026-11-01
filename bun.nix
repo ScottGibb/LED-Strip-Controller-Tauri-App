@@ -1921,13 +1921,13 @@
     url = "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz";
     hash = "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==";
   };
-  "react-router-dom@7.18.4" = fetchurl {
-    url = "https://registry.npmjs.org/react-router-dom/-/react-router-dom-7.18.4.tgz";
-    hash = "sha512-yrfmJHIpDG7taCpqKjT1G5B6q3O2K+RN8/fgNf0lTjCwiPbQ0ei6vXX9ZjQR+7ld8Tr7Z5xmyMnZ8YJrphWQUw==";
+  "react-router-dom@7.18.5" = fetchurl {
+    url = "https://registry.npmjs.org/react-router-dom/-/react-router-dom-7.18.5.tgz";
+    hash = "sha512-9HcfDMU6JJ/fp6gJZYGwNE6RknVGS4kBjH1HkNw959mCJi70TVwdipQWv2FEol9uGpi+SZTFtVpJPtEQfayeOw==";
   };
-  "react-router@7.18.4" = fetchurl {
-    url = "https://registry.npmjs.org/react-router/-/react-router-7.18.4.tgz";
-    hash = "sha512-PUPQcMhMGRAslLcvtlPz/kmzBEWPhLdgLFrL7pLNepBL6dX0lWj4WD2cUYVgYCuT3jxvghYFg81cDTj44DhetQ==";
+  "react-router@7.18.5" = fetchurl {
+    url = "https://registry.npmjs.org/react-router/-/react-router-7.18.5.tgz";
+    hash = "sha512-dTgvcXDOrLPrlLHrcZAqWveiK1hMSqN+rGAJzegP8HtmNkfRxOoshGWBNX3ZJ0cZjOHkRdlUJtaIhZMLLyGyPw==";
   };
   "react-toastify@11.1.0" = fetchurl {
     url = "https://registry.npmjs.org/react-toastify/-/react-toastify-11.1.0.tgz";
