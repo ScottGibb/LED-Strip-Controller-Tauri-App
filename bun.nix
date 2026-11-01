@@ -1901,9 +1901,9 @@
     url = "https://registry.npmjs.org/react-router/-/react-router-7.18.4.tgz";
     hash = "sha512-PUPQcMhMGRAslLcvtlPz/kmzBEWPhLdgLFrL7pLNepBL6dX0lWj4WD2cUYVgYCuT3jxvghYFg81cDTj44DhetQ==";
   };
-  "react-toastify@11.1.0" = fetchurl {
-    url = "https://registry.npmjs.org/react-toastify/-/react-toastify-11.1.0.tgz";
-    hash = "sha512-e9h23x3phN0wbFeB6yovmWp7lobzV4CaCH0LO8nVP6H7Y+3GbcLpIzMm9dJhcp1RXbpyfvjgpfXqO80QAmn7sg==";
+  "react-toastify@11.2.0" = fetchurl {
+    url = "https://registry.npmjs.org/react-toastify/-/react-toastify-11.2.0.tgz";
+    hash = "sha512-lznu1N00MfEv4p9vGWNVqCfDQ3DxScDAZTFk6STMsEcLcRZKT4PCO0JxsNduGN7LJPBSkXXs/YuLydjh650T7Q==";
   };
   "react@19.3.1" = fetchurl {
     url = "https://registry.npmjs.org/react/-/react-19.3.1.tgz";
